@@ -8,7 +8,7 @@ import {
   FileText
 } from 'lucide-react'
 import { db } from '../../lib/supabase'
-import { useAuth } from '../../../contexts/AuthContext'
+import { useAuth } from '../../../modules/auth/AuthContext'
 import { useToast } from '../../contexts/ToastContext'
 import LoadingSpinner from './LoadingSpinner'
 
