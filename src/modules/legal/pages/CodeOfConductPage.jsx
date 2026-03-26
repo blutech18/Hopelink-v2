@@ -7,7 +7,7 @@ const CodeOfConductPage = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative text-white py-20" className="bg-blue-600">
+      <section className="relative text-white py-20">
         {/* Back Button */}
         <div className="absolute top-4 left-4 z-10">
           <motion.div
@@ -67,7 +67,7 @@ const CodeOfConductPage = () => {
       </section>
 
       {/* Expected Behavior Section */}
-      <section className="py-16 text-white" className="bg-blue-600">
+      <section className="py-16 text-white">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -181,7 +181,7 @@ const CodeOfConductPage = () => {
       </section>
 
       {/* Reporting and Enforcement Section */}
-      <section className="py-16 text-white" className="bg-blue-600">
+      <section className="py-16 text-white">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -298,7 +298,7 @@ const CodeOfConductPage = () => {
       </section>
 
       {/* Community Guidelines Section */}
-      <section className="py-16 text-white" className="bg-blue-600">
+      <section className="py-16 text-white">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

@@ -288,7 +288,7 @@ const CreateRequestPage = () => {
 
   if (!profile) {
     return (
-      <div className="min-h-screen flex items-center justify-center" className="bg-blue-600">
+      <div className="min-h-screen flex items-center justify-center">
         <LoadingSpinner size="lg" />
       </div>
     )
@@ -300,7 +300,7 @@ const CreateRequestPage = () => {
   const showVerificationWarning = requireVerification && !verificationCheck.verified && !editMode
 
   return (
-    <div className="min-h-screen py-4 sm:py-6 md:py-8" className="bg-blue-600">
+    <div className="min-h-screen py-4 sm:py-6 md:py-8">
       <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10">
         
         {/* Verification Warning Banner */}

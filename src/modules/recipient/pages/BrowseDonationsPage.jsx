@@ -464,7 +464,7 @@ const BrowseDonationsPage = () => {
   }
 
   return (
-    <div className="min-h-screen py-4 sm:py-6 lg:py-8" className="bg-blue-600">
+    <div className="min-h-screen py-4 sm:py-6 lg:py-8">
       <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
         {/* Header */}
         <motion.div

@@ -335,7 +335,7 @@ const AdminSettingsPage = () => {
 
   if (initialLoading) {
     return (
-      <div className="min-h-screen py-8 custom-scrollbar" className="bg-blue-600">
+      <div className="min-h-screen py-8 custom-scrollbar">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <FormSkeleton />
         </div>
@@ -344,7 +344,7 @@ const AdminSettingsPage = () => {
   }
 
   return (
-    <div className="min-h-screen py-4 sm:py-8 custom-scrollbar" className="bg-blue-600">
+    <div className="min-h-screen py-4 sm:py-8 custom-scrollbar">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div

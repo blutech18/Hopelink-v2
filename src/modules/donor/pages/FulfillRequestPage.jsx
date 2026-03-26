@@ -100,7 +100,7 @@ const FulfillRequestPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" className="bg-blue-600">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-gray-500">Loading...</div>
       </div>
     )
@@ -109,7 +109,7 @@ const FulfillRequestPage = () => {
   if (!request) return null
 
   return (
-    <div className="min-h-screen py-6" className="bg-blue-600">
+    <div className="min-h-screen py-6">
       <div className="max-w-4xl mx-auto px-4">
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="mb-6 text-center">
           <Heart className="h-12 w-12 text-blue-500 mx-auto mb-3" />
