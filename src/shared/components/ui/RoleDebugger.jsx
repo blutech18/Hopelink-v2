@@ -3,7 +3,7 @@ import { useAuth } from '@/modules/auth/AuthContext'
 
 const RoleDebugger = () => {
   const { user, profile, isDonor, isRecipient, isVolunteer, isAdmin } = useAuth()
-  
+
   if (process.env.NODE_ENV === 'production') {
     return null
   }

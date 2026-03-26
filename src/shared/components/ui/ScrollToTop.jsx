@@ -9,7 +9,7 @@ const ScrollToTop = () => {
     // Only scroll to top if the pathname actually changed
     if (prevPathnameRef.current !== pathname) {
       prevPathnameRef.current = pathname
-      
+
       // Small delay to ensure the page has rendered and any animations have started
       const timer = setTimeout(() => {
         // Use requestAnimationFrame for better performance
