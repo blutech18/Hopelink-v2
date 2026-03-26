@@ -14,8 +14,8 @@ import {
   Trash2,
   Truck
 } from 'lucide-react'
-import { useAuth } from '../../contexts/AuthContext'
-import { useToast } from '../../contexts/ToastContext'
+import { useAuth } from '../../modules/auth/AuthContext'
+import { useToast } from '../../shared/contexts/ToastContext'
 import { IDVerificationBadge } from './VerificationBadge'
 
 const VolunteerProfileSettings = forwardRef(({ profileData, onUpdate, isEditing }, ref) => {
@@ -272,7 +272,7 @@ const VolunteerProfileSettings = forwardRef(({ profileData, onUpdate, isEditing 
         <div className="card p-6">
           <h3 className="text-lg font-semibold text-white mb-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <FileText className="h-5 w-5 text-yellow-400" />
+              <FileText className="h-5 w-5 text-blue-500" />
               Valid ID Requirements
             </div>
             <IDVerificationBadge
@@ -287,13 +287,13 @@ const VolunteerProfileSettings = forwardRef(({ profileData, onUpdate, isEditing 
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="text-sm text-yellow-300">ID Type</label>
+                <label className="text-sm text-gray-600">ID Type</label>
                 <p className={getValues('primary_id_type') ? 'text-white' : 'text-gray-400 italic'}>
                   {getValues('primary_id_type') || 'Not specified'}
                 </p>
               </div>
               <div>
-                <label className="text-sm text-yellow-300">ID Number</label>
+                <label className="text-sm text-gray-600">ID Number</label>
                 <p className={getValues('primary_id_number') ? 'text-white' : 'text-gray-400 italic'}>
                   {getValues('primary_id_number') || 'Not specified'}
                 </p>
@@ -302,24 +302,24 @@ const VolunteerProfileSettings = forwardRef(({ profileData, onUpdate, isEditing 
             
             {getValues('primary_id_expiry') && (
               <div>
-                <label className="text-sm text-yellow-300">Expiry Date</label>
+                <label className="text-sm text-gray-600">Expiry Date</label>
                 <p className="text-white">{new Date(getValues('primary_id_expiry')).toLocaleDateString()}</p>
               </div>
             )}
 
             {idImagePreview && (
               <div>
-                <label className="text-sm text-yellow-300 mb-2 block">ID Image</label>
+                <label className="text-sm text-gray-600 mb-2 block">ID Image</label>
                 <img
                   src={idImagePreview}
                   alt="ID"
-                  className="w-full max-w-md h-32 object-cover rounded-lg border-2 border-navy-600"
+                  className="w-full max-w-md h-32 object-cover rounded-lg border-2 border-gray-300"
                 />
               </div>
             )}
 
             {/* Verification Status Details */}
-            <div className="bg-navy-800/30 border border-navy-600 rounded-lg p-3">
+            <div className="bg-gray-50/30 border border-gray-300 rounded-lg p-3">
               <h4 className="text-sm font-medium text-white mb-2">Verification Status</h4>
               <div className="space-y-2 text-xs">
                 <div className="flex items-center gap-2">
@@ -349,7 +349,7 @@ const VolunteerProfileSettings = forwardRef(({ profileData, onUpdate, isEditing 
                     false 
                       ? 'text-green-300' 
                       : (profileData?.id_verification_status || profile?.id_verification_status) === 'pending' 
-                        ? 'text-yellow-300' 
+                        ? 'text-gray-600' 
                         : 'text-gray-400'
                   }>
                     Admin Verification
@@ -357,7 +357,7 @@ const VolunteerProfileSettings = forwardRef(({ profileData, onUpdate, isEditing 
                 </div>
               </div>
               
-              <p className="text-xs text-yellow-300 mt-2">
+              <p className="text-xs text-gray-600 mt-2">
                 {(() => {
                   const hasIdUploaded = getValues('primary_id_type') && getValues('primary_id_number')
                   const idStatus = profileData?.id_verification_status || profile?.id_verification_status
@@ -391,21 +391,21 @@ const VolunteerProfileSettings = forwardRef(({ profileData, onUpdate, isEditing 
         transition={{ delay: 0.1 }}
         className="card p-6"
       >
-        <div className="border-b border-navy-700 pb-4 mb-6">
+        <div className="border-b border-gray-200 pb-4 mb-6">
           <h3 className="text-xl font-semibold text-white flex items-center">
-            <FileText className="h-5 w-5 text-yellow-400 mr-2" />
+            <FileText className="h-5 w-5 text-blue-500 mr-2" />
             Valid ID (Required for Volunteers)
         </h3>
-          <p className="text-sm text-yellow-300 mt-1">Upload your driver's license for verification</p>
+          <p className="text-sm text-gray-600 mt-1">Upload your driver's license for verification</p>
           </div>
 
         <div className="space-y-4">
-          <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-4">
+          <div className="bg-blue-50 border border-gray-200 rounded-lg p-4">
             <div className="flex items-start gap-3">
-              <AlertCircle className="h-5 w-5 text-yellow-400 mt-0.5 flex-shrink-0" />
+              <AlertCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
               <div>
-                <h4 className="text-yellow-400 font-medium mb-1">Driver's License Required</h4>
-                <p className="text-sm text-yellow-300">
+                <h4 className="text-blue-500 font-medium mb-1">Driver's License Required</h4>
+                <p className="text-sm text-gray-600">
                   All volunteers must have a valid driver's license to participate in delivery activities.
                 </p>
               </div>
@@ -414,7 +414,7 @@ const VolunteerProfileSettings = forwardRef(({ profileData, onUpdate, isEditing 
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>
-                <label className="block text-sm text-yellow-300 mb-2">ID Type *</label>
+                <label className="block text-sm text-gray-600 mb-2">ID Type *</label>
                 <select
                   {...register('primary_id_type', { 
                     validate: {
@@ -430,7 +430,7 @@ const VolunteerProfileSettings = forwardRef(({ profileData, onUpdate, isEditing 
                       }
                     }
                   })}
-                  className="w-full px-3 py-2 bg-navy-800 border border-navy-600 rounded-lg text-white focus:border-yellow-400 focus:outline-none"
+                  className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-white focus:border-blue-500 focus:outline-none"
                 >
                   <option value="">Select ID type</option>
                   {validIdTypes.map(type => (
@@ -442,7 +442,7 @@ const VolunteerProfileSettings = forwardRef(({ profileData, onUpdate, isEditing 
                 )}
               </div>
                           <div>
-                <label className="block text-sm text-yellow-300 mb-2">ID Number *</label>
+                <label className="block text-sm text-gray-600 mb-2">ID Number *</label>
                 <input
                   {...register('primary_id_number', { 
                     validate: {
@@ -465,7 +465,7 @@ const VolunteerProfileSettings = forwardRef(({ profileData, onUpdate, isEditing 
                   })}
                   type="text"
                   placeholder="Enter ID number"
-                  className="w-full px-3 py-2 bg-navy-800 border border-navy-600 rounded-lg text-white placeholder-gray-400 focus:border-yellow-400 focus:outline-none"
+                  className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-white placeholder-gray-400 focus:border-blue-500 focus:outline-none"
                 />
                 {errors.primary_id_number && (
                   <p className="mt-1 text-sm text-red-400">{errors.primary_id_number.message}</p>
@@ -474,17 +474,17 @@ const VolunteerProfileSettings = forwardRef(({ profileData, onUpdate, isEditing 
           </div>
 
           <div>
-            <label className="block text-sm text-yellow-300 mb-2">ID Expiry Date</label>
+            <label className="block text-sm text-gray-600 mb-2">ID Expiry Date</label>
             <input
               {...register('primary_id_expiry')}
               type="date"
-              className="w-full px-3 py-2 bg-navy-800 border border-navy-600 rounded-lg text-white focus:border-yellow-400 focus:outline-none"
+              className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-white focus:border-blue-500 focus:outline-none"
             />
           </div>
 
           {/* ID Image Upload */}
           <div>
-            <label className="block text-sm text-yellow-300 mb-2">ID Image *</label>
+            <label className="block text-sm text-gray-600 mb-2">ID Image *</label>
             <input
               {...register('primary_id_image_url', { 
                 validate: {
@@ -499,7 +499,7 @@ const VolunteerProfileSettings = forwardRef(({ profileData, onUpdate, isEditing 
                   <img
                     src={idImagePreview}
                     alt="ID Preview"
-                    className="w-full max-w-md h-48 object-cover rounded-lg border-2 border-navy-600"
+                    className="w-full max-w-md h-48 object-cover rounded-lg border-2 border-gray-300"
                   />
                   <button
                     onClick={removeIdImage}
@@ -509,10 +509,10 @@ const VolunteerProfileSettings = forwardRef(({ profileData, onUpdate, isEditing 
                   </button>
                 </div>
               ) : (
-                <div className="border-2 border-dashed border-navy-600 rounded-lg p-8 text-center">
-                  <Camera className="h-12 w-12 text-yellow-400 mx-auto mb-4" />
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+                  <Camera className="h-12 w-12 text-blue-500 mx-auto mb-4" />
                   <p className="text-white mb-2">Upload ID Image</p>
-                  <p className="text-sm text-yellow-300 mb-4">
+                  <p className="text-sm text-gray-600 mb-4">
                     Take a clear photo of your driver's license or ID
                   </p>
                   <input
@@ -540,7 +540,7 @@ const VolunteerProfileSettings = forwardRef(({ profileData, onUpdate, isEditing 
                   </label>
                 </div>
               )}
-              <p className="text-xs text-yellow-400">
+              <p className="text-xs text-blue-500">
                 Maximum file size: 5MB. Supported formats: JPG, PNG, GIF
               </p>
               {errors.primary_id_image_url && (
@@ -558,31 +558,31 @@ const VolunteerProfileSettings = forwardRef(({ profileData, onUpdate, isEditing 
         transition={{ delay: 0.2 }}
         className="card p-6"
       >
-        <div className="border-b border-navy-700 pb-4 mb-6">
+        <div className="border-b border-gray-200 pb-4 mb-6">
           <h3 className="text-xl font-semibold text-white flex items-center">
-            <Star className="h-5 w-5 text-yellow-400 mr-2" />
+            <Star className="h-5 w-5 text-blue-500 mr-2" />
           Experience & Skills
         </h3>
-          <p className="text-sm text-yellow-300 mt-1">Share your volunteer experience and special skills</p>
+          <p className="text-sm text-gray-600 mt-1">Share your volunteer experience and special skills</p>
         </div>
 
         <div className="space-y-6">
           {/* Volunteer Experience */}
           <div>
-            <label className="block text-sm text-yellow-300 mb-2">
+            <label className="block text-sm text-gray-600 mb-2">
               Previous Volunteer Experience
             </label>
             <textarea
               {...register('volunteer_experience')}
               placeholder="Describe any previous volunteer work or relevant experience..."
-              className="w-full px-3 py-2 bg-navy-800 border border-navy-600 rounded-lg text-white placeholder-gray-400 focus:border-yellow-400 focus:outline-none"
+              className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-white placeholder-gray-400 focus:border-blue-500 focus:outline-none"
               rows={3}
             />
           </div>
 
           {/* Special Skills */}
           <div>
-            <label className="block text-sm text-yellow-300 mb-3">Special Skills</label>
+            <label className="block text-sm text-gray-600 mb-3">Special Skills</label>
             <Controller
               name="special_skills"
               control={control}
@@ -602,7 +602,7 @@ const VolunteerProfileSettings = forwardRef(({ profileData, onUpdate, isEditing 
                       className={`h-16 w-full rounded-lg border-2 transition-all flex items-center gap-2 px-3 ${
                         value.includes(skill)
                           ? 'border-blue-400 bg-blue-500/20 text-white'
-                          : 'border-navy-700 bg-navy-800/50 text-gray-300 hover:border-blue-400/50 hover:bg-navy-700/50'
+                          : 'border-gray-200 bg-gray-50/50 text-gray-300 hover:border-blue-400/50 hover:bg-gray-100/50'
                       }`}
                     >
                       <span className="text-xs font-medium truncate">{skill}</span>
@@ -615,7 +615,7 @@ const VolunteerProfileSettings = forwardRef(({ profileData, onUpdate, isEditing 
 
           {/* Languages */}
           <div>
-            <label className="block text-sm text-yellow-300 mb-3">Languages Spoken</label>
+            <label className="block text-sm text-gray-600 mb-3">Languages Spoken</label>
             <Controller
               name="languages_spoken"
               control={control}
@@ -635,7 +635,7 @@ const VolunteerProfileSettings = forwardRef(({ profileData, onUpdate, isEditing 
                       className={`h-16 w-full rounded-lg border-2 transition-all flex items-center gap-2 px-3 ${
                         value.includes(language)
                           ? 'border-blue-400 bg-blue-500/20 text-white'
-                          : 'border-navy-700 bg-navy-800/50 text-gray-300 hover:border-blue-400/50 hover:bg-navy-700/50'
+                          : 'border-gray-200 bg-gray-50/50 text-gray-300 hover:border-blue-400/50 hover:bg-gray-100/50'
                       }`}
                     >
                       <span className="text-xs font-medium truncate">{language}</span>
@@ -655,26 +655,26 @@ const VolunteerProfileSettings = forwardRef(({ profileData, onUpdate, isEditing 
         transition={{ delay: 0.25 }}
         className="card p-6"
       >
-        <div className="border-b border-navy-700 pb-4 mb-6">
+        <div className="border-b border-gray-200 pb-4 mb-6">
           <h3 className="text-xl font-semibold text-white flex items-center">
-            <Truck className="h-5 w-5 text-yellow-400 mr-2" />
+            <Truck className="h-5 w-5 text-blue-500 mr-2" />
             Vehicle Information
           </h3>
-          <p className="text-sm text-yellow-300 mt-1">Provide details about your vehicle for delivery tasks</p>
+          <p className="text-sm text-gray-600 mt-1">Provide details about your vehicle for delivery tasks</p>
         </div>
 
         <div className="space-y-6">
           {/* Vehicle Type and Capacity */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm text-yellow-300 mb-2">
+              <label className="block text-sm text-gray-600 mb-2">
                 Vehicle Type *
               </label>
               <select
                 {...register('vehicle_type', {
                   required: 'Vehicle type is required'
                 })}
-                className="w-full px-3 py-2 h-[42px] bg-navy-800 border border-navy-600 rounded-lg text-white focus:border-yellow-400 focus:outline-none"
+                className="w-full px-3 py-2 h-[42px] bg-gray-50 border border-gray-300 rounded-lg text-white focus:border-blue-500 focus:outline-none"
               >
                 <option value="">Select vehicle type</option>
                 <option value="motorcycle">Motorcycle</option>
@@ -691,7 +691,7 @@ const VolunteerProfileSettings = forwardRef(({ profileData, onUpdate, isEditing 
             </div>
 
             <div>
-              <label className="block text-sm text-yellow-300 mb-2">
+              <label className="block text-sm text-gray-600 mb-2">
                 Maximum Weight Capacity (kg) *
               </label>
               <input
@@ -705,12 +705,12 @@ const VolunteerProfileSettings = forwardRef(({ profileData, onUpdate, isEditing 
                 placeholder="e.g., 500"
                 min="1"
                 max="10000"
-                className="w-full px-3 py-2 h-[42px] bg-navy-800 border border-navy-600 rounded-lg text-white placeholder-gray-400 focus:border-yellow-400 focus:outline-none"
+                className="w-full px-3 py-2 h-[42px] bg-gray-50 border border-gray-300 rounded-lg text-white placeholder-gray-400 focus:border-blue-500 focus:outline-none"
               />
               {errors.vehicle_capacity && (
                 <p className="mt-1 text-sm text-red-400">{errors.vehicle_capacity.message}</p>
               )}
-              <p className="mt-1 text-xs text-yellow-400">
+              <p className="mt-1 text-xs text-blue-500">
                 Enter the maximum weight your vehicle can carry in kilograms
               </p>
             </div>
@@ -725,18 +725,18 @@ const VolunteerProfileSettings = forwardRef(({ profileData, onUpdate, isEditing 
         transition={{ delay: 0.3 }}
         className="card p-6"
       >
-        <div className="border-b border-navy-700 pb-4 mb-6">
+        <div className="border-b border-gray-200 pb-4 mb-6">
           <h3 className="text-xl font-semibold text-white flex items-center">
-            <User className="h-5 w-5 text-yellow-400 mr-2" />
+            <User className="h-5 w-5 text-blue-500 mr-2" />
           Delivery Preferences
         </h3>
-          <p className="text-sm text-yellow-300 mt-1">Set your preferred delivery types and communication methods</p>
+          <p className="text-sm text-gray-600 mt-1">Set your preferred delivery types and communication methods</p>
         </div>
 
         <div className="space-y-6">
           {/* Preferred Delivery Types */}
           <div>
-            <label className="block text-sm text-yellow-300 mb-3">
+            <label className="block text-sm text-gray-600 mb-3">
               Preferred Delivery Types
             </label>
             <Controller
@@ -758,7 +758,7 @@ const VolunteerProfileSettings = forwardRef(({ profileData, onUpdate, isEditing 
                       className={`h-16 w-full rounded-lg border-2 transition-all flex items-center gap-2 px-3 ${
                         value.includes(type)
                           ? 'border-blue-400 bg-blue-500/20 text-white'
-                          : 'border-navy-700 bg-navy-800/50 text-gray-300 hover:border-blue-400/50 hover:bg-navy-700/50'
+                          : 'border-gray-200 bg-gray-50/50 text-gray-300 hover:border-blue-400/50 hover:bg-gray-100/50'
                       }`}
                     >
                       <span className="text-xs font-medium truncate">{type}</span>
@@ -771,7 +771,7 @@ const VolunteerProfileSettings = forwardRef(({ profileData, onUpdate, isEditing 
 
           {/* Communication Preferences */}
           <div>
-            <label className="block text-sm text-yellow-300 mb-3">
+            <label className="block text-sm text-gray-600 mb-3">
               Preferred Communication Methods
             </label>
             <Controller
@@ -793,7 +793,7 @@ const VolunteerProfileSettings = forwardRef(({ profileData, onUpdate, isEditing 
                       className={`h-16 w-full rounded-lg border-2 transition-all flex items-center gap-2 px-3 ${
                         value.includes(pref)
                           ? 'border-blue-400 bg-blue-500/20 text-white'
-                          : 'border-navy-700 bg-navy-800/50 text-gray-300 hover:border-blue-400/50 hover:bg-navy-700/50'
+                          : 'border-gray-200 bg-gray-50/50 text-gray-300 hover:border-blue-400/50 hover:bg-gray-100/50'
                       }`}
                     >
                       <span className="text-xs font-medium truncate">{pref}</span>
@@ -806,13 +806,13 @@ const VolunteerProfileSettings = forwardRef(({ profileData, onUpdate, isEditing 
 
           {/* Additional Notes */}
           <div>
-            <label className="block text-sm text-yellow-300 mb-2">
+            <label className="block text-sm text-gray-600 mb-2">
               Additional Notes
             </label>
             <textarea
               {...register('delivery_notes')}
               placeholder="Any additional information about your availability, preferences, or special circumstances..."
-              className="w-full px-3 py-2 bg-navy-800 border border-navy-600 rounded-lg text-white placeholder-gray-400 focus:border-yellow-400 focus:outline-none"
+              className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-white placeholder-gray-400 focus:border-blue-500 focus:outline-none"
               rows={3}
             />
           </div>

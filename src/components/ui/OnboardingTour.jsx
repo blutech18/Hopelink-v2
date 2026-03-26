@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, ArrowRight, ArrowLeft, HelpCircle, CheckCircle, Heart } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../../contexts/AuthContext'
+import { useAuth } from '../../modules/auth/AuthContext'
 
 const OnboardingTour = ({ isOpen, onClose, userRole }) => {
   const navigate = useNavigate()
@@ -260,17 +260,17 @@ const OnboardingTour = ({ isOpen, onClose, userRole }) => {
                   {/* Header */}
                   <div className="flex items-center justify-between p-6 border-b border-yellow-400/20 bg-gradient-to-r from-yellow-500/5 to-transparent flex-shrink-0">
                     <div className="flex items-center gap-3">
-                      <div className="p-2 rounded-lg bg-yellow-400/20 border border-yellow-400/30">
-                        <HelpCircle className="h-6 w-6 text-yellow-400" />
+                      <div className="p-2 rounded-lg bg-blue-50 border border-amber-200">
+                        <HelpCircle className="h-6 w-6 text-blue-500" />
                       </div>
                       <div>
                         <h3 className="text-xl font-bold text-white">Getting Started</h3>
-                        <p className="text-xs text-yellow-300/80 mt-0.5">Welcome to HopeLink</p>
+                        <p className="text-xs text-gray-600/80 mt-0.5">Welcome to HopeLink</p>
                       </div>
                     </div>
                     <button
                       onClick={handleSkip}
-                      className="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-all duration-200"
+                      className="p-2 rounded-lg text-gray-400 hover:text-gray-900 hover:bg-white/10 transition-all duration-200"
                       aria-label="Close tour"
                     >
                       <X className="h-5 w-5" />
@@ -290,13 +290,13 @@ const OnboardingTour = ({ isOpen, onClose, userRole }) => {
                                 ? 'bg-gradient-to-r from-yellow-400 to-yellow-500 flex-1 shadow-lg shadow-yellow-500/50'
                                 : completedSteps.has(step.id)
                                 ? 'bg-gradient-to-r from-green-400 to-green-500 w-8'
-                                : 'bg-navy-700/50 w-2'
+                                : 'bg-gray-100/50 w-2'
                             }`}
                           />
                         ))}
                       </div>
-                      <div className="ml-4 px-3 py-1 rounded-full bg-yellow-400/10 border border-yellow-400/30">
-                        <span className="text-sm font-semibold text-yellow-400">
+                      <div className="ml-4 px-3 py-1 rounded-full bg-blue-50 border border-amber-200">
+                        <span className="text-sm font-semibold text-blue-500">
                           {currentStep + 1} / {steps.length}
                         </span>
                       </div>
@@ -307,7 +307,7 @@ const OnboardingTour = ({ isOpen, onClose, userRole }) => {
                       <h4 className="text-2xl sm:text-3xl font-bold text-white mb-3 bg-gradient-to-r from-white to-yellow-200 bg-clip-text text-transparent">
                         {currentStepData.title}
                       </h4>
-                      <p className="text-base sm:text-lg text-yellow-200/90 mb-6 leading-relaxed">
+                      <p className="text-base sm:text-lg text-gray-600/90 mb-6 leading-relaxed">
                         {currentStepData.description}
                       </p>
 
@@ -339,16 +339,16 @@ const OnboardingTour = ({ isOpen, onClose, userRole }) => {
                           }}
                         >
                           <div className="flex items-center gap-2 mb-3">
-                            <div className="p-1.5 rounded-lg bg-yellow-400/20">
-                              <CheckCircle className="h-4 w-4 text-yellow-400" />
+                            <div className="p-1.5 rounded-lg bg-blue-50">
+                              <CheckCircle className="h-4 w-4 text-blue-500" />
                             </div>
-                            <p className="text-sm font-semibold text-yellow-400 uppercase tracking-wider">
+                            <p className="text-sm font-semibold text-blue-500 uppercase tracking-wider">
                               Quick Tips
                             </p>
                           </div>
                           <ul className="space-y-2.5">
                             {currentStepData.tips.map((tip, index) => (
-                              <li key={index} className="text-sm sm:text-base text-yellow-200/90 flex items-start gap-3">
+                              <li key={index} className="text-sm sm:text-base text-gray-600/90 flex items-start gap-3">
                                 <div className="mt-1.5 flex-shrink-0">
                                   <div className="w-1.5 h-1.5 rounded-full bg-green-400 shadow-lg shadow-green-400/50" />
                                 </div>
@@ -364,7 +364,7 @@ const OnboardingTour = ({ isOpen, onClose, userRole }) => {
                     {currentStepData.target && (
                       <button
                         onClick={handleNavigate}
-                        className="w-full mb-6 px-6 py-3.5 bg-gradient-to-r from-yellow-500 to-yellow-600 text-navy-950 font-bold rounded-xl hover:from-yellow-400 hover:to-yellow-500 transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-yellow-500/30 hover:shadow-yellow-500/50 transform hover:scale-[1.02] active:scale-[0.98]"
+                        className="w-full mb-6 px-6 py-3.5 bg-gradient-to-r from-blue-600 to-blue-700 text-gray-900 font-bold rounded-xl hover:from-yellow-400 hover:to-yellow-500 transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-yellow-500/30 hover:shadow-yellow-500/50 transform hover:scale-[1.02] active:scale-[0.98]"
                       >
                         <span className="text-base">{currentStepData.action}</span>
                         <ArrowRight className="h-5 w-5" />
@@ -376,7 +376,7 @@ const OnboardingTour = ({ isOpen, onClose, userRole }) => {
                       <button
                         onClick={handlePrevious}
                         disabled={currentStep === 0}
-                        className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed bg-navy-800/50 hover:bg-navy-700/70 text-white border border-navy-700/50 hover:border-navy-600/50 backdrop-blur-sm"
+                        className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed bg-gray-50/50 hover:bg-gray-100/70 text-white border border-gray-200/50 hover:border-gray-300/50 backdrop-blur-sm"
                       >
                         <ArrowLeft className="h-4 w-4" />
                         <span className="hidden sm:inline">Previous</span>
@@ -384,14 +384,14 @@ const OnboardingTour = ({ isOpen, onClose, userRole }) => {
                       
                       <button
                         onClick={handleSkip}
-                        className="px-5 py-2.5 text-gray-400 hover:text-white font-medium rounded-xl hover:bg-white/5 transition-all duration-200"
+                        className="px-5 py-2.5 text-gray-400 hover:text-gray-900 font-medium rounded-xl hover:bg-white/5 transition-all duration-200"
                       >
                         Skip Tour
                       </button>
                       
                       <button
                         onClick={handleNext}
-                        className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-yellow-500 to-yellow-600 text-navy-950 font-bold rounded-xl hover:from-yellow-400 hover:to-yellow-500 transition-all duration-200 shadow-lg shadow-yellow-500/30 hover:shadow-yellow-500/50 transform hover:scale-[1.02] active:scale-[0.98]"
+                        className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-gray-900 font-bold rounded-xl hover:from-yellow-400 hover:to-yellow-500 transition-all duration-200 shadow-lg shadow-yellow-500/30 hover:shadow-yellow-500/50 transform hover:scale-[1.02] active:scale-[0.98]"
                       >
                         <span>{currentStep === steps.length - 1 ? 'Complete' : 'Next'}</span>
                         {currentStep < steps.length - 1 && <ArrowRight className="h-4 w-4" />}

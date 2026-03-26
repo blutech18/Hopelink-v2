@@ -329,12 +329,12 @@ const WorkflowGuideModal = ({ isOpen, onClose, userRole = 'donor' }) => {
                   {/* Header */}
                   <div className="flex items-center justify-between px-5 py-4 sm:px-6 sm:py-4 border-b border-yellow-400/20 bg-gradient-to-r from-yellow-500/5 to-transparent">
                     <div className="flex items-center gap-3">
-                      <div className="p-2 rounded-lg bg-yellow-400/20 border border-yellow-400/30">
-                        <Info className="h-6 w-6 text-yellow-400" />
+                      <div className="p-2 rounded-lg bg-blue-50 border border-amber-200">
+                        <Info className="h-6 w-6 text-blue-500" />
                       </div>
                       <div>
-                        <h3 className="text-lg sm:text-xl font-bold text-white">Workflow Guide</h3>
-                        <p className="text-xs text-yellow-300/80 mt-0.5">
+                        <h3 className="text-lg sm:text-xl font-bold text-gray-900">Workflow Guide</h3>
+                        <p className="text-xs text-gray-500 mt-0.5">
                           {userRole === 'recipient' 
                             ? 'Understand the request process' 
                             : userRole === 'volunteer'
@@ -345,7 +345,7 @@ const WorkflowGuideModal = ({ isOpen, onClose, userRole = 'donor' }) => {
                     </div>
                     <button
                       onClick={onClose}
-                      className="p-1.5 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-all duration-200"
+                      className="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-all duration-200"
                     >
                       <X className="h-5 w-5" />
                     </button>
@@ -355,8 +355,8 @@ const WorkflowGuideModal = ({ isOpen, onClose, userRole = 'donor' }) => {
                   <div className="p-5 sm:p-6">
                     {/* Workflow Visualization */}
                     <div className="mb-6 sm:mb-7">
-                      <h4 className="text-base sm:text-lg font-semibold text-white mb-3">Complete Workflow</h4>
-                      <div className="bg-navy-800/30 rounded-xl p-4 sm:p-5 border border-navy-700/50">
+                      <h4 className="text-base sm:text-lg font-semibold text-gray-900 mb-3">Complete Workflow</h4>
+                      <div className="bg-gray-50 rounded-xl p-4 sm:p-5 border border-gray-200">
                         <WorkflowProgressBar 
                           status={selectedStatus} 
                           showLabels={true}
@@ -367,7 +367,7 @@ const WorkflowGuideModal = ({ isOpen, onClose, userRole = 'donor' }) => {
 
                     {/* Status Selector */}
                     <div className="mb-5">
-                      <h4 className="text-base sm:text-lg font-semibold text-white mb-3">Select Status to Learn More</h4>
+                      <h4 className="text-base sm:text-lg font-semibold text-gray-900 mb-3">Select Status to Learn More</h4>
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                         {Object.keys(explanations).map((status) => (
                           <button
@@ -375,8 +375,8 @@ const WorkflowGuideModal = ({ isOpen, onClose, userRole = 'donor' }) => {
                             onClick={() => setSelectedStatus(status)}
                             className={`px-4 py-2 rounded-lg font-medium text-sm transition-all ${
                               selectedStatus === status
-                                ? 'bg-yellow-500 text-navy-950 shadow-lg shadow-yellow-500/30'
-                                : 'bg-navy-800/50 text-gray-300 hover:bg-navy-700/70 border border-navy-700'
+                                ? 'bg-blue-600 text-gray-900 shadow-lg shadow-yellow-500/30'
+                                : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
                             }`}
                           >
                             {explanations[status].title.replace(' Status', '')}

@@ -12,8 +12,8 @@ import {
   ThumbsUp,
   BarChart3
 } from 'lucide-react'
-import { useAuth } from '../../contexts/AuthContext'
-import { useToast } from '../../contexts/ToastContext'
+import { useAuth } from '../../modules/auth/AuthContext'
+import { useToast } from '../../shared/contexts/ToastContext'
 import { db } from '../../lib/supabase'
 import LoadingSpinner from './LoadingSpinner'
 
@@ -151,8 +151,8 @@ const FeedbackRatingSystem = () => {
       {performanceMetrics && (
         <div className="card p-6 border border-gray-600 rounded-lg" style={{backgroundColor: '#001a5c'}}>
           <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 bg-yellow-500/10 rounded-lg">
-              <BarChart3 className="h-6 w-6 text-yellow-400" />
+            <div className="p-2 bg-blue-50 rounded-lg">
+              <BarChart3 className="h-6 w-6 text-blue-500" />
             </div>
             <div>
               <h3 className="text-xl font-bold text-white">Platform Performance Overview</h3>
@@ -162,9 +162,9 @@ const FeedbackRatingSystem = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             {/* Average Rating */}
-            <div className="bg-navy-700/50 rounded-lg p-4 border border-navy-600">
+            <div className="bg-gray-100/50 rounded-lg p-4 border border-gray-300">
               <div className="flex items-center gap-2 mb-2">
-                <Star className="h-5 w-5 text-yellow-400 fill-yellow-400" />
+                <Star className="h-5 w-5 text-blue-500 fill-yellow-400" />
                 <span className="text-sm text-gray-400">Average Rating</span>
               </div>
               <div className="flex items-baseline gap-2">
@@ -179,7 +179,7 @@ const FeedbackRatingSystem = () => {
                     key={star}
                     className={`h-4 w-4 ${
                       star <= Math.round(performanceMetrics.average_rating || 0)
-                        ? 'text-yellow-400 fill-yellow-400'
+                        ? 'text-blue-500 fill-yellow-400'
                         : 'text-gray-600'
                     }`}
                   />
@@ -188,7 +188,7 @@ const FeedbackRatingSystem = () => {
             </div>
 
             {/* Total Feedback */}
-            <div className="bg-navy-700/50 rounded-lg p-4 border border-navy-600">
+            <div className="bg-gray-100/50 rounded-lg p-4 border border-gray-300">
               <div className="flex items-center gap-2 mb-2">
                 <MessageSquare className="h-5 w-5 text-blue-400" />
                 <span className="text-sm text-gray-400">Total Feedback</span>
@@ -200,7 +200,7 @@ const FeedbackRatingSystem = () => {
             </div>
 
             {/* Positive Rate */}
-            <div className="bg-navy-700/50 rounded-lg p-4 border border-navy-600">
+            <div className="bg-gray-100/50 rounded-lg p-4 border border-gray-300">
               <div className="flex items-center gap-2 mb-2">
                 <ThumbsUp className="h-5 w-5 text-green-400" />
                 <span className="text-sm text-gray-400">Positive Rate</span>
@@ -212,7 +212,7 @@ const FeedbackRatingSystem = () => {
             </div>
 
             {/* Completed Transactions */}
-            <div className="bg-navy-700/50 rounded-lg p-4 border border-navy-600">
+            <div className="bg-gray-100/50 rounded-lg p-4 border border-gray-300">
               <div className="flex items-center gap-2 mb-2">
                 <CheckCircle className="h-5 w-5 text-green-400" />
                 <span className="text-sm text-gray-400">Completed</span>
@@ -226,7 +226,7 @@ const FeedbackRatingSystem = () => {
 
           {/* Satisfaction Trend */}
           {performanceMetrics.satisfaction_trend && (
-            <div className="mt-4 p-4 bg-navy-700/30 rounded-lg border border-navy-600">
+            <div className="mt-4 p-4 bg-gray-100/30 rounded-lg border border-gray-300">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <TrendingUp className="h-5 w-5 text-green-400" />
@@ -237,7 +237,7 @@ const FeedbackRatingSystem = () => {
                     ? 'text-green-400' 
                     : performanceMetrics.satisfaction_trend === 'declining'
                     ? 'text-red-400'
-                    : 'text-yellow-400'
+                    : 'text-blue-500'
                 }`}>
                   {performanceMetrics.satisfaction_trend === 'improving' && '↑ Improving'}
                   {performanceMetrics.satisfaction_trend === 'declining' && '↓ Declining'}
@@ -252,8 +252,8 @@ const FeedbackRatingSystem = () => {
       {/* Pending Feedback Section */}
       <div className="card p-6 border border-gray-600 rounded-lg" style={{backgroundColor: '#001a5c'}}>
         <div className="flex items-center gap-3 mb-6">
-          <div className="p-2 bg-yellow-500/10 rounded-lg">
-            <MessageSquare className="h-6 w-6 text-yellow-400" />
+          <div className="p-2 bg-blue-50 rounded-lg">
+            <MessageSquare className="h-6 w-6 text-blue-500" />
           </div>
           <div>
             <h3 className="text-xl font-bold text-white">User Feedback Submissions</h3>
@@ -272,7 +272,7 @@ const FeedbackRatingSystem = () => {
             {completedTransactions.map((transaction) => (
               <div
                 key={transaction.id}
-                className="bg-navy-700/50 rounded-lg p-4 border border-navy-600 hover:border-yellow-400/40 transition-all"
+                className="bg-gray-100/50 rounded-lg p-4 border border-gray-300 hover:border-yellow-400/40 transition-all"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
@@ -283,12 +283,12 @@ const FeedbackRatingSystem = () => {
                         {transaction.other_user_name}
                       </span>
                       <span>Completed: {new Date(transaction.completed_at).toLocaleDateString()}</span>
-                      <span className="text-yellow-400">{transaction.type}</span>
+                      <span className="text-blue-500">{transaction.type}</span>
                     </div>
                   </div>
                   <button
                     onClick={() => openFeedbackModal(transaction)}
-                    className="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg transition-colors flex items-center gap-2 font-medium"
+                    className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center gap-2 font-medium"
                   >
                     <Star className="h-4 w-4" />
                     Rate Now
@@ -309,22 +309,22 @@ const FeedbackRatingSystem = () => {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.2 }}
-              className="bg-navy-900 border-2 border-yellow-500/30 shadow-2xl rounded-xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col"
+              className="bg-white border border-gray-200 shadow-2xl rounded-xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col"
             >
               {/* Header */}
-              <div className="flex items-center justify-between p-6 border-b-2 border-yellow-500/20 flex-shrink-0">
+              <div className="flex items-center justify-between p-6 border-b-2 border-gray-200 flex-shrink-0">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-yellow-500/10 rounded-lg">
-                    <Star className="h-6 w-6 text-yellow-400" />
+                  <div className="p-2 bg-blue-50 rounded-lg">
+                    <Star className="h-6 w-6 text-blue-500" />
                   </div>
                   <div>
                     <h3 className="text-xl font-bold text-white">Rate Transaction</h3>
-                    <p className="text-xs text-yellow-300">Share your experience</p>
+                    <p className="text-xs text-gray-600">Share your experience</p>
                   </div>
                 </div>
                 <button
                   onClick={() => setShowFeedbackModal(false)}
-                  className="text-gray-400 hover:text-white transition-colors p-2 hover:bg-navy-800 rounded-lg"
+                  className="text-gray-400 hover:text-gray-900 transition-colors p-2 hover:bg-gray-50 rounded-lg"
                 >
                   <X className="h-5 w-5" />
                 </button>
@@ -334,14 +334,14 @@ const FeedbackRatingSystem = () => {
               <div className="flex-1 overflow-y-auto p-6 custom-scrollbar">
                 <form onSubmit={handleSubmitFeedback} className="space-y-6">
                   {/* Transaction Info */}
-                  <div className="bg-navy-800/50 rounded-lg p-4 border border-navy-700">
+                  <div className="bg-gray-50/50 rounded-lg p-4 border border-gray-200">
                     <h4 className="font-semibold text-white mb-2">{selectedTransaction.title}</h4>
                     <div className="flex items-center gap-4 text-sm text-gray-400">
                       <span className="flex items-center gap-1">
                         <Users className="h-4 w-4" />
                         {selectedTransaction.other_user_name}
                       </span>
-                      <span className="text-yellow-400">{selectedTransaction.type}</span>
+                      <span className="text-blue-500">{selectedTransaction.type}</span>
                     </div>
                   </div>
 
@@ -363,14 +363,14 @@ const FeedbackRatingSystem = () => {
                           <Star
                             className={`h-10 w-10 ${
                               star <= (hoveredRating || rating)
-                                ? 'text-yellow-400 fill-yellow-400'
+                                ? 'text-blue-500 fill-yellow-400'
                                 : 'text-gray-600'
                             }`}
                           />
                         </button>
                       ))}
                     </div>
-                    <p className="text-sm text-yellow-300 font-medium">
+                    <p className="text-sm text-gray-600 font-medium">
                       {getRatingLabel(hoveredRating || rating)}
                     </p>
                   </div>
@@ -396,17 +396,17 @@ const FeedbackRatingSystem = () => {
               </div>
 
               {/* Footer */}
-              <div className="flex items-center justify-end gap-3 p-6 border-t-2 border-yellow-500/20 flex-shrink-0">
+              <div className="flex items-center justify-end gap-3 p-6 border-t-2 border-gray-200 flex-shrink-0">
                 <button
                   onClick={() => setShowFeedbackModal(false)}
-                  className="px-5 py-2.5 bg-navy-700 hover:bg-navy-600 text-yellow-300 rounded-lg transition-colors font-medium border border-navy-600"
+                  className="px-5 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg transition-colors font-medium border border-gray-300"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleSubmitFeedback}
                   disabled={submitting || rating === 0 || !feedbackText.trim()}
-                  className="px-5 py-2.5 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg transition-colors flex items-center gap-2 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center gap-2 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {submitting ? (
                     <LoadingSpinner size="sm" />

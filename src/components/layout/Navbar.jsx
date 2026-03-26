@@ -27,8 +27,8 @@ import {
   Phone,
   HelpCircle
 } from 'lucide-react'
-import { useAuth } from '../../contexts/AuthContext'
-import { useToast } from '../../contexts/ToastContext'
+import { useAuth } from '../../modules/auth/AuthContext'
+import { useToast } from '../../shared/contexts/ToastContext'
 import { db } from '../../lib/supabase'
 import FeedbackModal from '../ui/FeedbackModal'
 

@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
 import { Info, X } from 'lucide-react'
 import WorkflowTutorial from './WorkflowTutorial'
-import { useAuth } from '../../contexts/AuthContext'
+import { useAuth } from '../../modules/auth/AuthContext'
 
 const SeeHowItWorksButton = ({ variant = 'default', size = 'md', className = '' }) => {
   const { profile } = useAuth()
   const [showTutorial, setShowTutorial] = useState(false)
 
   const variants = {
-    default: 'bg-yellow-500/20 hover:bg-yellow-500/30 text-yellow-400 border-yellow-400/30',
-    primary: 'bg-yellow-500 hover:bg-yellow-600 text-navy-950 border-yellow-500',
-    outline: 'bg-transparent hover:bg-yellow-500/10 text-yellow-400 border-yellow-400/50',
-    ghost: 'bg-transparent hover:bg-yellow-500/10 text-yellow-400 border-transparent'
+    default: 'bg-blue-50 hover:bg-blue-600/30 text-blue-500 border-amber-200',
+    primary: 'bg-blue-600 hover:bg-blue-700 text-gray-900 border-yellow-500',
+    outline: 'bg-transparent hover:bg-blue-50 text-blue-500 border-blue-200',
+    ghost: 'bg-transparent hover:bg-blue-50 text-blue-500 border-transparent'
   }
 
   const sizes = {

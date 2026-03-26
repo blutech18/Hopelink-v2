@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Marker, DirectionsRenderer, GoogleMap } from '@react-google-maps/api'
 import { X, Navigation, Clock, MapPin, CheckCircle, AlertCircle, Phone, MessageCircle } from 'lucide-react'
-import { useAuth } from '../../contexts/AuthContext'
+import { useAuth } from '../../modules/auth/AuthContext'
 import { db } from '../../lib/supabase'
-import { useToast } from '../../contexts/ToastContext'
+import { useToast } from '../../shared/contexts/ToastContext'
 
 const DeliveryTrackingModal = ({ 
   isOpen, 

@@ -1,0 +1,832 @@
+import React, { useState, useEffect, useCallback } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { 
+  Package, 
+  CheckCircle, 
+  Search,
+  Eye,
+  Gift,
+  MapPin,
+  Calendar,
+  X
+} from 'lucide-react'
+import { useAuth } from '@/modules/auth/AuthContext'
+import { useToast } from '@/shared/contexts/ToastContext'
+import { useNavigate } from 'react-router-dom'
+import { ListPageSkeleton } from '@/shared/components/ui/Skeleton'
+import { db, supabase } from '@/shared/lib/supabase'
+import LoadingSpinner from '@/shared/components/ui/LoadingSpinner'
+
+const MyApprovedRequestsPage = () => {
+  const { user, profile } = useAuth()
+  const { success, error } = useToast()
+  const navigate = useNavigate()
+  const [requests, setRequests] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [selectedRequest, setSelectedRequest] = useState(null)
+  const [showViewModal, setShowViewModal] = useState(false)
+  const [confirmingReceivedId, setConfirmingReceivedId] = useState(null)
+  
+  // Filter states
+  const [searchTerm, setSearchTerm] = useState('')
+  const [selectedCategory, setSelectedCategory] = useState('')
+
+  const loadRequests = useCallback(async () => {
+    if (!user?.id) {
+      setLoading(false)
+      return
+    }
+
+    try {
+      setLoading(true)
+      // Get all user requests
+      const userRequests = await db.getUserDonationRequests(user.id)
+      // Filter to show only fulfilled/approved requests
+      const approvedRequests = (userRequests || []).filter(r => r.status === 'fulfilled')
+      
+      // Enrich requests with claim status to determine if "Received" button should be shown
+      // For pickup requests, check if the associated claim is already completed
+      // Also enrich all fulfilled requests with donation images
+      const pickupRequests = approvedRequests.filter(r => r.delivery_mode === 'pickup')
+      
+      // Fetch all donations with claims to get images for fulfilled requests
+      const { data: allDonations, error: allDonationsError } = await supabase
+        .from('donations')
+        .select('id, title, category, claims, delivery_mode, images')
+        .not('claims', 'is', null)
+      
+      if (pickupRequests.length > 0) {
+        // Fetch all pickup donations with claims in one query
+        const allPickupDonations = allDonations?.filter(d => d.delivery_mode === 'pickup') || []
+
+        // Also fetch deliveries to help match requests to claims
+        // Note: deliveries table doesn't have recipient_id, so we get all pickup deliveries
+        // and match them via claim_id later
+        const { data: allDeliveries, error: deliveriesError } = await supabase
+          .from('deliveries')
+          .select('id, claim_id, delivery_mode')
+          .eq('delivery_mode', 'pickup')
+
+        if (!allDonationsError && allPickupDonations) {
+          // Create a map of category -> donations for faster lookup
+          const donationsByCategory = new Map()
+          allPickupDonations.forEach(donation => {
+            if (!donationsByCategory.has(donation.category)) {
+              donationsByCategory.set(donation.category, [])
+            }
+            donationsByCategory.get(donation.category).push(donation)
+          })
+
+          // Create a set of claim IDs from deliveries for faster lookup
+          const deliveryClaimIds = new Set()
+          if (!deliveriesError && allDeliveries) {
+            allDeliveries.forEach(delivery => {
+              if (delivery.claim_id) {
+                deliveryClaimIds.add(delivery.claim_id)
+              }
+            })
+          }
+
+          // Enrich pickup requests with claim status
+          approvedRequests.forEach(request => {
+            if (request.delivery_mode === 'pickup') {
+              let foundClaim = null
+              let foundDonation = null
+              
+              // Strategy 1: Try to find claim by category match first (most specific)
+              const categoryDonations = donationsByCategory.get(request.category) || []
+              
+              for (const donation of categoryDonations) {
+                if (Array.isArray(donation.claims)) {
+                  const claim = donation.claims.find(
+                    c => c && 
+                    c.recipient_id === user.id && 
+                    (c.status === 'claimed' || c.status === 'completed')
+                  )
+                  if (claim) {
+                    foundClaim = claim
+                    foundDonation = donation
+                    break
+                  }
+                }
+              }
+
+              // Strategy 2: If no category match, try to find via deliveries
+              if (!foundClaim && deliveryClaimIds.size > 0) {
+                for (const donation of allPickupDonations) {
+                  if (Array.isArray(donation.claims)) {
+                    const claim = donation.claims.find(
+                      c => c && 
+                      c.recipient_id === user.id && 
+                      (c.status === 'claimed' || c.status === 'completed') &&
+                      deliveryClaimIds.has(c.id)
+                    )
+                    if (claim) {
+                      foundClaim = claim
+                      foundDonation = donation
+                      break
+                    }
+                  }
+                }
+              }
+
+              // Strategy 3: If still no match, try any pickup claim for this recipient
+              if (!foundClaim) {
+                for (const donation of allPickupDonations) {
+                  if (Array.isArray(donation.claims)) {
+                    const claim = donation.claims.find(
+                      c => c && 
+                      c.recipient_id === user.id && 
+                      (c.status === 'claimed' || c.status === 'completed')
+                    )
+                    if (claim) {
+                      foundClaim = claim
+                      foundDonation = donation
+                      break
+                    }
+                  }
+                }
+              }
+
+              if (foundClaim) {
+                // Add claim status to request object
+                request.claimStatus = foundClaim.status
+                request.claimId = foundClaim.id
+                request.donationId = foundDonation.id
+                // Add donation image if available
+                if (foundDonation.images && Array.isArray(foundDonation.images) && foundDonation.images.length > 0) {
+                  request.donationImage = foundDonation.images[0]
+                }
+              }
+            }
+          })
+        }
+      }
+
+      // Enrich all fulfilled requests with donation images (not just pickup)
+      // Match requests to donations by category and recipient
+      if (!allDonationsError && allDonations && approvedRequests.length > 0) {
+        approvedRequests.forEach(request => {
+          // Skip if we already have a donation image from pickup matching
+          if (request.donationImage) return
+
+          // Try to find a donation that matches this request
+          for (const donation of allDonations) {
+            if (donation.category === request.category && Array.isArray(donation.claims)) {
+              const claim = donation.claims.find(
+                c => c && 
+                c.recipient_id === user.id && 
+                (c.status === 'claimed' || c.status === 'completed')
+              )
+              if (claim && donation.images && Array.isArray(donation.images) && donation.images.length > 0) {
+                request.donationImage = donation.images[0]
+                request.donationId = donation.id
+                break
+              }
+            }
+          }
+        })
+      }
+      
+      const enrichedRequests = approvedRequests
+      
+      setRequests(enrichedRequests || [])
+    } catch (err) {
+      console.error('Error loading approved requests:', err)
+      error('Failed to load approved requests. Please try again.')
+    } finally {
+      setLoading(false)
+    }
+  }, [user?.id, error])
+
+  useEffect(() => {
+    loadRequests()
+  }, [loadRequests])
+
+  // Set up real-time subscription to refresh when donation_requests are updated
+  useEffect(() => {
+    if (!user?.id || !supabase) return
+
+    const requestsSubscription = supabase
+      .channel('my_approved_requests_changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'donation_requests',
+          filter: `requester_id=eq.${user.id}`
+        },
+        (payload) => {
+          console.log('📋 Approved request change detected:', payload)
+          // Refresh requests when any change occurs
+          loadRequests()
+        }
+      )
+      .subscribe()
+
+    // Also subscribe to notifications to refresh when approval notifications arrive
+    const notificationsSubscription = supabase
+      .channel('my_approved_requests_notifications')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'notifications',
+          filter: `user_id=eq.${user.id}`
+        },
+        (payload) => {
+          // Only refresh if it's a donation_approved notification
+          if (payload.new?.type === 'donation_approved' || payload.old?.type === 'donation_approved') {
+            console.log('🔔 Donation approval notification detected, refreshing approved requests')
+            loadRequests()
+          }
+        }
+      )
+      .subscribe()
+
+    // Subscribe to donations table changes to detect when claim status is updated to 'completed'
+    // This ensures the "Received" button disappears immediately after confirmation
+    const donationsSubscription = supabase
+      .channel('my_approved_requests_donations')
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'donations'
+        },
+        (payload) => {
+          // Refresh if claims JSONB was updated (claim status might have changed)
+          if (payload.new?.claims || payload.old?.claims) {
+            console.log('📦 Donation claims updated, refreshing approved requests to check claim status')
+            loadRequests()
+          }
+        }
+      )
+      .subscribe()
+
+    // Cleanup subscriptions
+    return () => {
+      if (requestsSubscription) {
+        supabase.removeChannel(requestsSubscription)
+      }
+      if (notificationsSubscription) {
+        supabase.removeChannel(notificationsSubscription)
+      }
+      if (donationsSubscription) {
+        supabase.removeChannel(donationsSubscription)
+      }
+    }
+  }, [user?.id, loadRequests])
+
+  const handleViewRequest = (request) => {
+    setSelectedRequest(request)
+    setShowViewModal(true)
+  }
+
+  const handleConfirmReceived = async (request) => {
+    if (!user?.id) return
+
+    try {
+      setConfirmingReceivedId(request.id)
+      
+      // Use claimId from request if available (from enriched request data)
+      let claimId = request.claimId
+
+      // If claimId not available, find the claim associated with this fulfilled request
+      if (!claimId) {
+        // Strategy 1: If we have donationId from enrichment, use it directly
+        if (request.donationId) {
+          const { data: donation, error: donationError } = await supabase
+            .from('donations')
+            .select('id, title, category, claims, delivery_mode')
+            .eq('id', request.donationId)
+            .single()
+
+          if (!donationError && donation && Array.isArray(donation.claims)) {
+            const claim = donation.claims.find(
+              c => c && 
+              c.recipient_id === user.id && 
+              c.status === 'claimed'
+            )
+            if (claim) {
+              claimId = claim.id
+            }
+          }
+        }
+
+        // Strategy 2: Find by category match
+        if (!claimId) {
+          const { data: donations, error: donationsError } = await supabase
+            .from('donations')
+            .select('id, title, category, claims, delivery_mode')
+            .not('claims', 'is', null)
+            .eq('delivery_mode', 'pickup')
+            .eq('category', request.category)
+
+          if (!donationsError && donations) {
+            for (const donation of donations) {
+              if (Array.isArray(donation.claims)) {
+                const claim = donation.claims.find(
+                  c => c && 
+                  c.recipient_id === user.id && 
+                  c.status === 'claimed'
+                )
+                if (claim) {
+                  claimId = claim.id
+                  break
+                }
+              }
+            }
+          }
+        }
+
+        // Strategy 3: Try to find via pickup deliveries
+        // Note: deliveries table doesn't have recipient_id, so we get all pickup deliveries
+        // and match them via claim_id later
+        if (!claimId) {
+          const { data: deliveries, error: deliveriesError } = await supabase
+            .from('deliveries')
+            .select('claim_id, delivery_mode')
+            .eq('delivery_mode', 'pickup')
+
+          if (!deliveriesError && deliveries && deliveries.length > 0) {
+            const pickupClaimIds = deliveries.map(d => d.claim_id).filter(Boolean)
+            
+            const { data: donations, error: donationsError } = await supabase
+              .from('donations')
+              .select('id, title, category, claims, delivery_mode')
+              .not('claims', 'is', null)
+              .eq('delivery_mode', 'pickup')
+
+            if (!donationsError && donations) {
+              for (const donation of donations) {
+                if (Array.isArray(donation.claims)) {
+                  const claim = donation.claims.find(
+                    c => c && 
+                    c.recipient_id === user.id && 
+                    c.status === 'claimed' &&
+                    pickupClaimIds.includes(c.id)
+                  )
+                  if (claim) {
+                    claimId = claim.id
+                    break
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        // Strategy 4: Try to find any pickup claim for this recipient (last resort)
+        if (!claimId) {
+          const { data: donations, error: donationsError } = await supabase
+            .from('donations')
+            .select('id, title, category, claims, delivery_mode')
+            .not('claims', 'is', null)
+            .eq('delivery_mode', 'pickup')
+
+          if (!donationsError && donations) {
+            for (const donation of donations) {
+              if (Array.isArray(donation.claims)) {
+                const claim = donation.claims.find(
+                  c => c && 
+                  c.recipient_id === user.id && 
+                  c.status === 'claimed'
+                )
+                if (claim) {
+                  claimId = claim.id
+                  break
+                }
+              }
+            }
+          }
+        }
+      }
+
+      if (!claimId) {
+        console.error('Could not find claim for request:', {
+          requestId: request.id,
+          requestCategory: request.category,
+          requestDeliveryMode: request.delivery_mode,
+          enrichedClaimId: request.claimId,
+          enrichedDonationId: request.donationId
+        })
+        error('Could not find the donation claim. The donation may have already been completed or the claim may not exist.')
+        return
+      }
+
+      // Confirm pickup completion
+      await db.confirmPickupCompletion(claimId, user.id, true)
+      success('Received confirmation sent! Thank you for confirming.')
+      
+      // Refresh requests
+      await loadRequests()
+    } catch (err) {
+      console.error('Error confirming received:', err)
+      error(err.message || 'Failed to confirm receipt. Please try again.')
+    } finally {
+      setConfirmingReceivedId(null)
+    }
+  }
+
+  const getStatusInfo = (status) => {
+    const statusMap = {
+      fulfilled: { label: 'Fulfilled', color: 'bg-success-900/70 text-white' },
+      open: { label: 'Open', color: 'bg-blue-900/70 text-white' },
+      cancelled: { label: 'Cancelled', color: 'bg-danger-900/70 text-white' },
+      expired: { label: 'Expired', color: 'bg-gray-900/70 text-white' }
+    }
+    return statusMap[status] || { label: status, color: 'bg-gray-900/70 text-white' }
+  }
+
+  const getUrgencyInfo = (urgency) => {
+    const urgencyMap = {
+      critical: { label: 'Critical', color: 'bg-danger-900/30 text-danger-300 border-danger-500/30' },
+      high: { label: 'High', color: 'bg-amber-900/30 text-amber-300 border-amber-500/30' },
+      medium: { label: 'Medium', color: 'bg-amber-50 text-gray-600 border-gray-200' },
+      low: { label: 'Low', color: 'bg-blue-900/30 text-blue-300 border-blue-500/30' }
+    }
+    return urgencyMap[urgency] || { label: urgency, color: 'bg-gray-900/30 text-gray-300 border-gray-500/30' }
+  }
+
+  const categories = [
+    'Food & Beverages', 'Clothing & Accessories', 'Medical Supplies', 'Educational Materials', 
+    'Household Items', 'Electronics & Technology', 'Toys & Recreation', 'Personal Care Items',
+    'Emergency Supplies', 'Other'
+  ]
+
+  // Filter requests
+  const filteredRequests = requests.filter(request => {
+    const matchesSearch = !searchTerm || 
+      request.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      request.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      request.category?.toLowerCase().includes(searchTerm.toLowerCase())
+    
+    const matchesCategory = !selectedCategory || request.category === selectedCategory
+    
+    return matchesSearch && matchesCategory
+  })
+
+  if (loading) {
+    return <ListPageSkeleton />
+  }
+
+  return (
+    <div className="min-h-screen py-4 sm:py-6 lg:py-8" style={{backgroundColor: '#00237d'}}>
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-4 sm:mb-6 lg:mb-8"
+        >
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div className="flex items-center">
+              <div>
+                <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">My Approved Requests</h1>
+                <p className="text-xs sm:text-sm text-gray-600">View your fulfilled donation requests</p>
+              </div>
+            </div>
+            {/* Fulfilled Indicator Card */}
+            <div className="flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-yellow-500/20 to-yellow-600/20 border-2 border-yellow-500/40 rounded-full shadow-lg flex-shrink-0">
+              <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-blue-500 fill-yellow-400 flex-shrink-0" />
+              <div className="flex items-center gap-1.5">
+                <span className="text-lg sm:text-xl font-bold text-white">{requests.length}</span>
+                <span className="text-xs sm:text-sm font-medium text-gray-600">Fulfilled</span>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Filters */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="card p-4 sm:p-6 mb-4 sm:mb-6 lg:mb-8"
+        >
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+            {/* Search */}
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-blue-500" />
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-9 sm:pl-10 pr-4 py-2.5 sm:py-3 bg-gray-50 border-2 border-gray-200 rounded-lg text-sm sm:text-base text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-200"
+                placeholder="Search requests..."
+              />
+            </div>
+
+            {/* Category */}
+            <div className="relative w-full sm:w-auto sm:min-w-[180px]">
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="appearance-none w-full px-4 sm:px-5 py-2.5 sm:py-3 pr-10 bg-gray-50 border-2 border-gray-200 rounded-lg text-sm sm:text-base text-white font-medium focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-200 cursor-pointer hover:border-yellow-600"
+              >
+                <option value="">All Categories</option>
+                {categories.map(category => (
+                  <option key={category} value={category}>{category}</option>
+                ))}
+              </select>
+              <Package className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-blue-500 pointer-events-none" />
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Requests List */}
+        {filteredRequests.length === 0 ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center py-12"
+          >
+            <CheckCircle className="h-16 w-16 text-blue-500 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-white mb-2">
+              {requests.length === 0 ? 'No approved requests yet' : 'No matching requests'}
+            </h3>
+            <p className="text-blue-500 mb-6">
+              {requests.length === 0 
+                ? 'Your fulfilled donation requests will appear here once they are approved by donors.' 
+                : 'Try adjusting your filters to see more results.'}
+            </p>
+            {requests.length === 0 && (
+              <button
+                onClick={() => navigate('/my-requests')}
+                className="btn btn-primary flex items-center mx-auto"
+              >
+                <Package className="h-4 w-4 mr-2" />
+                View My Requests
+              </button>
+            )}
+          </motion.div>
+        ) : (
+          <div className="grid grid-cols-1 gap-6">
+            <AnimatePresence>
+              {filteredRequests.map((request, index) => {
+                const statusInfo = getStatusInfo(request.status)
+                const urgencyInfo = getUrgencyInfo(request.urgency)
+
+                return (
+                  <motion.div
+                    key={request.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ delay: index * 0.05 }}
+                    className="card overflow-hidden hover:shadow-xl hover:border-gray-200 transition-all duration-300 group"
+                  >
+                    <div className="flex flex-col sm:flex-row gap-4 p-4">
+                      {/* Donation Image or Sample Image or Placeholder */}
+                      <div className="flex-shrink-0">
+                        {(request.donationImage || request.sample_image) ? (
+                          <div className="relative w-full sm:w-48 lg:w-56 h-40 sm:h-48 rounded-lg overflow-hidden border border-gray-200 shadow-lg">
+                            <img 
+                              src={request.donationImage || request.sample_image} 
+                              alt={request.title}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                        ) : (
+                          <div className="w-full sm:w-48 lg:w-56 h-40 sm:h-48 rounded-lg bg-gradient-to-br from-navy-800 to-navy-900 flex flex-col items-center justify-center border-2 border-gray-300 shadow-lg">
+                            <Gift className="h-12 w-12 sm:h-16 sm:w-16 text-blue-500 mb-2" />
+                            <span className="text-[10px] sm:text-xs text-gray-400 font-medium uppercase tracking-wide">No Image</span>
+                            <span className="mt-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-success-900/30 text-success-300 border border-success-500/30">
+                              Fulfilled
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                      
+                      {/* Card Content */}
+                      <div className="flex-1 min-w-0 space-y-2 sm:space-y-3">
+                        {/* Header */}
+                        <div className="flex flex-col sm:flex-row items-start justify-between gap-3 sm:gap-4">
+                          <div className="flex-1 min-w-0">
+                            <h3 className="text-base sm:text-lg lg:text-xl font-bold text-white mb-1.5 sm:mb-2">{request.title}</h3>
+                            {/* Badges Row */}
+                            <div className="flex flex-wrap gap-1.5 mb-3">
+                              <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-success-900/30 text-success-300 border border-success-500/30">
+                                Fulfilled
+                              </span>
+                              <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold border ${urgencyInfo.color}`}>
+                                {urgencyInfo.label}
+                              </span>
+                              <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-amber-50 text-gray-600 border border-gray-200">
+                                {request.category}
+                              </span>
+                            </div>
+                            <p className="text-gray-300 text-xs sm:text-sm line-clamp-2">
+                              {request.description || 'No description provided'}
+                            </p>
+                          </div>
+                          
+                          {/* Action Buttons */}
+                          <div className="flex items-center gap-1 flex-shrink-0">
+                            <button
+                              onClick={() => handleViewRequest(request)}
+                              className="flex items-center gap-1 px-2 py-1 text-xs font-medium text-gray-900 bg-yellow-400 hover:bg-blue-600 rounded transition-all active:scale-95"
+                            >
+                              <Eye className="h-3 w-3" />
+                              <span>View</span>
+                            </button>
+                            {request.status === 'fulfilled' && 
+                             request.delivery_mode === 'pickup' && 
+                             request.claimStatus !== 'completed' && (
+                              <button
+                                onClick={() => handleConfirmReceived(request)}
+                                disabled={confirmingReceivedId === request.id}
+                                className="flex items-center gap-1 px-2 py-1 text-xs font-medium text-white bg-green-600 hover:bg-green-700 rounded transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                                title="Confirm that you have received the items"
+                              >
+                                {confirmingReceivedId === request.id ? (
+                                  <LoadingSpinner size="sm" />
+                                ) : (
+                                  <>
+                                    <CheckCircle className="h-3 w-3" />
+                                    <span>Received</span>
+                                  </>
+                                )}
+                              </button>
+                            )}
+                            {request.status === 'fulfilled' && 
+                             request.delivery_mode === 'pickup' && 
+                             request.claimStatus === 'completed' && (
+                              <div className="flex items-center gap-1 px-2 py-1 text-xs font-medium text-green-400 bg-green-900/30 rounded border border-green-500/30">
+                                <CheckCircle className="h-3 w-3" />
+                                <span>Received</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Details */}
+                        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs sm:text-sm text-gray-400">
+                          {request.location && (
+                            <div className="flex items-center gap-1.5">
+                              <MapPin className="h-3.5 w-3.5 text-blue-500 flex-shrink-0" />
+                              <span className="text-gray-600 truncate">{request.location}</span>
+                            </div>
+                          )}
+                          {request.needed_by && (
+                            <div className="flex items-center gap-1.5">
+                              <Calendar className="h-3.5 w-3.5 text-blue-500 flex-shrink-0" />
+                              <span className="text-gray-600">Needed by: {new Date(request.needed_by).toLocaleDateString()}</span>
+                            </div>
+                          )}
+                          {request.quantity_needed && (
+                            <div className="flex items-center gap-1.5">
+                              <Package className="h-3.5 w-3.5 text-blue-500 flex-shrink-0" />
+                              <span className="text-gray-600">Quantity: {request.quantity_needed}</span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                )
+              })}
+            </AnimatePresence>
+          </div>
+        )}
+      </div>
+
+      {/* View Request Modal */}
+      {showViewModal && selectedRequest && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            className="bg-white border-2 border-gray-200 shadow-2xl rounded-xl max-w-3xl w-full max-h-[90vh] overflow-hidden flex flex-col"
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between p-6 border-b-2 border-gray-200 flex-shrink-0">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-blue-50 rounded-lg">
+                  <Eye className="h-6 w-6 text-blue-500" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-white">Request Details</h3>
+                  <p className="text-xs text-gray-600">View approved request information</p>
+                </div>
+              </div>
+              <button
+                onClick={() => {
+                  setShowViewModal(false)
+                  setSelectedRequest(null)
+                }}
+                className="text-gray-400 hover:text-gray-900 transition-colors p-2 hover:bg-gray-50 rounded-lg"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            {/* Content */}
+            <div className="flex-1 overflow-y-auto px-6 py-4 custom-scrollbar">
+              <div className="space-y-6">
+                {/* Image */}
+                {(selectedRequest.donationImage || selectedRequest.sample_image) && (
+                  <div className="w-full h-64 rounded-lg overflow-hidden border border-gray-200">
+                    <img 
+                      src={selectedRequest.donationImage || selectedRequest.sample_image} 
+                      alt={selectedRequest.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
+
+                {/* Title and Status */}
+                <div>
+                  <h2 className="text-2xl font-bold text-white mb-3">{selectedRequest.title}</h2>
+                  {/* Badges Row */}
+                  <div className="flex flex-wrap gap-1.5 mb-3">
+                    <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-success-900/30 text-success-300 border border-success-500/30">
+                      Fulfilled
+                    </span>
+                    <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold border ${getUrgencyInfo(selectedRequest.urgency).color}`}>
+                      {getUrgencyInfo(selectedRequest.urgency).label}
+                    </span>
+                    <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-amber-50 text-gray-600 border border-gray-200">
+                      {selectedRequest.category}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Description */}
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-600 mb-2">Description</h3>
+                  <p className="text-gray-300 text-sm leading-relaxed">
+                    {selectedRequest.description || 'No description provided'}
+                  </p>
+                </div>
+
+                {/* Details Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {selectedRequest.location && (
+                    <div className="bg-gray-50/30 rounded-lg p-4 border border-gray-200">
+                      <div className="flex items-center gap-2 mb-2">
+                        <MapPin className="h-4 w-4 text-blue-500" />
+                        <h4 className="text-sm font-semibold text-gray-600">Location</h4>
+                      </div>
+                      <p className="text-white text-sm">{selectedRequest.location}</p>
+                    </div>
+                  )}
+                  
+                  {selectedRequest.needed_by && (
+                    <div className="bg-gray-50/30 rounded-lg p-4 border border-gray-200">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Calendar className="h-4 w-4 text-blue-500" />
+                        <h4 className="text-sm font-semibold text-gray-600">Needed By</h4>
+                      </div>
+                      <p className="text-white text-sm">{new Date(selectedRequest.needed_by).toLocaleDateString()}</p>
+                    </div>
+                  )}
+                  
+                  {selectedRequest.quantity_needed && (
+                    <div className="bg-gray-50/30 rounded-lg p-4 border border-gray-200">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Package className="h-4 w-4 text-blue-500" />
+                        <h4 className="text-sm font-semibold text-gray-600">Quantity Needed</h4>
+                      </div>
+                      <p className="text-white text-sm">{selectedRequest.quantity_needed}</p>
+                    </div>
+                  )}
+                  
+                  {selectedRequest.delivery_mode && (
+                    <div className="bg-gray-50/30 rounded-lg p-4 border border-gray-200">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Package className="h-4 w-4 text-blue-500" />
+                        <h4 className="text-sm font-semibold text-gray-600">Delivery Mode</h4>
+                      </div>
+                      <p className="text-white text-sm capitalize">{selectedRequest.delivery_mode.replace('_', ' ')}</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="flex items-center justify-end gap-3 p-6 border-t-2 border-gray-200 flex-shrink-0">
+              <button
+                onClick={() => {
+                  setShowViewModal(false)
+                  setSelectedRequest(null)
+                }}
+                className="btn btn-secondary"
+              >
+                Close
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+export default MyApprovedRequestsPage

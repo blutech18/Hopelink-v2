@@ -51,8 +51,8 @@ const WorkflowProgressBar = ({
       id: 'in_transit',
       label: 'In Transit',
       icon: Truck,
-      color: 'text-yellow-400',
-      bgColor: 'bg-yellow-500/20',
+      color: 'text-blue-500',
+      bgColor: 'bg-blue-500/20',
       borderColor: 'border-yellow-400',
       description: 'Volunteer is delivering to recipient'
     },

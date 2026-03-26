@@ -12,7 +12,7 @@ import {
   Plus,
   X
 } from 'lucide-react'
-import { useToast } from '../../contexts/ToastContext'
+import { useToast } from '../../shared/contexts/ToastContext'
 import ConfirmationModal from './ConfirmationModal'
 import LoadingSpinner from './LoadingSpinner'
 import { db } from '../../lib/supabase'
@@ -21,7 +21,7 @@ import { db } from '../../lib/supabase'
 const StatusIndicator = ({ status, label }) => {
   const colors = {
     healthy: 'text-green-400 bg-green-500/20',
-    warning: 'text-yellow-400 bg-yellow-500/20',
+    warning: 'text-blue-500 bg-blue-50',
     error: 'text-red-400 bg-red-500/20'
   }
   
@@ -40,7 +40,7 @@ const ToggleSwitch = ({ label, description, checked, onChange, disabled }) => (
     <div className="flex-1 min-w-0">
       <div className="text-white font-medium text-sm sm:text-base">{label}</div>
       {description && (
-        <div className="text-yellow-400 text-xs sm:text-sm mt-1">{description}</div>
+        <div className="text-blue-500 text-xs sm:text-sm mt-1">{description}</div>
       )}
     </div>
     <label className={`relative inline-flex items-center flex-shrink-0 ${!disabled ? 'cursor-pointer' : 'cursor-not-allowed opacity-60'}`}>
@@ -51,7 +51,7 @@ const ToggleSwitch = ({ label, description, checked, onChange, disabled }) => (
         disabled={disabled}
         className="sr-only peer"
       />
-      <div className="w-11 h-6 bg-navy-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-yellow-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-yellow-400"></div>
+      <div className="w-11 h-6 bg-gray-100 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-yellow-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-yellow-400"></div>
     </label>
   </div>
 )
@@ -65,7 +65,7 @@ const InputField = ({ label, value, onChange, type = "text", placeholder = "", d
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
       disabled={disabled}
-      className="w-full px-4 py-2.5 sm:py-2 bg-navy-800 border border-navy-700 rounded-lg text-white text-sm sm:text-base placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 disabled:opacity-60 disabled:cursor-not-allowed"
+      className="w-full px-4 py-2.5 sm:py-2 bg-gray-50 border border-gray-200 rounded-lg text-white text-sm sm:text-base placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-60 disabled:cursor-not-allowed"
     />
   </div>
 )
@@ -501,12 +501,12 @@ const AdminSettings = forwardRef(({ onUpdate, isEditing = true }, ref) => {
         className="card p-6 rounded-xl shadow-lg"
       >
         {/* Header */}
-        <div className="border-b border-navy-700 pb-4 mb-6">
+        <div className="border-b border-gray-200 pb-4 mb-6">
           <h2 className="text-xl font-semibold text-white flex items-center">
-            <Settings className="h-5 w-5 text-yellow-400 mr-2" />
+            <Settings className="h-5 w-5 text-blue-500 mr-2" />
             Platform Settings
           </h2>
-          <p className="text-sm text-yellow-300 mt-1">Configure and manage your HopeLink platform</p>
+          <p className="text-sm text-gray-600 mt-1">Configure and manage your HopeLink platform</p>
         </div>
 
         {/* 2-Column Grid Layout */}
@@ -514,9 +514,9 @@ const AdminSettings = forwardRef(({ onUpdate, isEditing = true }, ref) => {
           {/* Left Column */}
           <div className="space-y-6">
             {/* System Monitoring */}
-            <div className="border border-navy-700 rounded-lg p-5">
-              <div className="flex items-center mb-4 pb-3 border-b border-navy-700">
-                <Server className="h-5 w-5 text-yellow-400 mr-2" />
+            <div className="border border-gray-200 rounded-lg p-5">
+              <div className="flex items-center mb-4 pb-3 border-b border-gray-200">
+                <Server className="h-5 w-5 text-blue-500 mr-2" />
                 <h3 className="text-lg font-semibold text-white">System Monitoring</h3>
               </div>
               <div className="space-y-4">
@@ -560,7 +560,7 @@ const AdminSettings = forwardRef(({ onUpdate, isEditing = true }, ref) => {
                   </button>
                 </div>
 
-                <div className="space-y-3 pt-4 border-t border-navy-700">
+                <div className="space-y-3 pt-4 border-t border-gray-200">
                   <div>
                     <InputField
                       label="Expiry Retention (days)"
@@ -582,10 +582,10 @@ const AdminSettings = forwardRef(({ onUpdate, isEditing = true }, ref) => {
             </div>
 
             {/* System Status */}
-            <div className="border border-navy-700 rounded-lg p-5">
-              <div className="flex items-center justify-between mb-4 pb-3 border-b border-navy-700">
+            <div className="border border-gray-200 rounded-lg p-5">
+              <div className="flex items-center justify-between mb-4 pb-3 border-b border-gray-200">
                 <div className="flex items-center">
-                  <Activity className="h-5 w-5 text-yellow-400 mr-2" />
+                  <Activity className="h-5 w-5 text-blue-500 mr-2" />
                   <h3 className="text-lg font-semibold text-white">System Status</h3>
                 </div>
                 <button
@@ -606,10 +606,10 @@ const AdminSettings = forwardRef(({ onUpdate, isEditing = true }, ref) => {
                     }
                   }}
                   disabled={loading}
-                  className="p-1.5 rounded hover:bg-navy-700 transition-colors disabled:opacity-50"
+                  className="p-1.5 rounded hover:bg-gray-100 transition-colors disabled:opacity-50"
                   title="Refresh system status"
                 >
-                  <RefreshCw className={`h-4 w-4 text-yellow-400 ${loading ? 'animate-spin' : ''}`} />
+                  <RefreshCw className={`h-4 w-4 text-blue-500 ${loading ? 'animate-spin' : ''}`} />
                 </button>
               </div>
               <div className="space-y-4">
@@ -623,7 +623,7 @@ const AdminSettings = forwardRef(({ onUpdate, isEditing = true }, ref) => {
                     <span className="text-white">Database Backups</span>
                     <span className={`px-3 py-1 rounded-full text-xs font-medium ${
                       backupStatus.status === 'healthy' ? 'text-green-400 bg-green-500/20' :
-                      backupStatus.status === 'warning' ? 'text-yellow-400 bg-yellow-500/20' :
+                      backupStatus.status === 'warning' ? 'text-blue-500 bg-blue-50' :
                       'text-red-400 bg-red-500/20'
                     }`}>
                       {backupStatus.status}
@@ -669,24 +669,24 @@ const AdminSettings = forwardRef(({ onUpdate, isEditing = true }, ref) => {
                 </div>
                 
                 {/* Donation Expiry Stats */}
-                <div className="pt-4 border-t border-navy-700">
-                  <h4 className="text-sm font-semibold text-yellow-300 mb-3">Donation Statistics</h4>
+                <div className="pt-4 border-t border-gray-200">
+                  <h4 className="text-sm font-semibold text-gray-600 mb-3">Donation Statistics</h4>
                   <div className="grid grid-cols-2 gap-3">
-                    <div className="p-3 rounded-lg bg-navy-800 border border-navy-700">
-                      <div className="text-yellow-300 text-xs mb-1">Expired Donations</div>
+                    <div className="p-3 rounded-lg bg-gray-50 border border-gray-200">
+                      <div className="text-gray-600 text-xs mb-1">Expired Donations</div>
                       <div className="text-xl font-bold text-white" id="expiredCount">--</div>
                     </div>
-                    <div className="p-3 rounded-lg bg-navy-800 border border-navy-700">
-                      <div className="text-yellow-300 text-xs mb-1">Archived Donations</div>
+                    <div className="p-3 rounded-lg bg-gray-50 border border-gray-200">
+                      <div className="text-gray-600 text-xs mb-1">Archived Donations</div>
                       <div className="text-xl font-bold text-white" id="archivedCount">--</div>
                     </div>
                   </div>
                 </div>
 
                 {/* Platform Version */}
-                <div className="pt-4 border-t border-navy-700">
+                <div className="pt-4 border-t border-gray-200">
                   <div className="text-white text-sm mb-1">Platform Version: v1.0.0</div>
-                  <div className="text-yellow-400 text-xs">Last updated: {new Date().toLocaleDateString()}</div>
+                  <div className="text-blue-500 text-xs">Last updated: {new Date().toLocaleDateString()}</div>
                 </div>
               </div>
             </div>
@@ -695,9 +695,9 @@ const AdminSettings = forwardRef(({ onUpdate, isEditing = true }, ref) => {
           {/* Right Column */}
           <div className="space-y-6">
             {/* User Management */}
-            <div className="border border-navy-700 rounded-lg p-5">
-              <div className="flex items-center mb-4 pb-3 border-b border-navy-700">
-                <Users className="h-5 w-5 text-yellow-400 mr-2" />
+            <div className="border border-gray-200 rounded-lg p-5">
+              <div className="flex items-center mb-4 pb-3 border-b border-gray-200">
+                <Users className="h-5 w-5 text-blue-500 mr-2" />
                 <h3 className="text-lg font-semibold text-white">User Management</h3>
               </div>
               <div className="space-y-4">
@@ -722,8 +722,8 @@ const AdminSettings = forwardRef(({ onUpdate, isEditing = true }, ref) => {
                 />
 
                 {/* Role Signup Controls */}
-                <div className="pt-4 border-t border-navy-700">
-                  <h4 className="text-sm font-semibold text-yellow-300 mb-3">Role Signup Controls</h4>
+                <div className="pt-4 border-t border-gray-200">
+                  <h4 className="text-sm font-semibold text-gray-600 mb-3">Role Signup Controls</h4>
                   <p className="text-xs text-gray-400 mb-4">Disable signup for specific roles to prevent new registrations</p>
                 <div className="space-y-3">
                     <ToggleSwitch
@@ -753,12 +753,12 @@ const AdminSettings = forwardRef(({ onUpdate, isEditing = true }, ref) => {
             </div>
 
             {/* Database Backups */}
-            <div className="border border-navy-700 rounded-lg p-5 space-y-6">
+            <div className="border border-gray-200 rounded-lg p-5 space-y-6">
               {/* Automatic Weekly Backups */}
               <div>
-                <div className="flex items-center justify-between mb-4 pb-3 border-b border-navy-700">
+                <div className="flex items-center justify-between mb-4 pb-3 border-b border-gray-200">
                   <div className="flex items-center">
-                    <Database className="h-5 w-5 text-yellow-400 mr-2" />
+                    <Database className="h-5 w-5 text-blue-500 mr-2" />
                     <div>
                       <h3 className="text-lg font-semibold text-white">Automatic Weekly Backups</h3>
                       <p className="text-xs text-gray-400 mt-0.5">Limited to 5 most recent backups</p>
@@ -803,10 +803,10 @@ const AdminSettings = forwardRef(({ onUpdate, isEditing = true }, ref) => {
                       }
                     }}
                     disabled={loadingBackups || isCreatingBackup.current}
-                    className="p-1.5 rounded hover:bg-navy-700 transition-colors disabled:opacity-50"
+                    className="p-1.5 rounded hover:bg-gray-100 transition-colors disabled:opacity-50"
                     title="Refresh backups"
                   >
-                    <RefreshCw className={`h-4 w-4 text-yellow-400 ${loadingBackups ? 'animate-spin' : ''}`} />
+                    <RefreshCw className={`h-4 w-4 text-blue-500 ${loadingBackups ? 'animate-spin' : ''}`} />
                   </button>
                 </div>
                 
@@ -818,7 +818,7 @@ const AdminSettings = forwardRef(({ onUpdate, isEditing = true }, ref) => {
                       {automaticBackups.map((backup) => (
                         <div
                           key={backup.id}
-                          className="relative flex flex-col p-3 rounded-lg bg-navy-800 border border-navy-700 hover:border-yellow-400/50 transition-colors"
+                          className="relative flex flex-col p-3 rounded-lg bg-gray-50 border border-gray-200 hover:border-blue-200 transition-colors"
                         >
                           <button
                             type="button"
@@ -834,7 +834,7 @@ const AdminSettings = forwardRef(({ onUpdate, isEditing = true }, ref) => {
                             <X className="h-3.5 w-3.5" />
                           </button>
                           <div className="flex items-center gap-2 mb-2">
-                            <Calendar className="h-3.5 w-3.5 text-yellow-400 flex-shrink-0" />
+                            <Calendar className="h-3.5 w-3.5 text-blue-500 flex-shrink-0" />
                             <div className="flex-1 min-w-0">
                               <div className="text-xs text-white font-medium truncate">
                                 {new Date(backup.backup_date || backup.date).toLocaleDateString('en-US', {
@@ -871,7 +871,7 @@ const AdminSettings = forwardRef(({ onUpdate, isEditing = true }, ref) => {
                               }
                             }}
                             disabled={downloadingBackupId === backup.id || loading}
-                            className="flex items-center justify-center gap-1.5 px-2 py-1.5 text-xs bg-navy-700 hover:bg-navy-600 text-yellow-300 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed w-full"
+                            className="flex items-center justify-center gap-1.5 px-2 py-1.5 text-xs bg-gray-100 hover:bg-gray-200 text-gray-600 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed w-full"
                             title="Download backup"
                           >
                             {downloadingBackupId === backup.id ? (
@@ -896,10 +896,10 @@ const AdminSettings = forwardRef(({ onUpdate, isEditing = true }, ref) => {
               </div>
 
               {/* Manual Backups */}
-              <div className="border-t border-navy-700 pt-4">
+              <div className="border-t border-gray-200 pt-4">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
-                    <Plus className="h-4 w-4 text-yellow-400" />
+                    <Plus className="h-4 w-4 text-blue-500" />
                     <div>
                       <h3 className="text-base font-semibold text-white">Manual Backups</h3>
                       <p className="text-xs text-gray-400 mt-0.5">No limit - all manual backups are kept</p>
@@ -931,7 +931,7 @@ const AdminSettings = forwardRef(({ onUpdate, isEditing = true }, ref) => {
                       }
                     }}
                     disabled={loadingBackups}
-                    className="px-3 py-1.5 text-sm bg-yellow-400 hover:bg-yellow-500 text-navy-900 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+                    className="px-3 py-1.5 text-sm bg-yellow-400 hover:bg-blue-600 text-gray-800 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
                     title="Create manual backup"
                   >
                     {loadingBackups ? 'Creating...' : 'Create Backup'}
@@ -946,7 +946,7 @@ const AdminSettings = forwardRef(({ onUpdate, isEditing = true }, ref) => {
                       {manualBackups.map((backup) => (
                         <div
                           key={backup.id}
-                          className="relative flex flex-col p-3 rounded-lg bg-navy-800 border border-navy-700 hover:border-yellow-400/50 transition-colors"
+                          className="relative flex flex-col p-3 rounded-lg bg-gray-50 border border-gray-200 hover:border-blue-200 transition-colors"
                         >
                           <button
                             type="button"
@@ -962,7 +962,7 @@ const AdminSettings = forwardRef(({ onUpdate, isEditing = true }, ref) => {
                             <X className="h-3.5 w-3.5" />
                           </button>
                           <div className="flex items-center gap-2 mb-2">
-                            <Calendar className="h-3.5 w-3.5 text-yellow-400 flex-shrink-0" />
+                            <Calendar className="h-3.5 w-3.5 text-blue-500 flex-shrink-0" />
                             <div className="flex-1 min-w-0">
                               <div className="text-xs text-white font-medium">
                                 {new Date(backup.backup_date || backup.date).toLocaleDateString('en-US', {
@@ -971,7 +971,7 @@ const AdminSettings = forwardRef(({ onUpdate, isEditing = true }, ref) => {
                                   day: 'numeric'
                                 })}
                               </div>
-                              <div className="text-xs text-yellow-400/80 font-medium mt-0.5">
+                              <div className="text-xs text-blue-500/80 font-medium mt-0.5">
                                 {new Date(backup.backup_date || backup.date).toLocaleTimeString('en-US', {
                                   hour: '2-digit',
                                   minute: '2-digit',
@@ -1006,7 +1006,7 @@ const AdminSettings = forwardRef(({ onUpdate, isEditing = true }, ref) => {
                               }
                             }}
                             disabled={downloadingBackupId === backup.id || loading}
-                            className="flex items-center justify-center gap-1.5 px-2 py-1.5 text-xs bg-navy-700 hover:bg-navy-600 text-yellow-300 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed w-full"
+                            className="flex items-center justify-center gap-1.5 px-2 py-1.5 text-xs bg-gray-100 hover:bg-gray-200 text-gray-600 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed w-full"
                             title="Download backup"
                           >
                             {downloadingBackupId === backup.id ? (

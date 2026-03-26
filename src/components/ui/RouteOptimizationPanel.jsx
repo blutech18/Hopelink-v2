@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { GoogleMap, Marker, DirectionsRenderer } from '@react-google-maps/api'
 import { MapPin, Navigation, Clock, Package, Users, Zap } from 'lucide-react'
-import { useAuth } from '../../contexts/AuthContext'
+import { useAuth } from '../../modules/auth/AuthContext'
 import { db } from '../../lib/supabase'
-import { useToast } from '../../contexts/ToastContext'
+import { useToast } from '../../shared/contexts/ToastContext'
 
 const RouteOptimizationPanel = ({ 
   isOpen, 

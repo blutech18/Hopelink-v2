@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { GoogleMap, Marker, DirectionsRenderer } from '@react-google-maps/api'
 import { X, Navigation, Clock, MapPin, CheckCircle, AlertCircle, Phone, MessageCircle, User, Package, Star } from 'lucide-react'
-import { useAuth } from '../../contexts/AuthContext'
+import { useAuth } from '../../modules/auth/AuthContext'
 import { db } from '../../lib/supabase'
-import { useToast } from '../../contexts/ToastContext'
+import { useToast } from '../../shared/contexts/ToastContext'
 
 const DonorRecipientTrackingModal = ({ 
   isOpen, 
@@ -153,7 +153,7 @@ const DonorRecipientTrackingModal = ({
   const getStatusColor = (status) => {
     switch (status) {
       case 'assigned': return 'text-blue-600 bg-blue-100'
-      case 'in_transit': return 'text-yellow-600 bg-yellow-100'
+      case 'in_transit': return 'text-blue-600 bg-amber-100'
       case 'arrived': return 'text-green-600 bg-green-100'
       case 'completed': return 'text-green-600 bg-green-100'
       default: return 'text-gray-600 bg-gray-100'
@@ -253,7 +253,7 @@ const DonorRecipientTrackingModal = ({
                     <p className="font-medium text-gray-900">{volunteerInfo.name}</p>
                     {volunteerInfo.volunteer_rating && (
                       <div className="flex items-center space-x-1">
-                        <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                        <Star className="w-4 h-4 text-blue-500 fill-current" />
                         <span className="text-sm text-gray-600">
                           {volunteerInfo.volunteer_rating.toFixed(1)} ({volunteerInfo.total_deliveries} deliveries)
                         </span>
@@ -421,7 +421,7 @@ const DonorRecipientTrackingModal = ({
                           key={star}
                           onClick={() => setRating(star)}
                           className={`w-12 h-12 rounded-full transition-colors ${
-                            star <= rating ? 'text-yellow-400' : 'text-gray-300'
+                            star <= rating ? 'text-blue-500' : 'text-gray-300'
                           }`}
                         >
                           <Star className={`w-full h-full ${star <= rating ? 'fill-current' : ''}`} />

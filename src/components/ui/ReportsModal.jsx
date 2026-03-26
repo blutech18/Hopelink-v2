@@ -25,7 +25,7 @@ import {
   Camera
 } from 'lucide-react'
 import { db } from '../../lib/supabase'
-import { useAuth } from '../../contexts/AuthContext'
+import { useAuth } from '../../modules/auth/AuthContext'
 import { IDVerificationBadge } from './VerificationBadge'
 
 const ReportsModal = ({ isOpen, onClose }) => {
@@ -177,44 +177,44 @@ const ReportsModal = ({ isOpen, onClose }) => {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           transition={{ duration: 0.2 }}
-          className="relative w-[1200px] h-[800px] max-w-[95vw] max-h-[95vh] bg-navy-900 border-2 border-yellow-500/20 shadow-2xl rounded-xl flex flex-col"
+          className="relative w-[1200px] h-[800px] max-w-[95vw] max-h-[95vh] bg-white border-2 border-gray-200 shadow-2xl rounded-xl flex flex-col"
         >
           {/* Header */}
-          <div className="flex items-center justify-between px-6 py-4 border-b-2 border-yellow-500/20 flex-shrink-0">
+          <div className="flex items-center justify-between px-6 py-4 border-b-2 border-gray-200 flex-shrink-0">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-yellow-500/10 rounded-lg">
-                <AlertTriangle className="h-6 w-6 text-yellow-400" />
+              <div className="p-2 bg-blue-50 rounded-lg">
+                <AlertTriangle className="h-6 w-6 text-blue-500" />
               </div>
               <div>
-                <h2 className="text-xl font-bold text-white">User Reports</h2>
-                <p className="text-xs text-yellow-300">Review and manage reported users</p>
+                <h2 className="text-xl font-bold text-gray-900">User Reports</h2>
+                <p className="text-xs text-gray-500">Review and manage reported users</p>
               </div>
             </div>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-white transition-colors p-2 hover:bg-navy-800 rounded-lg"
+              className="text-gray-400 hover:text-gray-700 transition-colors p-2 hover:bg-gray-100 rounded-lg"
             >
               <X className="h-5 w-5" />
             </button>
           </div>
 
           {/* Filters */}
-          <div className="px-6 py-4 border-b-2 border-yellow-500/20 flex flex-col sm:flex-row gap-4 flex-shrink-0">
+          <div className="px-6 py-4 border-b-2 border-gray-200 flex flex-col sm:flex-row gap-4 flex-shrink-0">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-yellow-400" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <input
                 type="text"
                 placeholder="Search by user name, email, or reason..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 bg-navy-800 border border-navy-700 rounded-lg text-white text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-colors"
+                className="w-full pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-900 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
               />
             </div>
             <div className="relative">
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="appearance-none w-full sm:w-48 px-4 py-2 pr-10 bg-navy-800 border border-navy-700 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 cursor-pointer transition-colors"
+                className="appearance-none w-full sm:w-48 px-4 py-2 pr-10 bg-white border border-gray-200 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer transition-colors"
               >
                 <option value="all">All Status</option>
                 <option value="pending">Pending</option>
@@ -222,7 +222,7 @@ const ReportsModal = ({ isOpen, onClose }) => {
                 <option value="resolved">Resolved</option>
                 <option value="dismissed">Dismissed</option>
               </select>
-              <Filter className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-yellow-400 pointer-events-none" />
+              <Filter className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
             </div>
           </div>
 
@@ -230,7 +230,7 @@ const ReportsModal = ({ isOpen, onClose }) => {
           <div className="flex-1 overflow-y-auto p-6 custom-scrollbar">
             {loading ? (
               <div className="text-center py-12">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-400 mx-auto"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
                 <p className="text-gray-400 mt-4">Loading reports...</p>
               </div>
             ) : filteredReports.length === 0 ? (
@@ -241,36 +241,36 @@ const ReportsModal = ({ isOpen, onClose }) => {
             ) : (
               <div className="overflow-x-auto custom-scrollbar">
                 <table className="w-full">
-                  <thead className="bg-navy-800 border-b-2 border-yellow-500/20">
+                  <thead className="bg-gray-50 border-b-2 border-gray-200">
                     <tr>
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-yellow-300 uppercase tracking-wider">
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
                         Status
                       </th>
-                      <th className="px-4 py-3 text-center text-xs font-semibold text-yellow-300 uppercase tracking-wider">
+                      <th className="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">
                         Reported User
                       </th>
-                      <th className="px-4 py-3 text-center text-xs font-semibold text-yellow-300 uppercase tracking-wider">
+                      <th className="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">
                         Reported By
                       </th>
-                      <th className="px-4 py-3 text-center text-xs font-semibold text-yellow-300 uppercase tracking-wider">
+                      <th className="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">
                         Reason
                       </th>
-                      <th className="px-4 py-3 text-center text-xs font-semibold text-yellow-300 uppercase tracking-wider">
+                      <th className="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">
                         Date
                       </th>
-                      <th className="px-4 py-3 text-center text-xs font-semibold text-yellow-300 uppercase tracking-wider">
+                      <th className="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">
                         Actions
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-navy-700">
+                  <tbody className="divide-y divide-gray-200">
                     {filteredReports.map((report, idx) => {
                       return (
                         <motion.tr
                           key={report.id || `${report.reported_user_id || 'unknown'}-${report.created_at || 'na'}-${idx}`}
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
-                          className="hover:bg-navy-800/30 transition-colors"
+                          className="hover:bg-gray-50 transition-colors"
                         >
                           {/* Status */}
                           <td className="px-4 py-4 whitespace-nowrap">
@@ -284,7 +284,7 @@ const ReportsModal = ({ isOpen, onClose }) => {
                             <div className="min-w-0 flex flex-col items-center">
                               <button
                                 onClick={() => handleViewProfile(report.reported_user?.id)}
-                                className="text-sm font-semibold text-white truncate hover:text-yellow-400 transition-colors px-2 py-1 rounded-lg hover:bg-blue-600/20 hover:border-blue-500/30 border border-transparent"
+                                className="text-sm font-semibold text-gray-800 truncate hover:text-blue-600 transition-colors px-2 py-1 rounded-lg hover:bg-blue-50 hover:border-blue-200 border border-transparent"
                                 title="View Profile"
                               >
                                 {report.reported_user?.name || 'Unknown'}
@@ -307,7 +307,7 @@ const ReportsModal = ({ isOpen, onClose }) => {
                             <div className="min-w-0 flex flex-col items-center">
                               <button
                                 onClick={() => handleViewProfile(report.reported_by?.id)}
-                                className="text-sm font-semibold text-white truncate hover:text-yellow-400 transition-colors px-2 py-1 rounded-lg hover:bg-blue-600/20 hover:border-blue-500/30 border border-transparent"
+                                className="text-sm font-semibold text-gray-800 truncate hover:text-blue-600 transition-colors px-2 py-1 rounded-lg hover:bg-blue-50 hover:border-blue-200 border border-transparent"
                                 title="View Profile"
                               >
                                 {report.reported_by?.name || 'Unknown'}
@@ -321,7 +321,7 @@ const ReportsModal = ({ isOpen, onClose }) => {
                           {/* Reason */}
                           <td className="px-4 py-4 text-center">
                             <div className="max-w-xs min-w-0 mx-auto">
-                              <div className="text-sm font-medium text-white line-clamp-2">
+                              <div className="text-sm font-medium text-gray-800 line-clamp-2">
                                 {report.reason}
                               </div>
                               {report.description && (
@@ -411,22 +411,22 @@ const ReportsModal = ({ isOpen, onClose }) => {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ duration: 0.2 }}
-              className="bg-navy-900 border-2 border-yellow-500/20 shadow-2xl rounded-xl p-6 max-w-md w-full"
+              className="bg-white border-2 border-gray-200 shadow-2xl rounded-xl p-6 max-w-md w-full"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-yellow-500/10 rounded-lg">
-                    <FileText className="h-5 w-5 text-yellow-400" />
+                  <div className="p-2 bg-blue-50 rounded-lg">
+                    <FileText className="h-5 w-5 text-blue-500" />
                   </div>
-                  <h3 className="text-lg font-bold text-white">Resolve Report</h3>
+                  <h3 className="text-lg font-bold text-gray-900">Resolve Report</h3>
                 </div>
                 <button
                   onClick={() => {
                     setSelectedReport(null)
                     setResolutionNotes('')
                   }}
-                  className="text-gray-400 hover:text-white transition-colors p-2 hover:bg-navy-800 rounded-lg"
+                  className="text-gray-400 hover:text-gray-700 transition-colors p-2 hover:bg-gray-100 rounded-lg"
                 >
                   <X className="h-5 w-5" />
                 </button>
@@ -435,7 +435,7 @@ const ReportsModal = ({ isOpen, onClose }) => {
                 value={resolutionNotes}
                 onChange={(e) => setResolutionNotes(e.target.value)}
                 placeholder="Add resolution notes (optional)..."
-                className="w-full h-32 px-4 py-2 bg-navy-800 border border-navy-700 rounded-lg text-white text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 mb-4 resize-none transition-colors"
+                className="w-full h-32 px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-900 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4 resize-none transition-colors"
               />
               <div className="flex gap-2">
                 <button
@@ -443,7 +443,7 @@ const ReportsModal = ({ isOpen, onClose }) => {
                     setSelectedReport(null)
                     setResolutionNotes('')
                   }}
-                  className="flex-1 px-4 py-2 bg-navy-800 hover:bg-navy-700 border border-navy-700 text-white rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                  className="flex-1 px-4 py-2 bg-white hover:bg-gray-50 border border-gray-200 text-gray-700 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   Cancel
                 </button>
@@ -473,21 +473,21 @@ const ReportsModal = ({ isOpen, onClose }) => {
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
                 transition={{ duration: 0.2 }}
-                className="bg-navy-900 border-2 border-yellow-500/30 shadow-2xl rounded-lg sm:rounded-xl p-3 sm:p-5 max-w-3xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto overflow-x-hidden custom-scrollbar"
+                className="bg-white border-2 border-gray-200 shadow-2xl rounded-lg sm:rounded-xl p-3 sm:p-5 max-w-3xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto overflow-x-hidden custom-scrollbar"
               >
                 {/* Header */}
-                <div className="flex justify-between items-center mb-3 sm:mb-4 pb-2 sm:pb-3 border-b-2 border-yellow-500/20">
+                <div className="flex justify-between items-center mb-3 sm:mb-4 pb-2 sm:pb-3 border-b-2 border-gray-200">
                   <div className="flex items-center gap-2 min-w-0 flex-1">
-                    <div className="p-1.5 bg-yellow-500/10 rounded-lg flex-shrink-0">
-                      <User className="h-4 w-4 text-yellow-400" />
+                    <div className="p-1.5 bg-blue-50 rounded-lg flex-shrink-0">
+                      <User className="h-4 w-4 text-blue-500" />
                     </div>
-                    <h3 className="text-base sm:text-lg font-bold text-white truncate">
+                    <h3 className="text-base sm:text-lg font-bold text-gray-900 truncate">
                       {selectedProfile?.role === 'recipient' ? 'Requester Profile' : selectedProfile?.role === 'volunteer' ? 'Volunteer Profile' : selectedProfile?.role === 'donor' ? 'Donor Profile' : selectedProfile?.role === 'admin' ? 'Admin Profile' : 'User Profile'}
                     </h3>
                   </div>
                   <button
                     onClick={() => setShowProfileModal(false)}
-                    className="text-gray-400 hover:text-white transition-colors p-1.5 hover:bg-navy-800 rounded-lg flex-shrink-0 ml-2"
+                    className="text-gray-400 hover:text-gray-700 transition-colors p-1.5 hover:bg-gray-100 rounded-lg flex-shrink-0 ml-2"
                     aria-label="Close profile modal"
                   >
                     <X className="h-5 w-5" />
@@ -498,7 +498,7 @@ const ReportsModal = ({ isOpen, onClose }) => {
                 <div className="space-y-3 sm:space-y-4">
                   {loadingProfile ? (
                     <div className="text-center py-12">
-                      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-400 mx-auto"></div>
+                      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
                       <p className="text-gray-400 mt-4">Loading profile...</p>
                     </div>
                   ) : (
@@ -507,7 +507,7 @@ const ReportsModal = ({ isOpen, onClose }) => {
                       <div className="relative flex items-center gap-4">
                         <div className="relative flex-shrink-0">
                           <div 
-                            className="h-28 w-28 sm:h-36 sm:w-36 rounded-full overflow-hidden border-2 border-yellow-500 shadow-lg flex items-center justify-center cursor-pointer hover:border-yellow-400 transition-colors"
+                            className="h-28 w-28 sm:h-36 sm:w-36 rounded-full overflow-hidden border-2 border-gray-300 shadow-lg flex items-center justify-center cursor-pointer hover:border-gray-400 transition-colors"
                             onClick={() => setShowProfileImageModal(true)}
                             title="View profile picture"
                           >
@@ -518,8 +518,8 @@ const ReportsModal = ({ isOpen, onClose }) => {
                                 className="w-full h-full object-cover"
                               />
                             ) : (
-                              <div className="h-full w-full bg-navy-700 flex items-center justify-center">
-                                <User className="h-16 w-16 sm:h-20 sm:w-20 text-yellow-400" />
+                              <div className="h-full w-full bg-gray-100 flex items-center justify-center">
+                                <User className="h-16 w-16 sm:h-20 sm:w-20 text-gray-400" />
                               </div>
                             )}
                           </div>
@@ -532,12 +532,12 @@ const ReportsModal = ({ isOpen, onClose }) => {
                         </div>
                         
                         <div className="flex flex-col justify-center min-w-0 flex-1">
-                          <h4 className="text-white font-bold text-base sm:text-lg mb-1">
+                          <h4 className="text-gray-900 font-bold text-base sm:text-lg mb-1">
                             {selectedProfile?.name || selectedProfile?.full_name || 'Anonymous'}
                           </h4>
                           <div className="flex flex-wrap items-center gap-2 text-xs">
-                            <span className="text-yellow-400 flex items-center gap-1 whitespace-nowrap">
-                              <Calendar className="h-3.5 w-3.5 flex-shrink-0" />
+                            <span className="text-gray-500 flex items-center gap-1 whitespace-nowrap">
+                              <Calendar className="h-3.5 w-3.5 flex-shrink-0 text-gray-400" />
                               {(() => {
                                 const memberDate = selectedProfile?.created_at || selectedProfile?.user_created_at || selectedProfile?.joined_at || selectedProfile?.signup_date;
                                 if (memberDate) {
@@ -558,8 +558,8 @@ const ReportsModal = ({ isOpen, onClose }) => {
                               })()}
                             </span>
                             {selectedProfile?.account_type && selectedProfile.account_type !== 'individual' && (
-                              <span className="text-yellow-400 flex items-center gap-1 whitespace-nowrap">
-                                <Building2 className="h-3.5 w-3.5 flex-shrink-0" />
+                              <span className="text-gray-500 flex items-center gap-1 whitespace-nowrap">
+                                <Building2 className="h-3.5 w-3.5 flex-shrink-0 text-gray-400" />
                                 {selectedProfile.account_type === 'business' ? 'Business' : 'Organization'}
                               </span>
                             )}
@@ -581,14 +581,14 @@ const ReportsModal = ({ isOpen, onClose }) => {
                       {/* Basic Information and Contact Information - 2 Column Layout */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {/* Basic Information */}
-                        <div className="bg-navy-800/30 rounded-lg p-3 border border-yellow-500/20">
-                          <h5 className="text-white font-semibold mb-2 text-sm flex items-center gap-2">
-                            <User className="h-3.5 w-3.5 text-yellow-400 flex-shrink-0" />
+                        <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
+                          <h5 className="text-gray-900 font-semibold mb-2 text-sm flex items-center gap-2">
+                            <User className="h-3.5 w-3.5 text-gray-400 flex-shrink-0" />
                             Basic Information
                           </h5>
                           <div className="space-y-2 text-xs sm:text-sm">
                             <div className="flex items-start gap-2 min-w-0">
-                              <span className="text-yellow-400 font-medium flex-shrink-0">Birthdate:</span>
+                              <span className="text-gray-500 font-medium flex-shrink-0">Birthdate:</span>
                               <span className={`break-words flex-1 ${selectedProfile?.birthdate ? 'text-white' : 'text-gray-400 italic'}`}>
                                 {selectedProfile?.birthdate ? (
                                   new Date(selectedProfile.birthdate).toLocaleDateString('en-US', {
@@ -602,13 +602,13 @@ const ReportsModal = ({ isOpen, onClose }) => {
                               </span>
                             </div>
                             <div className="flex items-start gap-2 min-w-0">
-                              <span className="text-yellow-400 font-medium flex-shrink-0">Age:</span>
+                              <span className="text-gray-500 font-medium flex-shrink-0">Age:</span>
                               <span className={`break-words flex-1 ${selectedProfile?.birthdate ? 'text-white' : 'text-gray-400 italic'}`}>
                                 {selectedProfile?.birthdate ? (calculateAge(selectedProfile.birthdate) || 'Not available') : 'Not provided'}
                               </span>
                             </div>
                             <div className="flex items-start gap-2 min-w-0">
-                              <span className="text-yellow-400 font-medium flex-shrink-0">Account Type:</span>
+                              <span className="text-gray-500 font-medium flex-shrink-0">Account Type:</span>
                               <span className={`break-words flex-1 ${selectedProfile?.account_type ? 'text-white' : 'text-gray-400 italic'}`}>
                                 {selectedProfile?.account_type ? (selectedProfile.account_type === 'business' ? 'Business/Organization' : 'Individual') : 'Not provided'}
                               </span>
@@ -616,19 +616,19 @@ const ReportsModal = ({ isOpen, onClose }) => {
                             {selectedProfile?.account_type === 'business' && (
                               <>
                                 <div className="flex items-start gap-2 min-w-0">
-                                  <span className="text-yellow-400 font-medium flex-shrink-0">Organization:</span>
+                                  <span className="text-gray-500 font-medium flex-shrink-0">Organization:</span>
                                   <span className={`break-words flex-1 ${selectedProfile?.organization_name ? 'text-white' : 'text-gray-400 italic'}`}>
                                     {selectedProfile?.organization_name || 'Not provided'}
                                   </span>
                                 </div>
                                 <div className="flex items-start gap-2 min-w-0">
-                                  <span className="text-yellow-400 font-medium flex-shrink-0">Website:</span>
+                                  <span className="text-gray-500 font-medium flex-shrink-0">Website:</span>
                                   {selectedProfile?.website_link ? (
                                     <a
                                       href={selectedProfile.website_link}
                                       target="_blank"
                                       rel="noopener noreferrer"
-                                      className="text-yellow-300 hover:text-yellow-200 break-all flex-1 flex items-center gap-1"
+                                      className="text-blue-600 hover:text-blue-700 break-all flex-1 flex items-center gap-1"
                                     >
                                       <Globe className="h-3 w-3 flex-shrink-0" />
                                       {selectedProfile.website_link}
@@ -643,19 +643,19 @@ const ReportsModal = ({ isOpen, onClose }) => {
                         </div>
 
                         {/* Contact Information */}
-                        <div className="bg-navy-800/30 rounded-lg p-3 border border-yellow-500/20">
-                          <h5 className="text-white font-semibold mb-2 text-sm flex items-center gap-2">
-                            <Phone className="h-3.5 w-3.5 text-yellow-400 flex-shrink-0" />
+                        <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
+                          <h5 className="text-gray-900 font-semibold mb-2 text-sm flex items-center gap-2">
+                            <Phone className="h-3.5 w-3.5 text-gray-400 flex-shrink-0" />
                             Contact Information
                           </h5>
                           <div className="space-y-2 text-xs sm:text-sm">
                             <div className="flex items-start gap-2 min-w-0">
-                              <span className="text-yellow-400 font-medium flex-shrink-0">Phone:</span>
+                              <span className="text-gray-500 font-medium flex-shrink-0">Phone:</span>
                               <span className="text-white break-words flex-1">
                                 {selectedProfile?.phone_number || selectedProfile?.phone ? (
                                   <a
                                     href={`tel:${selectedProfile.phone_number || selectedProfile.phone}`}
-                                    className="text-white hover:text-yellow-300 transition-colors break-all"
+                                    className="text-gray-800 hover:text-blue-600 transition-colors break-all"
                                   >
                                     {selectedProfile.phone_number || selectedProfile.phone}
                                   </a>
@@ -665,12 +665,12 @@ const ReportsModal = ({ isOpen, onClose }) => {
                               </span>
                             </div>
                             <div className="flex items-start gap-2 min-w-0">
-                              <span className="text-yellow-400 font-medium flex-shrink-0">Email:</span>
+                              <span className="text-gray-500 font-medium flex-shrink-0">Email:</span>
                               <span className="text-white break-words flex-1">
                                 {selectedProfile?.email ? (
                                   <a
                                     href={`mailto:${selectedProfile.email}`}
-                                    className="text-white hover:text-yellow-300 transition-colors break-all"
+                                    className="text-gray-800 hover:text-blue-600 transition-colors break-all"
                                   >
                                     {selectedProfile.email}
                                   </a>
@@ -684,44 +684,44 @@ const ReportsModal = ({ isOpen, onClose }) => {
                       </div>
 
                       {/* Address Details - Combined Location and Address */}
-                      <div className="bg-navy-800/30 rounded-lg p-3 border border-yellow-500/20">
-                        <h5 className="text-white font-semibold mb-2 text-sm flex items-center gap-2">
-                          <MapPin className="h-3.5 w-3.5 text-yellow-400 flex-shrink-0" />
+                      <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
+                        <h5 className="text-gray-900 font-semibold mb-2 text-sm flex items-center gap-2">
+                          <MapPin className="h-3.5 w-3.5 text-gray-400 flex-shrink-0" />
                           Address Details
                         </h5>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs sm:text-sm">
                           <div className="flex items-start gap-2 min-w-0">
-                            <span className="text-yellow-400 font-medium flex-shrink-0">Street:</span>
+                            <span className="text-gray-500 font-medium flex-shrink-0">Street:</span>
                             <span className={`break-words flex-1 ${selectedProfile?.address_street ? 'text-white' : 'text-gray-400 italic'}`}>
                               {selectedProfile?.address_street || 'Not provided'}
                             </span>
                           </div>
                           <div className="flex items-start gap-2 min-w-0">
-                            <span className="text-yellow-400 font-medium flex-shrink-0">Barangay:</span>
+                            <span className="text-gray-500 font-medium flex-shrink-0">Barangay:</span>
                             <span className={`break-words flex-1 ${selectedProfile?.address_barangay ? 'text-white' : 'text-gray-400 italic'}`}>
                               {selectedProfile?.address_barangay || 'Not provided'}
                             </span>
                           </div>
                           <div className="flex items-start gap-2 min-w-0">
-                            <span className="text-yellow-400 font-medium flex-shrink-0">Landmark:</span>
+                            <span className="text-gray-500 font-medium flex-shrink-0">Landmark:</span>
                             <span className={`break-words flex-1 ${selectedProfile?.address_landmark ? 'text-white' : 'text-gray-400 italic'}`}>
                               {selectedProfile?.address_landmark || 'Not provided'}
                             </span>
                           </div>
                           <div className="flex items-start gap-2 min-w-0">
-                            <span className="text-yellow-400 font-medium flex-shrink-0">City:</span>
+                            <span className="text-gray-500 font-medium flex-shrink-0">City:</span>
                             <span className={`break-words flex-1 ${selectedProfile?.city ? 'text-white' : 'text-gray-400 italic'}`}>
                               {selectedProfile?.city || 'Not provided'}
                             </span>
                           </div>
                           <div className="flex items-start gap-2 min-w-0">
-                            <span className="text-yellow-400 font-medium flex-shrink-0">Province:</span>
+                            <span className="text-gray-500 font-medium flex-shrink-0">Province:</span>
                             <span className={`break-words flex-1 ${selectedProfile?.province ? 'text-white' : 'text-gray-400 italic'}`}>
                               {selectedProfile?.province || 'Not provided'}
                             </span>
                           </div>
                           <div className="flex items-start gap-2 min-w-0">
-                            <span className="text-yellow-400 font-medium flex-shrink-0">ZIP Code:</span>
+                            <span className="text-gray-500 font-medium flex-shrink-0">ZIP Code:</span>
                             <span className={`break-words flex-1 ${selectedProfile?.zip_code ? 'text-white' : 'text-gray-400 italic'}`}>
                               {selectedProfile?.zip_code || 'Not provided'}
                             </span>
@@ -733,24 +733,24 @@ const ReportsModal = ({ isOpen, onClose }) => {
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {/* Emergency Contact */}
                         {selectedProfile?.role !== 'volunteer' && (
-                          <div className="bg-navy-800/30 rounded-lg p-3 border border-yellow-500/20">
-                            <h5 className="text-white font-semibold mb-2 text-sm flex items-center gap-2">
-                              <AlertTriangle className="h-3.5 w-3.5 text-yellow-400 flex-shrink-0" />
+                          <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
+                            <h5 className="text-gray-900 font-semibold mb-2 text-sm flex items-center gap-2">
+                              <AlertTriangle className="h-3.5 w-3.5 text-gray-400 flex-shrink-0" />
                               Emergency Contact
                             </h5>
                             <div className="space-y-2 text-xs sm:text-sm">
                               <div className="flex items-start gap-2 min-w-0">
-                                <span className="text-yellow-400 font-medium flex-shrink-0">Name:</span>
+                                <span className="text-gray-500 font-medium flex-shrink-0">Name:</span>
                                 <span className={`break-words flex-1 ${selectedProfile?.emergency_contact_name ? 'text-white' : 'text-gray-400 italic'}`}>
                                   {selectedProfile?.emergency_contact_name || 'Not provided'}
                                 </span>
                               </div>
                               <div className="flex items-start gap-2 min-w-0">
-                                <span className="text-yellow-400 font-medium flex-shrink-0">Phone:</span>
+                                <span className="text-gray-500 font-medium flex-shrink-0">Phone:</span>
                                 {selectedProfile?.emergency_contact_phone ? (
                                   <a
                                     href={`tel:${selectedProfile.emergency_contact_phone}`}
-                                    className="text-white hover:text-yellow-300 transition-colors break-all flex-1"
+                                    className="text-gray-800 hover:text-blue-600 transition-colors break-all flex-1"
                                   >
                                     {selectedProfile.emergency_contact_phone}
                                   </a>
@@ -764,14 +764,14 @@ const ReportsModal = ({ isOpen, onClose }) => {
 
                         {/* Recipient-specific information */}
                         {selectedProfile?.role === 'recipient' && (
-                          <div className="bg-navy-800/30 rounded-lg p-3 border border-yellow-500/20">
-                            <h5 className="text-white font-semibold mb-2 text-sm flex items-center gap-2">
-                              <Heart className="h-3.5 w-3.5 text-yellow-400 flex-shrink-0" />
+                          <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
+                            <h5 className="text-gray-900 font-semibold mb-2 text-sm flex items-center gap-2">
+                              <Heart className="h-3.5 w-3.5 text-gray-400 flex-shrink-0" />
                               Recipient Details
                             </h5>
                             <div className="space-y-2 text-xs sm:text-sm">
                               <div className="flex items-start gap-2 min-w-0">
-                                <span className="text-yellow-400 font-medium flex-shrink-0">Household Size:</span>
+                                <span className="text-gray-500 font-medium flex-shrink-0">Household Size:</span>
                                 <span className={`break-words flex-1 ${selectedProfile?.household_size ? 'text-white' : 'text-gray-400 italic'}`}>
                                   {selectedProfile?.household_size ? (
                                     `${selectedProfile.household_size} ${selectedProfile.household_size === 1 ? 'person' : 'people'}`
@@ -781,7 +781,7 @@ const ReportsModal = ({ isOpen, onClose }) => {
                                 </span>
                               </div>
                               <div className="flex items-start gap-2 min-w-0">
-                                <span className="text-yellow-400 font-medium flex-shrink-0">ID Type:</span>
+                                <span className="text-gray-500 font-medium flex-shrink-0">ID Type:</span>
                                 <span className={`break-words flex-1 ${selectedProfile?.primary_id_type ? 'text-white' : 'text-gray-400 italic'}`}>
                                   {selectedProfile?.primary_id_type ? getIDTypeLabel(selectedProfile.primary_id_type) : 'No ID'}
                                 </span>
@@ -793,15 +793,15 @@ const ReportsModal = ({ isOpen, onClose }) => {
 
                       {/* Assistance Needs - Separate Container */}
                       {selectedProfile?.role === 'recipient' && (
-                        <div className="bg-navy-800/30 rounded-lg p-3 border border-yellow-500/20">
-                          <h5 className="text-white font-semibold mb-2 text-sm flex items-center gap-2">
-                            <Heart className="h-3.5 w-3.5 text-yellow-400 flex-shrink-0" />
+                        <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
+                          <h5 className="text-gray-900 font-semibold mb-2 text-sm flex items-center gap-2">
+                            <Heart className="h-3.5 w-3.5 text-gray-400 flex-shrink-0" />
                             Assistance Needs
                           </h5>
                           {selectedProfile?.assistance_needs?.length > 0 ? (
                             <div className="flex gap-1.5 overflow-x-auto custom-scrollbar">
                               {selectedProfile.assistance_needs.map((need, i) => (
-                                <span key={i} className="bg-navy-700 text-xs px-2 py-1 rounded-full text-yellow-300 border border-yellow-500/30 font-medium whitespace-nowrap flex-shrink-0">
+                                <span key={i} className="bg-blue-50 text-xs px-2 py-1 rounded-full text-blue-700 border border-blue-200 font-medium whitespace-nowrap flex-shrink-0">
                                   {need}
                                 </span>
                               ))}
@@ -814,33 +814,33 @@ const ReportsModal = ({ isOpen, onClose }) => {
 
                       {/* Volunteer-specific information - 2x2 Grid */}
                       {selectedProfile?.role === 'volunteer' && (
-                        <div className="bg-navy-800/30 rounded-lg p-3 border border-yellow-500/20">
-                          <h5 className="text-white font-semibold mb-2 text-sm flex items-center gap-2">
-                            <Truck className="h-3.5 w-3.5 text-yellow-400 flex-shrink-0" />
+                        <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
+                          <h5 className="text-gray-900 font-semibold mb-2 text-sm flex items-center gap-2">
+                            <Truck className="h-3.5 w-3.5 text-gray-400 flex-shrink-0" />
                             Volunteer Details
                           </h5>
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
                             <div className="flex items-start gap-2 min-w-0">
-                              <span className="text-yellow-400 font-medium flex-shrink-0">ID Type:</span>
+                              <span className="text-gray-500 font-medium flex-shrink-0">ID Type:</span>
                               <span className={`break-words flex-1 ${selectedProfile?.primary_id_type ? 'text-white' : 'text-gray-400 italic'}`}>
                                 {selectedProfile?.primary_id_type ? getIDTypeLabel(selectedProfile.primary_id_type) : 'Not provided'}
                               </span>
                             </div>
                             <div className="flex items-start gap-2 min-w-0">
-                              <span className="text-yellow-400 font-medium flex-shrink-0">Experience:</span>
+                              <span className="text-gray-500 font-medium flex-shrink-0">Experience:</span>
                               <span className={`break-words flex-1 ${selectedProfile?.volunteer_experience ? 'text-white' : 'text-gray-400 italic'}`}>
                                 {selectedProfile?.volunteer_experience || 'Not provided'}
                               </span>
                             </div>
                             <div className="flex items-start gap-2 min-w-0">
-                              <span className="text-yellow-400 font-medium flex-shrink-0">Insurance:</span>
+                              <span className="text-gray-500 font-medium flex-shrink-0">Insurance:</span>
                               <span className={`break-words flex-1 ${selectedProfile?.has_insurance !== undefined ? 'text-white' : 'text-gray-400 italic'}`}>
                                 {selectedProfile?.has_insurance !== undefined ? (selectedProfile.has_insurance ? 'Yes' : 'No') : 'Not provided'}
                               </span>
                             </div>
                             {selectedProfile?.has_insurance && (
                               <div className="flex items-start gap-2 min-w-0">
-                                <span className="text-yellow-400 font-medium flex-shrink-0">Insurance Provider:</span>
+                                <span className="text-gray-500 font-medium flex-shrink-0">Insurance Provider:</span>
                                 <span className={`break-words flex-1 ${selectedProfile?.insurance_provider ? 'text-white' : 'text-gray-400 italic'}`}>
                                   {selectedProfile?.insurance_provider || 'Not provided'}
                                 </span>
@@ -854,15 +854,15 @@ const ReportsModal = ({ isOpen, onClose }) => {
                       {selectedProfile?.role === 'volunteer' && (
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                           {/* Preferred Delivery Types */}
-                          <div className="bg-navy-800/30 rounded-lg p-3 border border-yellow-500/20">
-                            <h5 className="text-white font-semibold mb-2 text-sm flex items-center gap-2">
-                              <Truck className="h-3.5 w-3.5 text-yellow-400 flex-shrink-0" />
+                          <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
+                            <h5 className="text-gray-900 font-semibold mb-2 text-sm flex items-center gap-2">
+                              <Truck className="h-3.5 w-3.5 text-gray-400 flex-shrink-0" />
                               Preferred Delivery Types
                             </h5>
                             {selectedProfile?.preferred_delivery_types?.length > 0 ? (
                               <div className="flex gap-1.5 overflow-x-auto custom-scrollbar">
                                 {selectedProfile.preferred_delivery_types.map((type, i) => (
-                                  <span key={i} className="bg-navy-700 text-xs px-2 py-1 rounded-full text-yellow-300 border border-yellow-500/30 font-medium whitespace-nowrap flex-shrink-0">
+                                  <span key={i} className="bg-blue-50 text-xs px-2 py-1 rounded-full text-blue-700 border border-blue-200 font-medium whitespace-nowrap flex-shrink-0">
                                     {type}
                                   </span>
                                 ))}
@@ -873,15 +873,15 @@ const ReportsModal = ({ isOpen, onClose }) => {
                           </div>
 
                           {/* Special Skills */}
-                          <div className="bg-navy-800/30 rounded-lg p-3 border border-yellow-500/20">
-                            <h5 className="text-white font-semibold mb-2 text-sm flex items-center gap-2">
-                              <Star className="h-3.5 w-3.5 text-yellow-400 flex-shrink-0" />
+                          <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
+                            <h5 className="text-gray-900 font-semibold mb-2 text-sm flex items-center gap-2">
+                              <Star className="h-3.5 w-3.5 text-gray-400 flex-shrink-0" />
                               Special Skills
                             </h5>
                             {selectedProfile?.special_skills?.length > 0 ? (
                               <div className="flex gap-1.5 overflow-x-auto custom-scrollbar">
                                 {selectedProfile.special_skills.map((skill, i) => (
-                                  <span key={i} className="bg-navy-700 text-xs px-2 py-1 rounded-full text-yellow-300 border border-yellow-500/30 font-medium whitespace-nowrap flex-shrink-0">
+                                  <span key={i} className="bg-blue-50 text-xs px-2 py-1 rounded-full text-blue-700 border border-blue-200 font-medium whitespace-nowrap flex-shrink-0">
                                     {skill}
                                   </span>
                                 ))}
@@ -897,15 +897,15 @@ const ReportsModal = ({ isOpen, onClose }) => {
                       {selectedProfile?.role === 'volunteer' && (
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                           {/* Languages Spoken */}
-                          <div className="bg-navy-800/30 rounded-lg p-3 border border-yellow-500/20">
-                            <h5 className="text-white font-semibold mb-2 text-sm flex items-center gap-2">
-                              <MessageSquare className="h-3.5 w-3.5 text-yellow-400 flex-shrink-0" />
+                          <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
+                            <h5 className="text-gray-900 font-semibold mb-2 text-sm flex items-center gap-2">
+                              <MessageSquare className="h-3.5 w-3.5 text-gray-400 flex-shrink-0" />
                               Languages Spoken
                             </h5>
                             {selectedProfile?.languages_spoken?.length > 0 ? (
                               <div className="flex gap-1.5 overflow-x-auto custom-scrollbar">
                                 {selectedProfile.languages_spoken.map((lang, i) => (
-                                  <span key={i} className="bg-navy-700 text-xs px-2 py-1 rounded-full text-yellow-300 border border-yellow-500/30 font-medium whitespace-nowrap flex-shrink-0">
+                                  <span key={i} className="bg-blue-50 text-xs px-2 py-1 rounded-full text-blue-700 border border-blue-200 font-medium whitespace-nowrap flex-shrink-0">
                                     {lang}
                                   </span>
                                 ))}
@@ -916,15 +916,15 @@ const ReportsModal = ({ isOpen, onClose }) => {
                           </div>
 
                           {/* Communication Preferences */}
-                          <div className="bg-navy-800/30 rounded-lg p-3 border border-yellow-500/20">
-                            <h5 className="text-white font-semibold mb-2 text-sm flex items-center gap-2">
-                              <Mail className="h-3.5 w-3.5 text-yellow-400 flex-shrink-0" />
+                          <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
+                            <h5 className="text-gray-900 font-semibold mb-2 text-sm flex items-center gap-2">
+                              <Mail className="h-3.5 w-3.5 text-gray-400 flex-shrink-0" />
                               Communication Preferences
                             </h5>
                             {selectedProfile?.communication_preferences?.length > 0 ? (
                               <div className="flex gap-1.5 overflow-x-auto custom-scrollbar">
                                 {selectedProfile.communication_preferences.map((pref, i) => (
-                                  <span key={i} className="bg-navy-700 text-xs px-2 py-1 rounded-full text-yellow-300 border border-yellow-500/30 font-medium whitespace-nowrap flex-shrink-0">
+                                  <span key={i} className="bg-blue-50 text-xs px-2 py-1 rounded-full text-blue-700 border border-blue-200 font-medium whitespace-nowrap flex-shrink-0">
                                     {pref}
                                   </span>
                                 ))}
@@ -938,18 +938,18 @@ const ReportsModal = ({ isOpen, onClose }) => {
 
                       {/* Donor-specific information */}
                       {selectedProfile?.role === 'donor' && (
-                        <div className="bg-navy-800/30 rounded-lg p-3 border border-yellow-500/20">
-                          <h5 className="text-white font-semibold mb-2 text-sm flex items-center gap-2">
-                            <Gift className="h-3.5 w-3.5 text-yellow-400 flex-shrink-0" />
+                        <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
+                          <h5 className="text-gray-900 font-semibold mb-2 text-sm flex items-center gap-2">
+                            <Gift className="h-3.5 w-3.5 text-gray-400 flex-shrink-0" />
                             Donation Preferences
                           </h5>
                           <div className="space-y-2 text-xs sm:text-sm">
                             <div className="min-w-0">
-                              <span className="text-yellow-400 font-medium block mb-1.5 text-xs">Donation Types:</span>
+                              <span className="text-gray-500 font-medium block mb-1.5 text-xs">Donation Types:</span>
                               {selectedProfile?.donation_types?.length > 0 ? (
                                 <div className="flex flex-wrap gap-1.5">
                                   {selectedProfile.donation_types.map((type, i) => (
-                                    <span key={i} className="bg-navy-700 text-xs px-2 py-1 rounded-full text-yellow-300 border border-yellow-500/30 font-medium break-words">
+                                    <span key={i} className="bg-blue-50 text-xs px-2 py-1 rounded-full text-blue-700 border border-blue-200 font-medium break-words">
                                       {type}
                                     </span>
                                   ))}
@@ -963,24 +963,24 @@ const ReportsModal = ({ isOpen, onClose }) => {
                       )}
 
                       {/* Bio/About */}
-                      <div className="bg-navy-800/30 rounded-lg p-3 border border-yellow-500/20">
-                        <h5 className="text-white font-semibold mb-2 text-sm flex items-center gap-2">
-                          <MessageSquare className="h-3.5 w-3.5 text-yellow-400 flex-shrink-0" />
+                      <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
+                        <h5 className="text-gray-900 font-semibold mb-2 text-sm flex items-center gap-2">
+                          <MessageSquare className="h-3.5 w-3.5 text-gray-400 flex-shrink-0" />
                           About
                         </h5>
-                        <p className={`text-xs sm:text-sm leading-relaxed break-words ${selectedProfile?.bio ? 'text-yellow-200' : 'text-gray-400 italic'}`}>
+                        <p className={`text-xs sm:text-sm leading-relaxed break-words ${selectedProfile?.bio ? 'text-gray-700' : 'text-gray-400 italic'}`}>
                           {selectedProfile?.bio || 'Not provided'}
                         </p>
                       </div>
 
                       {/* Delivery Notes - Separate Section */}
                       {selectedProfile?.role === 'volunteer' && (
-                        <div className="bg-navy-800/30 rounded-lg p-3 border border-yellow-500/20">
-                          <h5 className="text-white font-semibold mb-2 text-sm flex items-center gap-2">
-                            <Truck className="h-3.5 w-3.5 text-yellow-400 flex-shrink-0" />
+                        <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
+                          <h5 className="text-gray-900 font-semibold mb-2 text-sm flex items-center gap-2">
+                            <Truck className="h-3.5 w-3.5 text-gray-400 flex-shrink-0" />
                             Delivery Notes
                           </h5>
-                          <p className={`text-xs sm:text-sm leading-relaxed break-words ${selectedProfile?.delivery_notes ? 'text-white' : 'text-gray-400 italic'}`}>
+                          <p className={`text-xs sm:text-sm leading-relaxed break-words ${selectedProfile?.delivery_notes ? 'text-gray-800' : 'text-gray-400 italic'}`}>
                             {selectedProfile?.delivery_notes || 'Not provided'}
                           </p>
                         </div>
@@ -990,7 +990,7 @@ const ReportsModal = ({ isOpen, onClose }) => {
                 </div>
 
                 {/* Footer */}
-                <div className="mt-3 sm:mt-4 pt-3 border-t border-yellow-500/20">
+                <div className="mt-3 sm:mt-4 pt-3 border-t border-gray-200">
                   <button
                     onClick={() => setShowProfileModal(false)}
                     className="btn btn-primary text-sm py-2 w-full"
@@ -1044,8 +1044,8 @@ const ReportsModal = ({ isOpen, onClose }) => {
                   </>
                 ) : (
                   <div className="relative flex flex-col items-center justify-center text-center">
-                    <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-navy-800 border-4 border-navy-700 flex items-center justify-center mb-4">
-                      <User className="h-16 w-16 sm:h-20 sm:w-20 text-yellow-400" />
+                    <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-gray-100 border-4 border-gray-200 flex items-center justify-center mb-4">
+                      <User className="h-16 w-16 sm:h-20 sm:w-20 text-gray-400" />
                     </div>
                     <p className="text-gray-400 text-sm sm:text-base">No profile picture uploaded</p>
                     {/* Close Button */}

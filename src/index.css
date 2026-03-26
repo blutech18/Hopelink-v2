@@ -43,31 +43,30 @@
   }
   
   .input {
-    @apply w-full px-3 py-2 bg-navy-900 border border-navy-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent;
+    @apply w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
   }
   
   .input::placeholder {
-    @apply text-gray-500 italic;
+    @apply text-gray-400 italic;
   }
   
-  /* Date/Time inputs: force dark scheme and blue picker icon */
+  /* Date/Time inputs: light scheme */
   input[type="date"],
   input[type="time"] {
-    color-scheme: dark; /* keeps native popover dark */
+    color-scheme: light;
   }
 
-  /* WebKit picker icon color to sky-blue */
+  /* WebKit picker icon color */
   input[type="date"]::-webkit-calendar-picker-indicator,
   input[type="time"]::-webkit-calendar-picker-indicator {
-    /* Transform default icon to blue that matches skyblue palette */
-    filter: brightness(0) saturate(100%) invert(66%) sepia(61%) saturate(608%) hue-rotate(171deg) brightness(101%) contrast(96%);
+    filter: brightness(0) saturate(100%) invert(36%) sepia(98%) saturate(400%) hue-rotate(199deg) brightness(95%) contrast(95%);
     cursor: pointer;
     opacity: 1;
   }
   
   .card {
-    @apply rounded-lg shadow-lg border border-gray-600;
-    background-color: #001a5c;
+    @apply rounded-2xl shadow-sm border bg-white;
+    border-color: rgba(0, 15, 61, 0.25);
   }
   
   .badge {

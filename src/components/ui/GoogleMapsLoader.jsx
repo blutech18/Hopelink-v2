@@ -121,7 +121,7 @@ export const GoogleMapsLoader = ({ children, onLoad, onError }) => {
         {children}
       </LoadScript>
       {mapsError && !mapsLoaded && (
-        <div className="fixed bottom-4 right-4 bg-yellow-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 max-w-md">
+        <div className="fixed bottom-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 max-w-md">
           <p className="text-sm font-medium">
             ⚠️ Google Maps may not be available. If you're using an ad blocker, try disabling it for this site.
           </p>

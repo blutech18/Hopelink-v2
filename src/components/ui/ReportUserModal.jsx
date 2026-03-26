@@ -8,8 +8,8 @@ import {
   FileText
 } from 'lucide-react'
 import { db } from '../../lib/supabase'
-import { useAuth } from '../../contexts/AuthContext'
-import { useToast } from '../../contexts/ToastContext'
+import { useAuth } from '../../modules/auth/AuthContext'
+import { useToast } from '../../shared/contexts/ToastContext'
 import LoadingSpinner from './LoadingSpinner'
 
 const ReportUserModal = ({ 
@@ -99,23 +99,23 @@ const ReportUserModal = ({
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.9 }}
-          className="relative w-full max-w-md bg-navy-900 rounded-lg border border-red-500/30 shadow-2xl"
+          className="relative w-full max-w-md bg-white rounded-lg border border-gray-200 shadow-2xl"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
-          <div className="flex items-center justify-between px-6 py-4 bg-navy-800 border-b border-red-500/30">
+          <div className="flex items-center justify-between px-6 py-4 bg-white border-b border-gray-200">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center">
                 <Flag className="h-5 w-5 text-red-400" />
               </div>
               <div>
-                <h2 className="text-lg font-bold text-white">Report User</h2>
+                <h2 className="text-lg font-bold text-gray-900">Report User</h2>
                 <p className="text-xs text-gray-400">Report inappropriate behavior</p>
               </div>
             </div>
             <button
               onClick={onClose}
-              className="p-2 rounded-lg hover:bg-navy-700 text-gray-400 hover:text-white transition-colors"
+              className="p-2 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-700 transition-colors"
             >
               <X className="h-5 w-5" />
             </button>
@@ -124,11 +124,11 @@ const ReportUserModal = ({
           {/* Content */}
           <form onSubmit={handleSubmit} className="p-6 space-y-4">
             {/* Reported User Info */}
-            <div className="bg-navy-800/50 rounded-lg p-4 border border-navy-700">
+            <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
               <div className="flex items-center gap-3">
                 <User className="h-5 w-5 text-red-400" />
                 <div>
-                  <div className="text-sm font-medium text-white">
+                  <div className="text-sm font-medium text-gray-900">
                     {reportedUserName || 'User'}
                   </div>
                   {reportedUserRole && (
@@ -152,13 +152,13 @@ const ReportUserModal = ({
 
             {/* Reason Selection */}
             <div>
-              <label className="block text-sm font-medium text-white mb-2">
+              <label className="block text-sm font-medium text-gray-900 mb-2">
                 Reason for Report <span className="text-red-400">*</span>
               </label>
               <select
                 value={selectedReason}
                 onChange={(e) => setSelectedReason(e.target.value)}
-                className="w-full px-4 py-2 bg-navy-800 border border-navy-700 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                className="w-full px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
                 required
               >
                 <option value="">Select a reason...</option>
@@ -172,14 +172,14 @@ const ReportUserModal = ({
 
             {/* Description */}
             <div>
-              <label className="block text-sm font-medium text-white mb-2">
+              <label className="block text-sm font-medium text-gray-900 mb-2">
                 Description <span className="text-red-400">*</span>
               </label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Please provide details about the issue..."
-                className="w-full h-32 px-4 py-2 bg-navy-800 border border-navy-700 rounded-lg text-white text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 resize-none"
+                className="w-full h-32 px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-900 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 resize-none"
                 required
               />
               <p className="text-xs text-gray-400 mt-1">
@@ -190,8 +190,8 @@ const ReportUserModal = ({
             {/* Warning */}
             <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-3">
               <div className="flex items-start gap-2">
-                <AlertTriangle className="h-4 w-4 text-yellow-400 mt-0.5 flex-shrink-0" />
-                <p className="text-xs text-yellow-300">
+                <AlertTriangle className="h-4 w-4 text-amber-500 mt-0.5 flex-shrink-0" />
+                <p className="text-xs text-amber-700">
                   False reports may result in account restrictions. Please only report genuine violations of our community guidelines.
                 </p>
               </div>
@@ -203,7 +203,7 @@ const ReportUserModal = ({
                 type="button"
                 onClick={onClose}
                 disabled={loading}
-                className="flex-1 px-4 py-2 bg-navy-800 hover:bg-navy-700 border border-navy-700 text-white rounded-lg text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 px-4 py-2 bg-white hover:bg-gray-50 border border-gray-200 text-gray-700 rounded-lg text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Cancel
               </button>

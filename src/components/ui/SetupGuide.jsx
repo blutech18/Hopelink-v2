@@ -112,7 +112,7 @@ const SetupGuide = ({ onClose }) => {
                 <span>hopelink_migration.sql</span>
                 <button
                   onClick={() => copyToClipboard('Open Supabase SQL Editor and paste the contents of hopelink_migration.sql')}
-                  className="text-gray-400 hover:text-white"
+                  className="text-gray-400 hover:text-gray-900"
                 >
                   <Copy className="h-4 w-4" />
                 </button>
@@ -188,7 +188,7 @@ const SetupGuide = ({ onClose }) => {
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
-        className="bg-navy-900 rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden"
+        className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden"
       >
         {/* Header */}
         <div className="bg-primary-600 text-white p-6">

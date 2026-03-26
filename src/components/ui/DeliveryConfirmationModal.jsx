@@ -11,8 +11,8 @@ import {
   Flag,
   Star
 } from 'lucide-react'
-import { useAuth } from '../../contexts/AuthContext'
-import { useToast } from '../../contexts/ToastContext'
+import { useAuth } from '../../modules/auth/AuthContext'
+import { useToast } from '../../shared/contexts/ToastContext'
 import { db } from '../../lib/supabase'
 import LoadingSpinner from './LoadingSpinner'
 import ReportUserModal from './ReportUserModal'
@@ -149,35 +149,35 @@ const DeliveryConfirmationModal = ({
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
         transition={{ duration: 0.2 }}
-        className="bg-navy-900 border-2 border-yellow-500/30 shadow-2xl rounded-xl p-6 max-w-md w-full"
+        className="bg-white border-2 border-gray-200 shadow-2xl rounded-xl p-6 max-w-md w-full"
       >
         {/* Header */}
-        <div className="flex items-center justify-between mb-6 pb-4 border-b-2 border-yellow-500/20">
+        <div className="flex items-center justify-between mb-6 pb-4 border-b-2 border-gray-200">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-yellow-500/10 rounded-lg">
-              <Truck className="h-6 w-6 text-yellow-400" />
+            <div className="p-2 bg-blue-50 rounded-lg">
+              <Truck className="h-6 w-6 text-blue-500" />
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-white">Confirm Delivery</h3>
-              <p className="text-sm text-yellow-300">
+              <h3 className="text-lg font-semibold text-gray-900">Confirm Delivery</h3>
+              <p className="text-sm text-gray-500">
                 {isRecipient ? 'Did you receive the items?' : 'Did the volunteer pick up the items?'}
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-white transition-colors p-2 hover:bg-navy-800 rounded-lg"
+            className="text-gray-400 hover:text-gray-700 transition-colors p-2 hover:bg-gray-100 rounded-lg"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
         {/* Delivery Info */}
-        <div className="bg-navy-800/50 border border-yellow-500/20 rounded-lg p-4 mb-6">
+        <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-3">
-              <User className="h-5 w-5 text-yellow-400" />
-              <span className="text-white font-medium">Volunteer: {data.volunteer_name || 'Unknown'}</span>
+              <User className="h-5 w-5 text-gray-400" />
+              <span className="text-gray-900 font-medium">Volunteer: {data.volunteer_name || 'Unknown'}</span>
             </div>
             {data.volunteer_id && data.volunteer_id !== user?.id && (
               <button
@@ -211,8 +211,8 @@ const DeliveryConfirmationModal = ({
             )}
           </div>
           <div className="flex items-center gap-3">
-            <Package className="h-5 w-5 text-yellow-400" />
-            <span className="text-yellow-300 text-sm">
+            <Package className="h-5 w-5 text-gray-400" />
+            <span className="text-gray-600 text-sm">
               {isRecipient 
                 ? 'Please confirm that you received the donated items.' 
                 : 'Please confirm that the volunteer picked up the items for delivery.'
@@ -226,8 +226,8 @@ const DeliveryConfirmationModal = ({
           <div className="mb-6 space-y-4">
             {/* Overall Rating */}
             <div>
-              <label className="block text-sm font-medium text-yellow-300 mb-2">
-                Overall Experience Rating {rating > 0 && <span className="text-yellow-400">({rating}/5)</span>}
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Overall Experience Rating {rating > 0 && <span className="text-blue-500">({rating}/5)</span>}
               </label>
               <div className="flex items-center gap-2">
                 {[1, 2, 3, 4, 5].map((star) => (
@@ -242,7 +242,7 @@ const DeliveryConfirmationModal = ({
                     <Star
                       className={`h-8 w-8 ${
                         star <= (hoveredRating || rating)
-                          ? 'text-yellow-400 fill-yellow-400'
+                          ? 'text-blue-500 fill-yellow-400'
                           : 'text-gray-500'
                       }`}
                     />
@@ -255,7 +255,7 @@ const DeliveryConfirmationModal = ({
             <button
               type="button"
               onClick={() => setShowDetailedFeedback(!showDetailedFeedback)}
-              className="text-sm text-yellow-400 hover:text-yellow-300 underline"
+              className="text-sm text-blue-600 hover:text-blue-700 underline"
             >
               {showDetailedFeedback ? 'Hide' : 'Show'} detailed feedback options
             </button>
@@ -266,12 +266,12 @@ const DeliveryConfirmationModal = ({
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
-                className="space-y-4 bg-navy-800/50 p-4 rounded-lg border border-yellow-500/20"
+                className="space-y-4 bg-gray-50 p-4 rounded-lg border border-gray-200"
               >
                 {/* Item Quality Rating */}
                 <div>
-                  <label className="block text-sm font-medium text-yellow-300 mb-2">
-                    Item Quality {itemQualityRating > 0 && <span className="text-yellow-400">({itemQualityRating}/5)</span>}
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Item Quality {itemQualityRating > 0 && <span className="text-blue-500">({itemQualityRating}/5)</span>}
                   </label>
                   <div className="flex items-center gap-2">
                     {[1, 2, 3, 4, 5].map((star) => (
@@ -284,7 +284,7 @@ const DeliveryConfirmationModal = ({
                         <Star
                           className={`h-6 w-6 ${
                             star <= itemQualityRating
-                              ? 'text-yellow-400 fill-yellow-400'
+                              ? 'text-blue-500 fill-yellow-400'
                               : 'text-gray-500'
                           }`}
                         />
@@ -297,8 +297,8 @@ const DeliveryConfirmationModal = ({
                 {/* Delivery Experience Rating */}
                 {data.volunteer_id && (
                   <div>
-                    <label className="block text-sm font-medium text-yellow-300 mb-2">
-                      Delivery Experience {deliveryExperienceRating > 0 && <span className="text-yellow-400">({deliveryExperienceRating}/5)</span>}
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Delivery Experience {deliveryExperienceRating > 0 && <span className="text-blue-500">({deliveryExperienceRating}/5)</span>}
                     </label>
                     <div className="flex items-center gap-2">
                       {[1, 2, 3, 4, 5].map((star) => (
@@ -311,7 +311,7 @@ const DeliveryConfirmationModal = ({
                           <Star
                             className={`h-6 w-6 ${
                               star <= deliveryExperienceRating
-                                ? 'text-yellow-400 fill-yellow-400'
+                                ? 'text-blue-500 fill-yellow-400'
                                 : 'text-gray-500'
                             }`}
                           />
@@ -328,7 +328,7 @@ const DeliveryConfirmationModal = ({
 
         {/* Feedback Text Section */}
         <div className="mb-6">
-          <label className="block text-sm font-medium text-yellow-300 mb-2">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
             Additional feedback {isRecipient && rating > 0 && '(optional)'}
           </label>
           <textarea
@@ -339,7 +339,7 @@ const DeliveryConfirmationModal = ({
                 ? 'Share more details about your experience (optional)...'
                 : `Share your experience with ${data.volunteer_name || 'the volunteer'}...`
             }
-            className="w-full px-3 py-2 bg-navy-800 border border-yellow-500/30 rounded-lg text-white placeholder-yellow-400/50 focus:border-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-500/20 resize-none"
+            className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 resize-none"
             rows={3}
           />
         </div>
@@ -378,8 +378,8 @@ const DeliveryConfirmationModal = ({
         </div>
 
         {/* Help Text */}
-        <div className="mt-4 p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
-          <p className="text-xs text-yellow-300">
+        <div className="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+          <p className="text-xs text-amber-700">
             <MessageCircle className="h-3 w-3 inline mr-1" />
             Both you and the {isRecipient ? 'donor' : 'recipient'} need to confirm the delivery for the transaction to complete.
           </p>

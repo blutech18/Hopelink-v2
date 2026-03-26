@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Users, CheckCircle, XCircle, Clock, Save, UserCheck, UserX, Info } from 'lucide-react'
 import { db, supabase } from '../../lib/supabase'
-import { useToast } from '../../contexts/ToastContext'
+import { useToast } from '../../shared/contexts/ToastContext'
 import LoadingSpinner from './LoadingSpinner'
 
 const AttendanceModal = ({ isOpen, onClose, event }) => {
@@ -283,7 +283,7 @@ const AttendanceModal = ({ isOpen, onClose, event }) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+          className="absolute inset-0 bg-black/50 backdrop-blur-sm"
           onClick={onClose}
         />
 
@@ -292,36 +292,36 @@ const AttendanceModal = ({ isOpen, onClose, event }) => {
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="relative bg-navy-900 rounded-lg shadow-xl border border-yellow-500/30 w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col"
+          className="relative bg-white rounded-lg shadow-xl border border-gray-200 w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col"
         >
           {/* Header */}
-          <div className="flex items-center justify-between p-6 border-b border-navy-700">
+          <div className="flex items-center justify-between p-6 border-b border-gray-200">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-yellow-400/20 rounded-lg">
-                <Users className="h-5 w-5 text-yellow-400" />
+              <div className="p-2 bg-blue-50 rounded-lg">
+                <Users className="h-5 w-5 text-blue-500" />
               </div>
               <div>
-                <h2 className="text-xl font-bold text-white">Event Attendance</h2>
+                <h2 className="text-xl font-bold text-gray-900">Event Attendance</h2>
                 <p className="text-sm text-gray-400">{event?.name}</p>
               </div>
             </div>
             <button
               onClick={onClose}
-              className="p-2 hover:bg-navy-800 rounded-lg transition-colors"
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
             >
               <X className="h-5 w-5 text-gray-400" />
             </button>
           </div>
 
           {/* Stats Bar */}
-          <div className="px-6 py-4 bg-navy-800/50 border-b border-navy-700">
+          <div className="px-6 py-4 bg-gray-50 border-b border-gray-200">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="text-center">
-                <div className="text-2xl font-bold text-white">{stats.total}</div>
+                <div className="text-2xl font-bold text-gray-900">{stats.total}</div>
                 <div className="text-xs text-gray-400">Total Registered</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-yellow-400">{stats.pending}</div>
+                <div className="text-2xl font-bold text-amber-500">{stats.pending}</div>
                 <div className="text-xs text-gray-400">Pending</div>
               </div>
               <div className="text-center">
@@ -355,18 +355,18 @@ const AttendanceModal = ({ isOpen, onClose, event }) => {
                   return (
                     <div
                       key={participant.id}
-                      className="bg-navy-800/50 rounded-lg p-4 border border-navy-700 hover:border-yellow-500/30 transition-colors"
+                      className="bg-gray-50 rounded-lg p-4 border border-gray-200 hover:border-blue-300 transition-colors"
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-3">
-                            <div className="flex-shrink-0 w-10 h-10 bg-yellow-400/20 rounded-full flex items-center justify-center">
-                              <span className="text-yellow-400 font-semibold text-sm">
+                            <div className="flex-shrink-0 w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center">
+                              <span className="text-blue-500 font-semibold text-sm">
                                 {user?.name?.charAt(0)?.toUpperCase() || 'U'}
                               </span>
                             </div>
                             <div className="flex-1 min-w-0">
-                              <div className="text-white font-medium truncate">
+                              <div className="text-gray-900 font-medium truncate">
                                 {user?.name || 'Unknown User'}
                               </div>
                               <div className="text-xs text-gray-400 truncate">
@@ -382,7 +382,7 @@ const AttendanceModal = ({ isOpen, onClose, event }) => {
                                     user.event_absence_count >= 5 
                                       ? 'text-red-400' 
                                       : user.event_absence_count >= 2 
-                                      ? 'text-yellow-400' 
+                                      ? 'text-blue-500' 
                                       : 'text-gray-400'
                                   }`}>
                                     Absences: {user.event_absence_count}
@@ -405,8 +405,8 @@ const AttendanceModal = ({ isOpen, onClose, event }) => {
                             onClick={() => handleAttendanceChange(participant.user_id, 'pending')}
                             className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                               currentStatus === 'pending'
-                                ? 'bg-yellow-400/20 text-yellow-400 border border-yellow-400/40'
-                                : 'bg-navy-700 text-gray-400 hover:bg-navy-600'
+                                ? 'bg-amber-100 text-amber-600 border border-amber-300'
+                                : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
                             }`}
                             disabled={saving}
                           >
@@ -418,7 +418,7 @@ const AttendanceModal = ({ isOpen, onClose, event }) => {
                             className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                               currentStatus === 'present'
                                 ? 'bg-green-500/20 text-green-400 border border-green-500/40'
-                                : 'bg-navy-700 text-gray-400 hover:bg-navy-600'
+                                : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
                             }`}
                             disabled={saving}
                           >
@@ -430,7 +430,7 @@ const AttendanceModal = ({ isOpen, onClose, event }) => {
                             className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                               currentStatus === 'absent'
                                 ? 'bg-red-500/20 text-red-400 border border-red-500/40'
-                                : 'bg-navy-700 text-gray-400 hover:bg-navy-600'
+                                : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
                             }`}
                             disabled={saving}
                           >
@@ -447,7 +447,7 @@ const AttendanceModal = ({ isOpen, onClose, event }) => {
           </div>
 
           {/* Footer */}
-          <div className="px-6 py-4 border-t border-navy-700 bg-navy-800/50 flex items-center justify-between">
+          <div className="px-6 py-4 border-t border-gray-200 bg-gray-50 flex items-center justify-between">
             <div className="flex flex-col gap-1">
               <div className="text-sm text-gray-400">
                 {eventEnded ? (
@@ -468,7 +468,7 @@ const AttendanceModal = ({ isOpen, onClose, event }) => {
                 )}
               </div>
               {eventEnded && hasAutoMarkedAbsent && (
-                <div className="text-xs text-yellow-400 flex items-center gap-1">
+                <div className="text-xs text-blue-500 flex items-center gap-1">
                   <Info className="h-3 w-3" />
                   Pending participants were automatically marked as absent. You can still edit attendance.
                 </div>

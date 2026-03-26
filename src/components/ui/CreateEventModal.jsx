@@ -17,7 +17,7 @@ import {
   Image as ImageIcon,
   CheckCircle
 } from 'lucide-react'
-import { useToast } from '../../contexts/ToastContext'
+import { useToast } from '../../shared/contexts/ToastContext'
 import { db } from '../../lib/supabase'
 import LoadingSpinner from './LoadingSpinner'
 import LocationPicker from './LocationPicker'
@@ -511,26 +511,26 @@ const CreateEventModal = ({ isOpen, onClose, event = null, onSave }) => {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           transition={{ duration: 0.2 }}
-          className="relative bg-navy-800 rounded-lg shadow-xl border border-navy-700 w-full max-w-4xl max-h-[90vh] overflow-hidden mx-4"
+          className="relative bg-white rounded-lg shadow-xl border border-gray-200 w-full max-w-4xl max-h-[90vh] overflow-hidden mx-4"
         >
           {/* Header */}
-          <div className="flex items-center justify-between p-4 sm:p-6 border-b border-navy-700">
+          <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200">
             <div className="flex items-center gap-3 flex-1 min-w-0">
-              <div className="p-2 bg-navy-700 rounded-lg flex-shrink-0">
-                <Calendar className="h-5 w-5 sm:h-6 sm:w-6 text-yellow-300" />
+              <div className="p-2 bg-blue-50 rounded-lg flex-shrink-0">
+                <Calendar className="h-5 w-5 sm:h-6 sm:w-6 text-blue-500" />
               </div>
               <div className="min-w-0">
-                <h2 className="text-lg sm:text-xl font-bold text-white">
+                <h2 className="text-lg sm:text-xl font-bold text-gray-900">
                   {event ? 'Edit Event' : 'Create New Event'}
                 </h2>
-                <p className="text-yellow-300 text-xs sm:text-sm hidden sm:block">
+                <p className="text-gray-500 text-xs sm:text-sm hidden sm:block">
                   {event ? 'Update event information' : 'Fill in the event details'}
                 </p>
               </div>
             </div>
             <button
               onClick={onClose}
-              className="p-2 text-yellow-400 hover:text-white hover:bg-navy-700 rounded-lg transition-colors flex-shrink-0"
+              className="p-2 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors flex-shrink-0"
             >
               <X className="h-5 w-5" />
             </button>
@@ -543,7 +543,7 @@ const CreateEventModal = ({ isOpen, onClose, event = null, onSave }) => {
             {/* Basic Info */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               <div className="md:col-span-2">
-                <label className="block text-white font-medium mb-2">
+                <label className="block text-gray-900 font-medium mb-2">
                   <Type className="h-4 w-4 inline mr-2" />
                   Event Name *
                 </label>
@@ -551,14 +551,14 @@ const CreateEventModal = ({ isOpen, onClose, event = null, onSave }) => {
                   type="text"
                   value={formData.name}
                   onChange={(e) => handleInputChange('name', e.target.value)}
-                  className="w-full px-4 py-2.5 sm:py-2 bg-navy-800 border border-navy-700 rounded-lg text-white text-sm sm:text-base placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                  className="w-full px-4 py-2.5 sm:py-2 bg-white border border-gray-200 rounded-lg text-gray-900 text-sm sm:text-base placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="Enter event name"
                   required
                 />
               </div>
 
               <div className="md:col-span-2">
-                <label className="block text-white font-medium mb-2">
+                <label className="block text-gray-900 font-medium mb-2">
                   <FileText className="h-4 w-4 inline mr-2" />
                   Description *
                 </label>
@@ -566,18 +566,18 @@ const CreateEventModal = ({ isOpen, onClose, event = null, onSave }) => {
                   value={formData.description}
                   onChange={(e) => handleInputChange('description', e.target.value)}
                   rows={3}
-                  className="w-full px-4 py-2.5 sm:py-2 bg-navy-800 border border-navy-700 rounded-lg text-white text-sm sm:text-base placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                  className="w-full px-4 py-2.5 sm:py-2 bg-white border border-gray-200 rounded-lg text-gray-900 text-sm sm:text-base placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="Describe the event and its purpose"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-white font-medium mb-2">Event Type *</label>
+                <label className="block text-gray-900 font-medium mb-2">Event Type *</label>
                 <select
                   value={formData.event_type}
                   onChange={(e) => handleInputChange('event_type', e.target.value)}
-                  className="w-full px-4 py-2.5 sm:py-2 bg-navy-800 border border-navy-700 rounded-lg text-white text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                  className="w-full px-4 py-2.5 sm:py-2 bg-white border border-gray-200 rounded-lg text-gray-900 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
                 >
                   {eventTypes.map(type => (
@@ -587,7 +587,7 @@ const CreateEventModal = ({ isOpen, onClose, event = null, onSave }) => {
               </div>
 
               <div>
-                <label className="block text-white font-medium mb-2">
+                <label className="block text-gray-900 font-medium mb-2">
                   <Users className="h-4 w-4 inline mr-2" />
                   Max Participants
                 </label>
@@ -595,14 +595,14 @@ const CreateEventModal = ({ isOpen, onClose, event = null, onSave }) => {
                   type="number"
                   value={formData.max_participants}
                   onChange={(e) => handleInputChange('max_participants', e.target.value)}
-                  className="w-full px-4 py-2.5 sm:py-2 bg-navy-800 border border-navy-700 rounded-lg text-white text-sm sm:text-base placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                  className="w-full px-4 py-2.5 sm:py-2 bg-white border border-gray-200 rounded-lg text-gray-900 text-sm sm:text-base placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="Optional"
                   min="1"
                 />
               </div>
 
               <div className="md:col-span-2">
-                <label className="block text-white font-medium mb-2">
+                <label className="block text-gray-900 font-medium mb-2">
                   <MapPin className="h-4 w-4 inline mr-2" />
                   Location *
                 </label>
@@ -611,7 +611,7 @@ const CreateEventModal = ({ isOpen, onClose, event = null, onSave }) => {
                     type="text"
                     value={formData.location}
                     onChange={(e) => handleInputChange('location', e.target.value)}
-                    className="flex-1 px-4 py-2.5 sm:py-2 bg-navy-800 border border-navy-700 rounded-lg text-white text-sm sm:text-base placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                    className="flex-1 px-4 py-2.5 sm:py-2 bg-white border border-gray-200 rounded-lg text-gray-900 text-sm sm:text-base placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Event location address"
                     required
                     readOnly
@@ -619,7 +619,7 @@ const CreateEventModal = ({ isOpen, onClose, event = null, onSave }) => {
                   <button
                     type="button"
                     onClick={() => setIsLocationPickerOpen(true)}
-                    className="w-full sm:w-auto px-4 py-2.5 sm:py-2 bg-yellow-400 text-navy-900 rounded-lg hover:bg-yellow-500 transition-all active:scale-95 flex items-center justify-center gap-2 font-medium text-sm sm:text-base flex-shrink-0"
+                    className="w-full sm:w-auto px-4 py-2.5 sm:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all active:scale-95 flex items-center justify-center gap-2 font-medium text-sm sm:text-base flex-shrink-0"
                   >
                     <MapPin className="h-4 w-4 flex-shrink-0" />
                     Select
@@ -631,11 +631,11 @@ const CreateEventModal = ({ isOpen, onClose, event = null, onSave }) => {
             {/* Event Image */}
             <div className="space-y-4">
               <div>
-                <label className="block text-white font-medium mb-2">
+                <label className="block text-gray-900 font-medium mb-2">
                   <ImageIcon className="h-4 w-4 inline mr-2" />
                   Event Image
                 </label>
-                <p className="text-yellow-400 text-xs sm:text-sm mb-3">
+                <p className="text-gray-500 text-xs sm:text-sm mb-3">
                   Upload an image of your organization, building, or logo (Max 5MB)
                 </p>
                 
@@ -644,7 +644,7 @@ const CreateEventModal = ({ isOpen, onClose, event = null, onSave }) => {
                     <img
                       src={imagePreview}
                       alt="Event preview"
-                      className="w-full h-48 object-cover rounded-lg border border-navy-700"
+                      className="w-full h-48 object-cover rounded-lg border border-gray-200"
                     />
                     <button
                       type="button"
@@ -655,8 +655,8 @@ const CreateEventModal = ({ isOpen, onClose, event = null, onSave }) => {
                     </button>
                   </div>
                 ) : (
-                  <div className="border-2 border-dashed border-navy-700 rounded-lg p-8 text-center">
-                    <Upload className="h-12 w-12 text-yellow-500 mx-auto mb-4" />
+                  <div className="border-2 border-dashed border-gray-200 rounded-lg p-8 text-center">
+                    <Upload className="h-12 w-12 text-gray-300 mx-auto mb-4" />
                     <div className="mb-4">
                       <label className="btn btn-secondary inline-flex items-center px-4 py-2 rounded cursor-pointer">
                         <Upload className="h-4 w-4 mr-2" />
@@ -669,10 +669,10 @@ const CreateEventModal = ({ isOpen, onClose, event = null, onSave }) => {
                         />
                       </label>
                     </div>
-                    <p className="text-yellow-400 text-xs sm:text-sm">
+                    <p className="text-gray-500 text-xs sm:text-sm">
                       Drop an image here or click to browse
                     </p>
-                    <p className="text-yellow-500 text-xs mt-1">
+                    <p className="text-gray-400 text-xs mt-1">
                       Supports JPG, PNG, GIF up to 5MB
                     </p>
                   </div>
@@ -683,57 +683,57 @@ const CreateEventModal = ({ isOpen, onClose, event = null, onSave }) => {
             {/* Date & Time */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-white font-medium mb-2">
-                  <Calendar className="h-4 w-4 inline mr-2 text-yellow-400" />
+                <label className="block text-gray-900 font-medium mb-2">
+                  <Calendar className="h-4 w-4 inline mr-2 text-gray-400" />
                   Start Date *
                 </label>
                 <input
                   type="date"
                   value={formData.start_date}
                   onChange={(e) => handleInputChange('start_date', e.target.value)}
-                  className="w-full px-4 py-2.5 sm:py-2 bg-navy-800 border border-navy-700 rounded-lg text-white text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                  className="w-full px-4 py-2.5 sm:py-2 bg-white border border-gray-200 rounded-lg text-gray-900 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-white font-medium mb-2">
-                  <Clock className="h-4 w-4 inline mr-2 text-yellow-400" />
+                <label className="block text-gray-900 font-medium mb-2">
+                  <Clock className="h-4 w-4 inline mr-2 text-gray-400" />
                   Start Time *
                 </label>
                 <input
                   type="time"
                   value={formData.start_time}
                   onChange={(e) => handleInputChange('start_time', e.target.value)}
-                  className="w-full px-4 py-2.5 sm:py-2 bg-navy-800 border border-navy-700 rounded-lg text-white text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                  className="w-full px-4 py-2.5 sm:py-2 bg-white border border-gray-200 rounded-lg text-gray-900 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-white font-medium mb-2">
-                  <Calendar className="h-4 w-4 inline mr-2 text-yellow-400" />
+                <label className="block text-gray-900 font-medium mb-2">
+                  <Calendar className="h-4 w-4 inline mr-2 text-gray-400" />
                   End Date *
                 </label>
                 <input
                   type="date"
                   value={formData.end_date}
                   onChange={(e) => handleInputChange('end_date', e.target.value)}
-                  className="w-full px-4 py-2.5 sm:py-2 bg-navy-800 border border-navy-700 rounded-lg text-white text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                  className="w-full px-4 py-2.5 sm:py-2 bg-white border border-gray-200 rounded-lg text-gray-900 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-white font-medium mb-2">
-                  <Clock className="h-4 w-4 inline mr-2 text-yellow-400" />
+                <label className="block text-gray-900 font-medium mb-2">
+                  <Clock className="h-4 w-4 inline mr-2 text-gray-400" />
                   End Time *
                 </label>
                 <input
                   type="time"
                   value={formData.end_time}
                   onChange={(e) => handleInputChange('end_time', e.target.value)}
-                  className="w-full px-4 py-2.5 sm:py-2 bg-navy-800 border border-navy-700 rounded-lg text-white text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                  className="w-full px-4 py-2.5 sm:py-2 bg-white border border-gray-200 rounded-lg text-gray-900 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
                 />
               </div>
@@ -742,14 +742,14 @@ const CreateEventModal = ({ isOpen, onClose, event = null, onSave }) => {
             {/* Donation Needs Section */}
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <label className="block text-white font-medium">
+                <label className="block text-gray-900 font-medium">
                   <Package className="h-4 w-4 inline mr-2" />
                   Donation Needs
                 </label>
                 <button
                   type="button"
                   onClick={addDonationItem}
-                  className="px-4 py-2 bg-gradient-to-r from-yellow-600 to-yellow-500 hover:from-yellow-500 hover:to-yellow-400 text-white rounded-lg font-medium transition-all active:scale-95 flex items-center gap-2 shadow-md"
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-all active:scale-95 flex items-center gap-2 shadow-md"
                 >
                   <Plus className="h-4 w-4 flex-shrink-0" />
                   <span>Add Item</span>
@@ -757,17 +757,17 @@ const CreateEventModal = ({ isOpen, onClose, event = null, onSave }) => {
               </div>
               
               {formData.donation_items.length === 0 && (
-                <div className="text-center py-8 text-yellow-400 bg-navy-800 rounded-lg border border-navy-700">
-                  <Package className="h-12 w-12 mx-auto mb-2 text-yellow-500" />
+                <div className="text-center py-8 text-gray-500 bg-gray-50 rounded-lg border border-gray-200">
+                  <Package className="h-12 w-12 mx-auto mb-2 text-gray-300" />
                   <p>No donation items added yet</p>
                   <p className="text-sm">Add items that donors can contribute to this event</p>
                 </div>
               )}
 
               {formData.donation_items.map((item, index) => (
-                <div key={item?.id || `donation-fallback-${index}`} className="bg-navy-800 p-4 rounded-lg border border-navy-700">
+                <div key={item?.id || `donation-fallback-${index}`} className="bg-gray-50 p-4 rounded-lg border border-gray-200">
                   <div className="flex items-center justify-between mb-4">
-                    <h4 className="text-white font-medium">Donation Item {index + 1}</h4>
+                    <h4 className="text-gray-900 font-medium">Donation Item {index + 1}</h4>
                     <button
                       type="button"
                       onClick={() => removeDonationItem(item.id)}
@@ -779,23 +779,23 @@ const CreateEventModal = ({ isOpen, onClose, event = null, onSave }) => {
                   
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                     <div>
-                      <label className="block text-yellow-200 text-xs sm:text-sm mb-1">Item Name *</label>
+                      <label className="block text-gray-700 text-xs sm:text-sm mb-1">Item Name *</label>
                       <input
                         type="text"
                         value={item.name}
                         onChange={(e) => updateDonationItem(item.id, 'name', e.target.value)}
-                        className="w-full px-3 py-2 bg-navy-700 border border-navy-600 rounded text-white text-sm focus:outline-none focus:ring-1 focus:ring-yellow-500"
+                        className="w-full px-3 py-2 bg-white border border-gray-200 rounded text-gray-900 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
                         placeholder="e.g., Canned Goods, Rice Bags"
                         required
                       />
                     </div>
                     
                     <div>
-                      <label className="block text-yellow-200 text-xs sm:text-sm mb-1">Category *</label>
+                      <label className="block text-gray-700 text-xs sm:text-sm mb-1">Category *</label>
                       <select
                         value={item.category}
                         onChange={(e) => updateDonationItem(item.id, 'category', e.target.value)}
-                        className="w-full px-3 py-2 bg-navy-700 border border-navy-600 rounded text-white text-sm focus:outline-none focus:ring-1 focus:ring-yellow-500"
+                        className="w-full px-3 py-2 bg-white border border-gray-200 rounded text-gray-900 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
                         required
                       >
                         {donationCategories.map(category => (
@@ -805,24 +805,24 @@ const CreateEventModal = ({ isOpen, onClose, event = null, onSave }) => {
                     </div>
                     
                     <div>
-                      <label className="block text-yellow-200 text-xs sm:text-sm mb-1">Quantity Needed *</label>
+                      <label className="block text-gray-700 text-xs sm:text-sm mb-1">Quantity Needed *</label>
                       <input
                         type="number"
                         value={item.quantity}
                         onChange={(e) => updateDonationItem(item.id, 'quantity', parseInt(e.target.value) || 1)}
-                        className="w-full px-3 py-2 bg-navy-700 border border-navy-600 rounded text-white text-sm focus:outline-none focus:ring-1 focus:ring-yellow-500"
+                        className="w-full px-3 py-2 bg-white border border-gray-200 rounded text-gray-900 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
                         min="1"
                         required
                       />
                     </div>
                     
                     <div>
-                      <label className="block text-yellow-200 text-xs sm:text-sm mb-1">Description</label>
+                      <label className="block text-gray-700 text-xs sm:text-sm mb-1">Description</label>
                       <input
                         type="text"
                         value={item.description}
                         onChange={(e) => updateDonationItem(item.id, 'description', e.target.value)}
-                        className="w-full px-3 py-2 bg-navy-700 border border-navy-600 rounded text-white text-sm focus:outline-none focus:ring-1 focus:ring-yellow-500"
+                        className="w-full px-3 py-2 bg-white border border-gray-200 rounded text-gray-900 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
                         placeholder="Optional details about the item"
                       />
                     </div>
@@ -834,14 +834,14 @@ const CreateEventModal = ({ isOpen, onClose, event = null, onSave }) => {
             {/* Event Schedule Section */}
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <label className="block text-white font-medium">
+                <label className="block text-gray-900 font-medium">
                   <Clock className="h-4 w-4 inline mr-2" />
                   Event Schedule
                 </label>
                 <button
                   type="button"
                   onClick={addScheduleItem}
-                  className="px-4 py-2 bg-gradient-to-r from-yellow-600 to-yellow-500 hover:from-yellow-500 hover:to-yellow-400 text-white rounded-lg font-medium transition-all active:scale-95 flex items-center gap-2 shadow-md"
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-all active:scale-95 flex items-center gap-2 shadow-md"
                 >
                   <Plus className="h-4 w-4 flex-shrink-0" />
                   <span className="hidden sm:inline">Add Schedule Item</span>
@@ -850,16 +850,16 @@ const CreateEventModal = ({ isOpen, onClose, event = null, onSave }) => {
               </div>
               
               {formData.schedule.length === 0 && (
-                <div className="text-center py-6 text-yellow-400 bg-navy-800 rounded-lg border border-navy-700">
-                  <Clock className="h-10 w-10 mx-auto mb-2 text-yellow-500" />
+                <div className="text-center py-6 text-gray-500 bg-gray-50 rounded-lg border border-gray-200">
+                  <Clock className="h-10 w-10 mx-auto mb-2 text-gray-300" />
                   <p className="text-sm">No schedule items added yet</p>
                 </div>
               )}
 
               {formData.schedule.map((item, index) => (
-                <div key={item?.id || `schedule-fallback-${index}`} className="bg-navy-800 p-4 rounded-lg border border-navy-700">
+                <div key={item?.id || `schedule-fallback-${index}`} className="bg-gray-50 p-4 rounded-lg border border-gray-200">
                   <div className="flex items-center justify-between mb-3">
-                    <h4 className="text-white font-medium text-sm">Schedule Item {index + 1}</h4>
+                    <h4 className="text-gray-900 font-medium text-sm">Schedule Item {index + 1}</h4>
                     <button
                       type="button"
                       onClick={() => removeScheduleItem(item.id)}
@@ -871,23 +871,23 @@ const CreateEventModal = ({ isOpen, onClose, event = null, onSave }) => {
                   
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <div>
-                      <label className="block text-yellow-200 text-xs sm:text-sm mb-1">Time</label>
+                      <label className="block text-gray-700 text-xs sm:text-sm mb-1">Time</label>
                       <input
                         type="text"
                         value={item.time}
                         onChange={(e) => updateScheduleItem(item.id, 'time', e.target.value)}
-                        className="w-full px-3 py-2 bg-navy-700 border border-navy-600 rounded text-white text-sm focus:outline-none focus:ring-1 focus:ring-yellow-500"
+                        className="w-full px-3 py-2 bg-white border border-gray-200 rounded text-gray-900 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
                         placeholder="e.g., 9:00 AM"
                       />
                     </div>
                     
                     <div className="md:col-span-2">
-                      <label className="block text-yellow-200 text-xs sm:text-sm mb-1">Activity</label>
+                      <label className="block text-gray-700 text-xs sm:text-sm mb-1">Activity</label>
                       <input
                         type="text"
                         value={item.activity}
                         onChange={(e) => updateScheduleItem(item.id, 'activity', e.target.value)}
-                        className="w-full px-3 py-2 bg-navy-700 border border-navy-600 rounded text-white text-sm focus:outline-none focus:ring-1 focus:ring-yellow-500"
+                        className="w-full px-3 py-2 bg-white border border-gray-200 rounded text-gray-900 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
                         placeholder="e.g., Registration & Orientation"
                       />
                     </div>
@@ -899,14 +899,14 @@ const CreateEventModal = ({ isOpen, onClose, event = null, onSave }) => {
             {/* Requirements Section */}
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <label className="block text-white font-medium">
+                <label className="block text-gray-900 font-medium">
                   <CheckCircle className="h-4 w-4 inline mr-2" />
                   Requirements
                 </label>
                 <button
                   type="button"
                   onClick={addRequirement}
-                  className="px-4 py-2 bg-gradient-to-r from-yellow-600 to-yellow-500 hover:from-yellow-500 hover:to-yellow-400 text-white rounded-lg font-medium transition-all active:scale-95 flex items-center gap-2 shadow-md"
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-all active:scale-95 flex items-center gap-2 shadow-md"
                 >
                   <Plus className="h-4 w-4 flex-shrink-0" />
                   <span className="hidden sm:inline">Add Requirement</span>
@@ -915,19 +915,19 @@ const CreateEventModal = ({ isOpen, onClose, event = null, onSave }) => {
               </div>
               
               {formData.requirements.length === 0 && (
-                <div className="text-center py-6 text-yellow-400 bg-navy-800 rounded-lg border border-navy-700">
-                  <AlertCircle className="h-10 w-10 mx-auto mb-2 text-yellow-500" />
+                <div className="text-center py-6 text-gray-500 bg-gray-50 rounded-lg border border-gray-200">
+                  <AlertCircle className="h-10 w-10 mx-auto mb-2 text-gray-300" />
                   <p className="text-sm">No requirements added yet</p>
                 </div>
               )}
 
               {formData.requirements.map((req, index) => (
-                <div key={req?.id || `requirement-fallback-${index}`} className="flex items-center gap-3 bg-navy-800 p-3 rounded-lg border border-navy-700">
+                <div key={req?.id || `requirement-fallback-${index}`} className="flex items-center gap-3 bg-gray-50 p-3 rounded-lg border border-gray-200">
                   <input
                     type="text"
                     value={req.value}
                     onChange={(e) => updateRequirement(req.id, e.target.value)}
-                    className="flex-1 px-3 py-2 bg-navy-700 border border-navy-600 rounded text-white text-sm focus:outline-none focus:ring-1 focus:ring-yellow-500"
+                    className="flex-1 px-3 py-2 bg-white border border-gray-200 rounded text-gray-900 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
                     placeholder="e.g., Must be able to lift up to 25 lbs"
                   />
                   <button
@@ -944,14 +944,14 @@ const CreateEventModal = ({ isOpen, onClose, event = null, onSave }) => {
             {/* What to Bring Section */}
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <label className="block text-white font-medium">
+                <label className="block text-gray-900 font-medium">
                   <Package className="h-4 w-4 inline mr-2" />
                   What to Bring
                 </label>
                 <button
                   type="button"
                   onClick={addWhatToBring}
-                  className="px-4 py-2 bg-gradient-to-r from-yellow-600 to-yellow-500 hover:from-yellow-500 hover:to-yellow-400 text-white rounded-lg font-medium transition-all active:scale-95 flex items-center gap-2 shadow-md"
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-all active:scale-95 flex items-center gap-2 shadow-md"
                 >
                   <Plus className="h-4 w-4 flex-shrink-0" />
                   <span>Add Item</span>
@@ -959,19 +959,19 @@ const CreateEventModal = ({ isOpen, onClose, event = null, onSave }) => {
               </div>
               
               {formData.what_to_bring.length === 0 && (
-                <div className="text-center py-6 text-yellow-400 bg-navy-800 rounded-lg border border-navy-700">
-                  <Package className="h-10 w-10 mx-auto mb-2 text-yellow-500" />
+                <div className="text-center py-6 text-gray-500 bg-gray-50 rounded-lg border border-gray-200">
+                  <Package className="h-10 w-10 mx-auto mb-2 text-gray-300" />
                   <p className="text-sm">No items added yet</p>
                 </div>
               )}
 
               {formData.what_to_bring.map((item, index) => (
-                <div key={item?.id || `whattobring-fallback-${index}`} className="flex items-center gap-3 bg-navy-800 p-3 rounded-lg border border-navy-700">
+                <div key={item?.id || `whattobring-fallback-${index}`} className="flex items-center gap-3 bg-gray-50 p-3 rounded-lg border border-gray-200">
                   <input
                     type="text"
                     value={item.value}
                     onChange={(e) => updateWhatToBring(item.id, e.target.value)}
-                    className="flex-1 px-3 py-2 bg-navy-700 border border-navy-600 rounded text-white text-sm focus:outline-none focus:ring-1 focus:ring-skyblue-500"
+                    className="flex-1 px-3 py-2 bg-white border border-gray-200 rounded text-gray-900 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
                     placeholder="e.g., Water bottle, Comfortable work clothes"
                   />
                   <button
@@ -987,41 +987,41 @@ const CreateEventModal = ({ isOpen, onClose, event = null, onSave }) => {
 
             {/* Contact Information Section */}
             <div className="space-y-4">
-              <label className="block text-white font-medium">
+              <label className="block text-gray-900 font-medium">
                 <Users className="h-4 w-4 inline mr-2" />
                 Contact Information
               </label>
               
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
                 <div>
-                  <label className="block text-yellow-200 text-xs sm:text-sm mb-1">Coordinator Name</label>
+                  <label className="block text-gray-700 text-xs sm:text-sm mb-1">Coordinator Name</label>
                   <input
                     type="text"
                     value={formData.contact_coordinator}
                     onChange={(e) => handleInputChange('contact_coordinator', e.target.value)}
-                    className="w-full px-3 py-2 bg-navy-800 border border-navy-700 rounded text-white text-sm focus:outline-none focus:ring-1 focus:ring-yellow-500"
+                    className="w-full px-3 py-2 bg-white border border-gray-200 rounded text-gray-900 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
                     placeholder="Event Coordinator"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-yellow-200 text-xs sm:text-sm mb-1">Phone Number</label>
+                  <label className="block text-gray-700 text-xs sm:text-sm mb-1">Phone Number</label>
                   <input
                     type="tel"
                     value={formData.contact_phone}
                     onChange={(e) => handleInputChange('contact_phone', e.target.value)}
-                    className="w-full px-3 py-2 bg-navy-800 border border-navy-700 rounded text-white text-sm focus:outline-none focus:ring-1 focus:ring-yellow-500"
+                    className="w-full px-3 py-2 bg-white border border-gray-200 rounded text-gray-900 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
                     placeholder="+63 XX XXX-XXXX"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-yellow-200 text-xs sm:text-sm mb-1">Email Address</label>
+                  <label className="block text-gray-700 text-xs sm:text-sm mb-1">Email Address</label>
                   <input
                     type="email"
                     value={formData.contact_email}
                     onChange={(e) => handleInputChange('contact_email', e.target.value)}
-                    className="w-full px-3 py-2 bg-navy-800 border border-navy-700 rounded text-white text-sm focus:outline-none focus:ring-1 focus:ring-yellow-500"
+                    className="w-full px-3 py-2 bg-white border border-gray-200 rounded text-gray-900 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
                     placeholder="events@example.com"
                   />
                 </div>
@@ -1029,11 +1029,11 @@ const CreateEventModal = ({ isOpen, onClose, event = null, onSave }) => {
             </div>
 
             {/* Actions */}
-            <div className="flex flex-col sm:flex-row items-center justify-end gap-3 sm:gap-4 pt-6 border-t border-navy-700">
+            <div className="flex flex-col sm:flex-row items-center justify-end gap-3 sm:gap-4 pt-6 border-t border-gray-200">
               <button
                 type="button"
                 onClick={onClose}
-                className="w-full sm:w-auto btn border border-gray-600 text-gray-400 bg-navy-800 hover:bg-navy-700 py-3 sm:py-2 active:scale-95"
+                className="w-full sm:w-auto btn border border-gray-300 text-gray-600 bg-white hover:bg-gray-50 py-3 sm:py-2 active:scale-95"
                 disabled={loading}
               >
                 Cancel

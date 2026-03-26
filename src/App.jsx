@@ -1,32 +1,32 @@
 import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import Navbar from './components/layout/Navbar'
-import Footer from './components/layout/Footer'
-import { DashboardSkeleton } from './components/ui/Skeleton'
-import SetupGuide from './components/ui/SetupGuide'
-import ScrollToTop from './components/ui/ScrollToTop'
-import { ErrorBoundaryWithNavigate } from './components/ui/ErrorBoundary'
-import { useAuth } from './contexts/AuthContext'
-import { useToast } from './contexts/ToastContext'
-import { isDevelopment, getEnvironmentStatus } from './lib/devUtils'
-import { supabase } from './lib/supabase'
-import lazyWithRetry from './lib/lazyWithRetry'
-import { preloadRoutes } from './lib/preloadRoutes'
+import Navbar from './shared/components/layout/Navbar'
+import Footer from './shared/components/layout/Footer'
+import { DashboardSkeleton } from './shared/components/ui/Skeleton'
+import SetupGuide from './shared/components/ui/SetupGuide'
+import ScrollToTop from './shared/components/ui/ScrollToTop'
+import { ErrorBoundaryWithNavigate } from './shared/components/ui/ErrorBoundary'
+import { useAuth } from './modules/auth/AuthContext'
+import { useToast } from './shared/contexts/ToastContext'
+import { isDevelopment, getEnvironmentStatus } from './shared/lib/devUtils'
+import { supabase } from './shared/lib/supabase'
+import lazyWithRetry from './shared/lib/lazyWithRetry'
+import { preloadRoutes } from './shared/lib/preloadRoutes'
 
 // Import public pages directly (avoiding lazy loading for these specific pages due to Vercel build issues)
-import HomePage from './pages/HomePage.jsx'
-import AboutPage from './pages/AboutPage.jsx'
-import HowItWorksPage from './pages/HowItWorksPage.jsx'
-import GuidePage from './pages/GuidePage.jsx'
+import HomePage from './modules/marketing/pages/HomePage.jsx'
+import AboutPage from './modules/marketing/pages/AboutPage.jsx'
+import HowItWorksPage from './modules/marketing/pages/HowItWorksPage.jsx'
+import GuidePage from './modules/marketing/pages/GuidePage.jsx'
 
 // Lazy load other pages for better performance
-const importLoginPage = () => import('./pages/auth/LoginPage')
-const importSignupPage = () => import('./pages/auth/SignupPage')
-const importCallbackPage = () => import('./pages/auth/CallbackPage')
-const importResetPasswordPage = () => import('./pages/auth/ResetPasswordPage')
-const importDashboardPage = () => import('./pages/dashboard/DashboardPage')
-const importProfilePage = () => import('./pages/profile/ProfilePage')
+const importLoginPage = () => import('./modules/auth/pages/LoginPage')
+const importSignupPage = () => import('./modules/auth/pages/SignupPage')
+const importCallbackPage = () => import('./modules/auth/pages/CallbackPage')
+const importResetPasswordPage = () => import('./modules/auth/pages/ResetPasswordPage')
+const importDashboardPage = () => import('./modules/dashboard/pages/DashboardPage')
+const importProfilePage = () => import('./modules/profile/pages/ProfilePage')
 
 const LoginPage = lazyWithRetry(importLoginPage)
 const SignupPage = lazyWithRetry(importSignupPage)
@@ -36,11 +36,11 @@ const DashboardPage = lazyWithRetry(importDashboardPage)
 const ProfilePage = lazyWithRetry(importProfilePage)
 
 // Donor pages
-const importPostDonationPage = () => import('./pages/donor/PostDonationPage')
-const importFulfillRequestPage = () => import('./pages/donor/FulfillRequestPage')
-const importMyDonationsPage = () => import('./pages/donor/MyDonationsPage')
-const importBrowseRequestsPage = () => import('./pages/donor/BrowseRequestsPage')
-const importPendingRequestsPage = () => import('./pages/donor/PendingRequestsPage')
+const importPostDonationPage = () => import('./modules/donor/pages/PostDonationPage')
+const importFulfillRequestPage = () => import('./modules/donor/pages/FulfillRequestPage')
+const importMyDonationsPage = () => import('./modules/donor/pages/MyDonationsPage')
+const importBrowseRequestsPage = () => import('./modules/donor/pages/BrowseRequestsPage')
+const importPendingRequestsPage = () => import('./modules/donor/pages/PendingRequestsPage')
 
 const PostDonationPage = lazyWithRetry(importPostDonationPage)
 const FulfillRequestPage = lazyWithRetry(importFulfillRequestPage)
@@ -49,11 +49,11 @@ const BrowseRequestsPage = lazyWithRetry(importBrowseRequestsPage)
 const PendingRequestsPage = lazyWithRetry(importPendingRequestsPage)
 
 // Recipient pages
-const importBrowseDonationsPage = () => import('./pages/recipient/BrowseDonationsPage')
-const importCreateRequestPage = () => import('./pages/recipient/CreateRequestPage')
-const importMyRequestsPage = () => import('./pages/recipient/MyRequestsPage')
-const importMyApprovedDonationsPage = () => import('./pages/recipient/MyApprovedDonationsPage')
-const importMyApprovedRequestsPage = () => import('./pages/recipient/MyApprovedRequestsPage')
+const importBrowseDonationsPage = () => import('./modules/recipient/pages/BrowseDonationsPage')
+const importCreateRequestPage = () => import('./modules/recipient/pages/CreateRequestPage')
+const importMyRequestsPage = () => import('./modules/recipient/pages/MyRequestsPage')
+const importMyApprovedDonationsPage = () => import('./modules/recipient/pages/MyApprovedDonationsPage')
+const importMyApprovedRequestsPage = () => import('./modules/recipient/pages/MyApprovedRequestsPage')
 
 const BrowseDonationsPage = lazyWithRetry(importBrowseDonationsPage)
 const CreateRequestPage = lazyWithRetry(importCreateRequestPage)
@@ -62,10 +62,10 @@ const MyApprovedDonationsPage = lazyWithRetry(importMyApprovedDonationsPage)
 const MyApprovedRequestsPage = lazyWithRetry(importMyApprovedRequestsPage)
 
 // Volunteer pages
-const importVolunteerDashboardPage = () => import('./pages/volunteer/VolunteerDashboardPage')
-const importAvailableTasksPage = () => import('./pages/volunteer/AvailableTasksPage')
-const importMyDeliveriesPage = () => import('./pages/volunteer/MyDeliveriesPage')
-const importVolunteerSchedulePage = () => import('./pages/volunteer/VolunteerSchedulePage')
+const importVolunteerDashboardPage = () => import('./modules/volunteer/pages/VolunteerDashboardPage')
+const importAvailableTasksPage = () => import('./modules/volunteer/pages/AvailableTasksPage')
+const importMyDeliveriesPage = () => import('./modules/volunteer/pages/MyDeliveriesPage')
+const importVolunteerSchedulePage = () => import('./modules/volunteer/pages/VolunteerSchedulePage')
 
 const VolunteerDashboardPage = lazyWithRetry(importVolunteerDashboardPage)
 const AvailableTasksPage = lazyWithRetry(importAvailableTasksPage)
@@ -73,24 +73,24 @@ const MyDeliveriesPage = lazyWithRetry(importMyDeliveriesPage)
 const VolunteerSchedulePage = lazyWithRetry(importVolunteerSchedulePage)
 
 // Event pages
-const importEventsPage = () => import('./pages/events/EventsPage')
-const importEventDetailsPage = () => import('./pages/events/EventDetailsPage')
+const importEventsPage = () => import('./modules/events/pages/EventsPage')
+const importEventDetailsPage = () => import('./modules/events/pages/EventDetailsPage')
 
 const EventsPage = lazyWithRetry(importEventsPage)
 const EventDetailsPage = lazyWithRetry(importEventDetailsPage)
 
 // Admin pages
-const importAdminDashboard = () => import('./pages/admin/AdminDashboard')
-const importUserManagementPage = () => import('./pages/admin/UserManagementPage')
-const importIDVerificationPage = () => import('./pages/admin/IDVerificationPage')
-const importAdminSettingsPage = () => import('./pages/admin/AdminSettingsPage')
-const importMatchingParametersPage = () => import('./pages/admin/MatchingParametersPage')
-const importAdminDonationsPage = () => import('./pages/admin/AdminDonationsPage')
-const importAdminCFCDonationsPage = () => import('./pages/admin/AdminCFCDonationsPage')
-const importAdminVolunteersPage = () => import('./pages/admin/AdminVolunteersPage')
-const importAdminRequestsPage = () => import('./pages/admin/AdminRequestsPage')
-const importAdminEventsPage = () => import('./pages/admin/AdminEventsPage')
-const importAdminFeedbackPage = () => import('./pages/admin/AdminFeedbackPage')
+const importAdminDashboard = () => import('./modules/admin/pages/AdminDashboard')
+const importUserManagementPage = () => import('./modules/admin/pages/UserManagementPage')
+const importIDVerificationPage = () => import('./modules/admin/pages/IDVerificationPage')
+const importAdminSettingsPage = () => import('./modules/admin/pages/AdminSettingsPage')
+const importMatchingParametersPage = () => import('./modules/matching/pages/MatchingParametersPage')
+const importAdminDonationsPage = () => import('./modules/admin/pages/AdminDonationsPage')
+const importAdminCFCDonationsPage = () => import('./modules/admin/pages/AdminCFCDonationsPage')
+const importAdminVolunteersPage = () => import('./modules/admin/pages/AdminVolunteersPage')
+const importAdminRequestsPage = () => import('./modules/admin/pages/AdminRequestsPage')
+const importAdminEventsPage = () => import('./modules/admin/pages/AdminEventsPage')
+const importAdminFeedbackPage = () => import('./modules/admin/pages/AdminFeedbackPage')
 
 const AdminDashboard = lazyWithRetry(importAdminDashboard)
 const UserManagementPage = lazyWithRetry(importUserManagementPage)
@@ -105,10 +105,10 @@ const AdminEventsPage = lazyWithRetry(importAdminEventsPage)
 const AdminFeedbackPage = lazyWithRetry(importAdminFeedbackPage)
 
 // Legal pages
-const importTermsOfServicePage = () => import('./pages/legal/TermsOfServicePage')
-const importPrivacyPolicyPage = () => import('./pages/legal/PrivacyPolicyPage')
-const importCookiesPolicyPage = () => import('./pages/legal/CookiesPolicyPage')
-const importCodeOfConductPage = () => import('./pages/legal/CodeOfConductPage')
+const importTermsOfServicePage = () => import('./modules/legal/pages/TermsOfServicePage')
+const importPrivacyPolicyPage = () => import('./modules/legal/pages/PrivacyPolicyPage')
+const importCookiesPolicyPage = () => import('./modules/legal/pages/CookiesPolicyPage')
+const importCodeOfConductPage = () => import('./modules/legal/pages/CodeOfConductPage')
 
 const TermsOfServicePage = lazyWithRetry(importTermsOfServicePage)
 const PrivacyPolicyPage = lazyWithRetry(importPrivacyPolicyPage)
@@ -223,57 +223,10 @@ function AppContent() {
   const { loading, profile } = useAuth()
   const { showToast, error: showError } = useToast()
   const [showSetupGuide, setShowSetupGuide] = useState(false)
-  const [forceRemountKey, setForceRemountKey] = useState(0)
   
   useEffect(() => {
     preloadRoutes(routePreloaders)
   }, [])
-
-  // Real-time navigation watchdog - forces React to retry loading without browser refresh
-  useEffect(() => {
-    // Reset remount key when route changes
-    setForceRemountKey(0)
-    
-    const routeLoadStart = Date.now()
-    let checkCount = 0
-    let lastRemountTime = Date.now()
-    
-    // Check every 0.1 seconds if page is still loading
-    const checkInterval = setInterval(() => {
-      checkCount++
-      const loadTime = Date.now() - routeLoadStart
-      const timeSinceLastRemount = Date.now() - lastRemountTime
-      
-      // Check if Suspense fallback is still visible
-      const suspenseFallback = document.querySelector('[data-suspense-fallback="true"]')
-      const skeletonElements = document.querySelectorAll('[class*="Skeleton"], [class*="skeleton"]')
-      const isStillLoading = suspenseFallback || skeletonElements.length > 0
-      
-      // If stuck loading for more than 0.5 seconds, force React to remount
-      if (isStillLoading && loadTime > 500 && timeSinceLastRemount > 500) {
-        const attemptNumber = Math.floor(checkCount / 5) + 1
-        console.log(`Route ${location.pathname} stuck, forcing React remount (attempt ${attemptNumber})...`)
-        // Force remount by changing the key - this will cause React to retry loading the lazy component
-        setForceRemountKey(prev => prev + 1)
-        lastRemountTime = Date.now()
-      }
-      
-      // If page has loaded successfully, stop checking
-      if (!isStillLoading && checkCount > 3) {
-        clearInterval(checkInterval)
-      }
-      
-      // Safety: stop after 10 seconds of checking
-      if (checkCount > 100) {
-        clearInterval(checkInterval)
-        console.warn(`Route ${location.pathname} still loading after 10 seconds, stopping watchdog`)
-      }
-    }, 100) // Check every 0.1 seconds
-    
-    return () => {
-      clearInterval(checkInterval)
-    }
-  }, [location.pathname])
 
   // Hide footer on login and signup pages
   const hideFooter = location.pathname === '/login' || location.pathname === '/signup'
@@ -334,21 +287,19 @@ function AppContent() {
     <div className="min-h-screen flex flex-col" style={{backgroundColor: '#1e293b'}}>
       <Navbar />
       
-      <main className={`flex-1 transition-all duration-200 ${shouldShowSidebar ? 'ml-12 sm:ml-16' : ''}`}>
+      <main className={`flex-1 transition-all duration-300 ease-in-out ${shouldShowSidebar ? 'ml-12 sm:ml-16' : ''}`}>
           <ErrorBoundaryWithNavigate>
             <React.Suspense 
-              key={`${location.pathname}-${forceRemountKey}`}
               fallback={
                 <div 
                   className="min-h-screen" 
                   style={{backgroundColor: '#1e293b'}}
-                  data-suspense-fallback="true"
                 >
                   <DashboardSkeleton />
                 </div>
               }
             >
-              <Routes key={`routes-${forceRemountKey}`}>
+              <Routes>
               {/* Public routes */}
               <Route path="/" element={<HomePage />} />
               <Route path="/about" element={<AboutPage />} />
@@ -383,7 +334,7 @@ function AppContent() {
               {/* Protected routes */}
               <Route path="/dashboard" element={
                 <ProtectedRoute>
-                  <DashboardPage key={location.pathname} />
+                  <DashboardPage />
                 </ProtectedRoute>
               } />
               <Route path="/profile" element={
@@ -405,66 +356,66 @@ function AppContent() {
               } />
               <Route path="/my-donations" element={
                 <ProtectedRoute allowedRoles={['donor']}>
-                  <MyDonationsPage key={location.pathname} />
+                  <MyDonationsPage />
                 </ProtectedRoute>
               } />
               <Route path="/browse-requests" element={
                 <ProtectedRoute allowedRoles={['donor']}>
-                  <BrowseRequestsPage key={location.pathname} />
+                  <BrowseRequestsPage />
                 </ProtectedRoute>
               } />
               <Route path="/pending-requests" element={
                 <ProtectedRoute allowedRoles={['donor']}>
-                  <PendingRequestsPage key={location.pathname} />
+                  <PendingRequestsPage />
                 </ProtectedRoute>
               } />
               
               {/* Recipient routes */}
               <Route path="/browse-donations" element={
                 <ProtectedRoute allowedRoles={['recipient']}>
-                  <BrowseDonationsPage key={location.pathname} />
+                  <BrowseDonationsPage />
                 </ProtectedRoute>
               } />
               <Route path="/create-request" element={
                 <ProtectedRoute allowedRoles={['recipient']}>
-                  <CreateRequestPage key={location.pathname} />
+                  <CreateRequestPage />
                 </ProtectedRoute>
               } />
               <Route path="/my-requests" element={
                 <ProtectedRoute allowedRoles={['recipient']}>
-                  <MyRequestsPage key={location.pathname} />
+                  <MyRequestsPage />
                 </ProtectedRoute>
               } />
               <Route path="/my-approved-requests" element={
                 <ProtectedRoute allowedRoles={['recipient']}>
-                  <MyApprovedRequestsPage key={location.pathname} />
+                  <MyApprovedRequestsPage />
                 </ProtectedRoute>
               } />
               <Route path="/my-approved-donations" element={
                 <ProtectedRoute allowedRoles={['recipient']}>
-                  <MyApprovedDonationsPage key={location.pathname} />
+                  <MyApprovedDonationsPage />
                 </ProtectedRoute>
               } />
               
               {/* Volunteer routes */}
               <Route path="/volunteer-dashboard" element={
                 <ProtectedRoute allowedRoles={['volunteer']}>
-                  <VolunteerDashboardPage key={location.pathname} />
+                  <VolunteerDashboardPage />
                 </ProtectedRoute>
               } />
               <Route path="/available-tasks" element={
                 <ProtectedRoute allowedRoles={['volunteer']}>
-                  <AvailableTasksPage key={location.pathname} />
+                  <AvailableTasksPage />
                 </ProtectedRoute>
               } />
               <Route path="/my-deliveries" element={
                 <ProtectedRoute allowedRoles={['volunteer']}>
-                  <MyDeliveriesPage key={location.pathname} />
+                  <MyDeliveriesPage />
                 </ProtectedRoute>
               } />
               <Route path="/volunteer-schedule" element={
                 <ProtectedRoute allowedRoles={['volunteer']}>
-                  <VolunteerSchedulePage key={location.pathname} />
+                  <VolunteerSchedulePage />
                 </ProtectedRoute>
               } />
               
@@ -542,7 +493,9 @@ function AppContent() {
           </ErrorBoundaryWithNavigate>
         </main>
         
-        {!hideFooter && <Footer userRole={profile?.role} />}
+        <div className={`transition-all duration-300 ease-in-out ${shouldShowSidebar ? 'ml-12 sm:ml-16' : ''}`}>
+          {!hideFooter && <Footer userRole={profile?.role} />}
+        </div>
         
         {/* Development Tools */}
         <AnimatePresence>
@@ -562,7 +515,7 @@ function AppContent() {
 
 function App() {
   return (
-    <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+    <Router future={{ v7_relativeSplatPath: true }}>
       <ScrollToTop />
       <AppContent />
     </Router>

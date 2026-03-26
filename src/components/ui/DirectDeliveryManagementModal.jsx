@@ -17,8 +17,8 @@ import {
   Send,
   RefreshCw
 } from 'lucide-react'
-import { useAuth } from '../../contexts/AuthContext'
-import { useToast } from '../../contexts/ToastContext'
+import { useAuth } from '../../modules/auth/AuthContext'
+import { useToast } from '../../shared/contexts/ToastContext'
 import { db } from '../../lib/supabase'
 import LoadingSpinner from './LoadingSpinner'
 
@@ -142,7 +142,7 @@ const DirectDeliveryManagementModal = ({
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'coordination_needed': return 'text-yellow-400 bg-yellow-500/20 border-yellow-500/30'
+      case 'coordination_needed': return 'text-blue-500 bg-blue-500/20 border-yellow-500/30'
       case 'scheduled': return 'text-blue-400 bg-blue-500/20 border-blue-500/30'
       case 'out_for_delivery': return 'text-orange-400 bg-orange-500/20 border-orange-500/30'
       case 'delivered': return 'text-emerald-400 bg-emerald-500/20 border-emerald-500/30'
@@ -180,20 +180,20 @@ const DirectDeliveryManagementModal = ({
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-navy-900 rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-hidden"
+        className="bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-hidden"
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-navy-700">
+        <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <div className="flex items-center gap-3">
             <Truck className="h-6 w-6 text-orange-400" />
             <div>
-              <h3 className="text-xl font-bold text-white">Direct Delivery Management</h3>
+              <h3 className="text-xl font-bold text-gray-900">Direct Delivery Management</h3>
               <p className="text-skyblue-400 text-sm">{donation?.donation?.title}</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-navy-700 rounded-lg transition-colors"
+            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
           >
             <X className="h-5 w-5 text-skyblue-400" />
           </button>
@@ -208,8 +208,8 @@ const DirectDeliveryManagementModal = ({
             <>
               {/* Current Status */}
               {directDelivery && (
-                <div className="bg-navy-800/50 rounded-lg p-4">
-                  <h4 className="text-md font-semibold text-white mb-3">Current Status</h4>
+                <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                  <h4 className="text-md font-semibold text-gray-900 mb-3">Current Status</h4>
                   <div className="flex items-center gap-3">
                     {React.createElement(getStatusIcon(directDelivery.status), { 
                       className: "h-5 w-5 text-orange-400" 
@@ -225,14 +225,14 @@ const DirectDeliveryManagementModal = ({
               )}
 
               {/* Contact Information */}
-              <div className="bg-navy-800/50 rounded-lg p-4">
-                <h4 className="text-md font-semibold text-white mb-3">Contact Information</h4>
+              <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                <h4 className="text-md font-semibold text-gray-900 mb-3">Contact Information</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="flex items-center gap-3">
                     <User className="h-4 w-4 text-blue-400" />
                     <div>
                       <p className="text-skyblue-400 text-sm">Donor</p>
-                      <p className="text-white">{donation?.donation?.donor?.name || 'Unknown'}</p>
+                      <p className="text-gray-800">{donation?.donation?.donor?.name || 'Unknown'}</p>
                       {donation?.donation?.donor?.phone_number && (
                         <a 
                           href={`tel:${donation.donation.donor.phone_number}`}
@@ -249,7 +249,7 @@ const DirectDeliveryManagementModal = ({
                     <User className="h-4 w-4 text-green-400" />
                     <div>
                       <p className="text-skyblue-400 text-sm">Recipient</p>
-                      <p className="text-white">{donation?.recipient?.name || 'Unknown'}</p>
+                      <p className="text-gray-800">{donation?.recipient?.name || 'Unknown'}</p>
                       {donation?.recipient?.phone_number && (
                         <a 
                           href={`tel:${donation.recipient.phone_number}`}
@@ -266,8 +266,8 @@ const DirectDeliveryManagementModal = ({
 
               {/* Delivery Coordination */}
               {directDelivery?.status !== 'delivered' && directDelivery?.status !== 'cancelled' && (
-                <div className="bg-navy-800/50 rounded-lg p-4">
-                  <h4 className="text-md font-semibold text-white mb-3">Delivery Coordination</h4>
+                <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                  <h4 className="text-md font-semibold text-gray-900 mb-3">Delivery Coordination</h4>
                   <div className="space-y-4">
                     <div>
                       <label className="block text-sm font-medium text-skyblue-400 mb-2">
@@ -397,18 +397,18 @@ const DirectDeliveryManagementModal = ({
 
               {/* Delivery Details Display */}
               {directDelivery && (directDelivery.delivery_address || directDelivery.delivery_instructions) && (
-                <div className="bg-navy-800/50 rounded-lg p-4">
-                  <h4 className="text-md font-semibold text-white mb-3">Delivery Details</h4>
+                <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                  <h4 className="text-md font-semibold text-gray-900 mb-3">Delivery Details</h4>
                   {directDelivery.delivery_address && (
                     <div className="mb-2">
                       <span className="text-skyblue-400 text-sm">Address:</span>
-                      <p className="text-white">{directDelivery.delivery_address}</p>
+                      <p className="text-gray-800">{directDelivery.delivery_address}</p>
                     </div>
                   )}
                   {directDelivery.delivery_instructions && (
                     <div>
                       <span className="text-skyblue-400 text-sm">Instructions:</span>
-                      <p className="text-white">{directDelivery.delivery_instructions}</p>
+                      <p className="text-gray-800">{directDelivery.delivery_instructions}</p>
                     </div>
                   )}
                 </div>
@@ -423,9 +423,9 @@ const DirectDeliveryManagementModal = ({
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="bg-navy-800 rounded-lg p-6 w-full max-w-md mx-4"
+              className="bg-white rounded-lg p-6 w-full max-w-md mx-4 border border-gray-200"
             >
-              <h4 className="text-lg font-semibold text-white mb-4">
+              <h4 className="text-lg font-semibold text-gray-900 mb-4">
                 {isDonor ? 'Confirm Delivery Completion' : 'Confirm Receipt'}
               </h4>
               
@@ -446,7 +446,7 @@ const DirectDeliveryManagementModal = ({
                         <Star
                           className={`h-6 w-6 ${
                             star <= (hoveredStar || rating)
-                              ? 'text-yellow-400 fill-current'
+                              ? 'text-blue-500 fill-current'
                               : 'text-gray-400'
                           }`}
                         />

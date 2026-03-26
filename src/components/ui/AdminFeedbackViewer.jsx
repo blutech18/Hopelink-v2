@@ -146,13 +146,13 @@ const AdminFeedbackViewer = () => {
         {/* Total Feedback */}
         <div className="card p-4 border border-gray-600" style={{backgroundColor: '#001a5c'}}>
           <div className="flex items-center gap-2 mb-2">
-            <MessageSquare className="h-5 w-5 text-yellow-400" />
+            <MessageSquare className="h-5 w-5 text-blue-500" />
             <span className="text-sm text-gray-400">Total Feedback</span>
           </div>
           <div className="text-3xl font-bold text-white">{stats.totalFeedback}</div>
           <div className="flex items-center gap-1 mt-2">
-            <Star className="h-4 w-4 text-yellow-400 fill-yellow-400" />
-            <span className="text-sm text-yellow-300">{stats.averageRating.toFixed(1)} avg</span>
+            <Star className="h-4 w-4 text-blue-500 fill-yellow-400" />
+            <span className="text-sm text-gray-600">{stats.averageRating.toFixed(1)} avg</span>
           </div>
         </div>
 
@@ -164,8 +164,8 @@ const AdminFeedbackViewer = () => {
           </div>
           <div className="text-3xl font-bold text-white">{stats.donorCount}</div>
           <div className="flex items-center gap-1 mt-2">
-            <Star className="h-4 w-4 text-yellow-400 fill-yellow-400" />
-            <span className="text-sm text-yellow-300">{stats.donorAvg.toFixed(1)} avg</span>
+            <Star className="h-4 w-4 text-blue-500 fill-yellow-400" />
+            <span className="text-sm text-gray-600">{stats.donorAvg.toFixed(1)} avg</span>
           </div>
         </div>
 
@@ -177,8 +177,8 @@ const AdminFeedbackViewer = () => {
           </div>
           <div className="text-3xl font-bold text-white">{stats.recipientCount}</div>
           <div className="flex items-center gap-1 mt-2">
-            <Star className="h-4 w-4 text-yellow-400 fill-yellow-400" />
-            <span className="text-sm text-yellow-300">{stats.recipientAvg.toFixed(1)} avg</span>
+            <Star className="h-4 w-4 text-blue-500 fill-yellow-400" />
+            <span className="text-sm text-gray-600">{stats.recipientAvg.toFixed(1)} avg</span>
           </div>
         </div>
 
@@ -190,8 +190,8 @@ const AdminFeedbackViewer = () => {
           </div>
           <div className="text-3xl font-bold text-white">{stats.volunteerCount}</div>
           <div className="flex items-center gap-1 mt-2">
-            <Star className="h-4 w-4 text-yellow-400 fill-yellow-400" />
-            <span className="text-sm text-yellow-300">{stats.volunteerAvg.toFixed(1)} avg</span>
+            <Star className="h-4 w-4 text-blue-500 fill-yellow-400" />
+            <span className="text-sm text-gray-600">{stats.volunteerAvg.toFixed(1)} avg</span>
           </div>
         </div>
       </div>
@@ -200,7 +200,7 @@ const AdminFeedbackViewer = () => {
       <div className="card p-4 sm:p-5 border border-gray-600" style={{backgroundColor: '#001a5c'}}>
         <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
           <div className="flex items-center gap-2 flex-shrink-0">
-            <Filter className="h-5 w-5 text-yellow-400" />
+            <Filter className="h-5 w-5 text-blue-500" />
             <span className="text-sm font-medium text-white whitespace-nowrap">Filter by Role:</span>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -210,8 +210,8 @@ const AdminFeedbackViewer = () => {
                 onClick={() => setRoleFilter(role)}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all active:scale-95 ${
                   roleFilter === role
-                    ? 'bg-yellow-600 text-white shadow-lg'
-                    : 'bg-navy-700 text-gray-300 hover:bg-navy-600'
+                    ? 'bg-blue-600 text-white shadow-lg'
+                    : 'bg-gray-100 text-gray-300 hover:bg-gray-200'
                 }`}
               >
                 {role.charAt(0).toUpperCase() + role.slice(1)}
@@ -262,12 +262,12 @@ const AdminFeedbackViewer = () => {
                             key={star}
                             className={`h-4 w-4 ${
                               star <= feedback.rating
-                                ? 'text-yellow-400 fill-yellow-400'
+                                ? 'text-blue-500 fill-yellow-400'
                                 : 'text-gray-600'
                             }`}
                           />
                         ))}
-                        <span className="text-sm text-yellow-300 ml-1">
+                        <span className="text-sm text-gray-600 ml-1">
                           {feedback.rating}/5
                         </span>
                       </div>
@@ -284,8 +284,8 @@ const AdminFeedbackViewer = () => {
 
                 {/* Role-Specific Answers */}
                 {feedback.role_specific_answers && Object.keys(feedback.role_specific_answers).length > 0 && (
-                  <div className="bg-navy-900/50 rounded-lg p-3 sm:p-4 border border-navy-700">
-                    <h4 className="text-xs font-semibold text-yellow-400 mb-3 uppercase">
+                  <div className="bg-gray-50/50 rounded-lg p-3 sm:p-4 border border-gray-200">
+                    <h4 className="text-xs font-semibold text-blue-500 mb-3 uppercase">
                       Detailed Ratings
                     </h4>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -300,12 +300,12 @@ const AdminFeedbackViewer = () => {
                                 key={star}
                                 className={`h-3 w-3 ${
                                   star <= value
-                                    ? 'text-yellow-400 fill-yellow-400'
+                                    ? 'text-blue-500 fill-yellow-400'
                                     : 'text-gray-600'
                                 }`}
                               />
                             ))}
-                            <span className="text-xs text-yellow-300 ml-1">{value}/5</span>
+                            <span className="text-xs text-gray-600 ml-1">{value}/5</span>
                           </div>
                         </div>
                       ))}

@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Star, Send, MessageSquare, Gift, Heart, Truck } from 'lucide-react'
-import { useAuth } from '../../contexts/AuthContext'
-import { useToast } from '../../contexts/ToastContext'
+import { useAuth } from '../../modules/auth/AuthContext'
+import { useToast } from '../../shared/contexts/ToastContext'
 import { db } from '../../lib/supabase'
 import LoadingSpinner from './LoadingSpinner'
 
@@ -124,22 +124,22 @@ const FeedbackModal = ({ isOpen, onClose }) => {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95 }}
           transition={{ duration: 0.2 }}
-          className="bg-navy-900 border-2 border-yellow-500/30 shadow-2xl rounded-lg sm:rounded-xl max-w-2xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-hidden flex flex-col"
+          className="bg-white border border-gray-200 shadow-2xl rounded-lg sm:rounded-xl max-w-2xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-hidden flex flex-col"
         >
           {/* Header */}
-          <div className="flex items-center justify-between p-4 sm:p-6 border-b-2 border-yellow-500/20 flex-shrink-0">
+          <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200 flex-shrink-0">
             <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
-              <div className="p-1.5 sm:p-2 bg-yellow-500/10 rounded-lg flex-shrink-0">
-                <RoleIcon className="h-5 w-5 sm:h-6 sm:w-6 text-yellow-400" />
+              <div className="p-1.5 sm:p-2 bg-blue-50 rounded-lg flex-shrink-0">
+                <RoleIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-500" />
               </div>
               <div className="flex-1 min-w-0">
-                <h3 className="text-base sm:text-lg lg:text-xl font-bold text-white truncate">{getRoleTitle()}</h3>
-                <p className="text-[10px] sm:text-xs text-yellow-300">{getRoleDescription()}</p>
+                <h3 className="text-base sm:text-lg lg:text-xl font-bold text-gray-900 truncate">{getRoleTitle()}</h3>
+                <p className="text-[10px] sm:text-xs text-gray-500">{getRoleDescription()}</p>
               </div>
             </div>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-white transition-colors p-1.5 sm:p-2 hover:bg-navy-800 rounded-lg flex-shrink-0 ml-2"
+              className="text-gray-400 hover:text-gray-700 transition-colors p-1.5 sm:p-2 hover:bg-gray-100 rounded-lg flex-shrink-0 ml-2"
               aria-label="Close feedback modal"
             >
               <X className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -150,8 +150,8 @@ const FeedbackModal = ({ isOpen, onClose }) => {
           <div className="flex-1 overflow-y-auto p-4 sm:p-6 custom-scrollbar">
             <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
               {/* Overall Rating */}
-              <div className="bg-navy-800/50 rounded-lg p-4 sm:p-5 border border-yellow-400/20">
-                <label className="block text-xs sm:text-sm font-medium text-white mb-3 sm:mb-4 text-center">
+              <div className="bg-gray-50 rounded-lg p-4 sm:p-5 border border-gray-200">
+                <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-3 sm:mb-4 text-center">
                   Overall Experience Rating *
                 </label>
                 <div className="flex items-center justify-center gap-2 sm:gap-3 mb-3">
@@ -174,21 +174,21 @@ const FeedbackModal = ({ isOpen, onClose }) => {
                     </button>
                   ))}
                 </div>
-                <p className="text-center text-xs sm:text-sm font-semibold text-yellow-300">
+                <p className="text-center text-xs sm:text-sm font-semibold text-gray-700">
                   {getRatingLabel(hoveredRating || rating)}
                 </p>
               </div>
 
               {/* Role-Specific Questions */}
               {roleQuestions.length > 0 && (
-                <div className="bg-navy-800/30 rounded-lg p-3 sm:p-5 border border-yellow-400/10 space-y-3 sm:space-y-5">
-                  <h4 className="text-xs sm:text-sm font-semibold text-white text-center border-b border-yellow-400/20 pb-2 sm:pb-3">
+                <div className="bg-gray-50 rounded-lg p-3 sm:p-5 border border-gray-100 space-y-3 sm:space-y-5">
+                  <h4 className="text-xs sm:text-sm font-semibold text-gray-800 text-center border-b border-gray-200 pb-2 sm:pb-3">
                     {profile?.role === 'donor' && '📦 Donation Experience Details'}
                     {profile?.role === 'recipient' && '🎁 Receiving Experience Details'}
                     {profile?.role === 'volunteer' && '🚚 Delivery Experience Details'}
                   </h4>
                   {roleQuestions.map((question, index) => (
-                    <div key={question.id} className="bg-navy-900/50 rounded-lg p-3 sm:p-4 border border-navy-700">
+                    <div key={question.id} className="bg-white rounded-lg p-3 sm:p-4 border border-gray-200">
                       <label className="block text-xs sm:text-sm font-medium text-gray-200 mb-2 sm:mb-3">
                         {index + 1}. {question.label}
                       </label>
@@ -225,7 +225,7 @@ const FeedbackModal = ({ isOpen, onClose }) => {
 
               {/* Feedback Text */}
               <div>
-                <label className="block text-xs sm:text-sm font-medium text-white mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">
                   Tell us about your experience *
                 </label>
                 <textarea
@@ -242,8 +242,8 @@ const FeedbackModal = ({ isOpen, onClose }) => {
               </div>
 
               {/* Info Box */}
-              <div className="bg-yellow-900/20 border border-yellow-400/30 rounded-lg p-3 sm:p-4">
-                <p className="text-yellow-300 text-[10px] sm:text-xs leading-relaxed">
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 sm:p-4">
+                <p className="text-blue-700 text-[10px] sm:text-xs leading-relaxed">
                   💡 Your feedback helps us improve HopeLink for everyone. Thank you for taking the time to share your thoughts!
                 </p>
               </div>
@@ -251,11 +251,11 @@ const FeedbackModal = ({ isOpen, onClose }) => {
           </div>
 
           {/* Footer */}
-          <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-2 sm:gap-3 p-4 sm:p-6 border-t-2 border-yellow-500/20 flex-shrink-0">
+          <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-2 sm:gap-3 p-4 sm:p-6 border-t border-gray-200 flex-shrink-0">
             <button
               onClick={onClose}
               type="button"
-              className="w-full sm:w-auto px-4 sm:px-5 py-2.5 bg-navy-700 hover:bg-navy-600 text-yellow-300 rounded-lg transition-colors text-sm sm:text-base font-medium border border-navy-600 active:scale-95"
+              className="w-full sm:w-auto px-4 sm:px-5 py-2.5 bg-white hover:bg-gray-50 text-gray-700 rounded-lg transition-colors text-sm sm:text-base font-medium border border-gray-200 active:scale-95"
             >
               Cancel
             </button>
@@ -263,7 +263,7 @@ const FeedbackModal = ({ isOpen, onClose }) => {
               onClick={handleSubmit}
               type="submit"
               disabled={submitting || rating === 0 || !feedbackText.trim()}
-              className="w-full sm:w-auto px-4 sm:px-5 py-2.5 bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white rounded-lg transition-all flex items-center justify-center gap-2 text-sm sm:text-base font-semibold disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg active:scale-95"
+              className="w-full sm:w-auto px-4 sm:px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all flex items-center justify-center gap-2 text-sm sm:text-base font-semibold disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg active:scale-95"
             >
               {submitting ? (
                 <>
