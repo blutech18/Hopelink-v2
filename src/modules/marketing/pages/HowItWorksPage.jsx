@@ -256,7 +256,7 @@ const HowItWorksPage = () => {
       </section>
 
       {/* Workflow Visualization */}
-      <section className="py-12 pb-16" style={{backgroundColor: DARK_BLUE}}>
+      <section className="py-12 pb-16 bg-gray-50 border-y border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -265,10 +265,10 @@ const HowItWorksPage = () => {
             viewport={{ once: true }}
             className="text-center mb-8"
           >
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-3 text-white">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-3 text-gray-900">
               Step-by-Step Journey
             </h2>
-            <p className="text-lg lg:text-xl text-blue-100/80 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               See how HopeLink guides donors, recipients, and volunteers through each step of the process.
             </p>
           </motion.div>
@@ -287,30 +287,30 @@ const HowItWorksPage = () => {
                   >
                     {/* Step Number Badge - Positioned above container */}
                     <div className="relative z-20 mb-3 lg:mb-4">
-                      <div className={`relative w-16 h-16 lg:w-20 lg:h-20 rounded-full ${step.bgColor.replace('/20', '/10')} border-2 border-white/10 shadow-md flex items-center justify-center backdrop-blur-sm ring-1 ring-white/5`}>
-                        <Icon className={`h-8 w-8 lg:h-10 lg:w-10 ${step.color}`} />
+                      <div className={`relative w-16 h-16 lg:w-20 lg:h-20 rounded-full ${step.bgColor.replace('/20', '/10')} border border-blue-100 shadow-sm flex items-center justify-center bg-white`}>
+                        <Icon className={`h-8 w-8 lg:h-10 lg:w-10 text-blue-600`} />
                       </div>
                       {/* Step Number Badge - Yellow circle with number */}
-                      <div className="absolute -top-1 -right-1 w-6 h-6 lg:w-8 lg:h-8 bg-yellow-400 rounded-full flex items-center justify-center text-gray-900 font-bold text-sm lg:text-base shadow-md border-2 border-white/20">
+                      <div className="absolute -top-1 -right-1 w-6 h-6 lg:w-8 lg:h-8 bg-yellow-400 rounded-full flex items-center justify-center text-gray-900 font-bold text-sm lg:text-base shadow-md border-2 border-white">
                         {step.step}
                       </div>
                     </div>
 
                     {/* Step Content Container */}
-                    <div className="bg-white/5 backdrop-blur-md rounded-xl p-4 lg:p-5 border border-white/10 hover:border-white/20 transition-all duration-300 h-full flex flex-col w-full shadow-sm hover:shadow-xl hover:scale-[1.02] group">
-                      <h3 className="text-base lg:text-lg xl:text-xl font-bold text-white mb-2 lg:mb-3 leading-tight text-center">{step.title}</h3>
-                      <p className="text-blue-100/80 mb-3 lg:mb-4 text-xs lg:text-sm leading-relaxed flex-grow text-center">{step.description}</p>
+                    <div className="bg-white rounded-xl p-4 lg:p-5 border border-gray-100 hover:border-blue-200 transition-all duration-300 h-full flex flex-col w-full shadow-sm hover:shadow-md hover:scale-[1.02] group">
+                      <h3 className="text-base lg:text-lg xl:text-xl font-bold text-gray-900 mb-2 lg:mb-3 leading-tight text-center">{step.title}</h3>
+                      <p className="text-gray-600 mb-3 lg:mb-4 text-xs lg:text-sm leading-relaxed flex-grow text-center">{step.description}</p>
                       
                       {/* Value Proposition */}
-                      <div className="mt-auto pt-3 lg:pt-4 border-t border-white/10 group-hover:border-white/20 transition-colors">
-                        <p className="text-xs text-blue-200 italic leading-relaxed text-center">{step.value}</p>
+                      <div className="mt-auto pt-3 lg:pt-4 border-t border-gray-100 group-hover:border-blue-100 transition-colors">
+                        <p className="text-xs text-blue-600 italic leading-relaxed text-center">{step.value}</p>
                       </div>
                     </div>
 
                     {/* Arrow - Mobile/Tablet */}
                     {index < currentSteps.length - 1 && (
                       <div className="lg:hidden flex justify-center my-4">
-                        <ArrowDown className="h-6 w-6 text-white/30 animate-bounce" />
+                        <ArrowDown className="h-6 w-6 text-gray-300 animate-bounce" />
                       </div>
                     )}
                   </motion.div>

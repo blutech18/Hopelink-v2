@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class',
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -7,18 +8,19 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Organization theme colors based on logo
+        // Organization theme colors (mapped to purple/indigo requested by user)
         primary: {
-          50: '#f0f9ff',
-          100: '#e0f2fe',
-          200: '#bae6fd',
-          300: '#7dd3fc',
-          400: '#38bdf8',
-          500: '#0ea5e9',
-          600: '#0284c7',
-          700: '#0369a1',
-          800: '#075985',
-          900: '#0c4a6e',
+          50: '#f2effa',
+          100: '#e0dcf4',
+          200: '#c6bdeb',
+          300: '#a392de',
+          400: '#7d61cd',
+          500: '#5c3bbb',
+          600: '#47279c',
+          700: '#361c7d',
+          800: '#2d186c',
+          900: '#210976', // User requested
+          950: '#150456',
         },
         // Dark blue from logo (dominant background)
         navy: {
@@ -34,22 +36,22 @@ export default {
           900: '#0f172a',
           950: '#020617',
         },
-        // Logo dark blue color
-        logoBlue: '#1e293b',
+        // Logo dark color (Mapped to primary-900 for broad usage)
+        logoBlue: '#210976',
         // White from logo (text and outlines)
         white: '#ffffff',
-        // Red from logo (secondary text)
+        // Yellow-green secondary colors
         secondary: {
-          50: '#fef2f2',
-          100: '#fee2e2',
-          200: '#fecaca',
-          300: '#fca5a5',
-          400: '#f87171',
-          500: '#ef4444', // Main red
-          600: '#dc2626',
-          700: '#b91c1c',
-          800: '#991b1b',
-          900: '#7f1d1d',
+          50: '#f8fae8',
+          100: '#eef4c5',
+          200: '#e0eb96',
+          300: '#d0df5d',
+          400: '#cbd93a', // User requested main yellow/green
+          500: '#adbc29', // Darker
+          600: '#86961c', // Darker
+          700: '#657218',
+          800: '#525c17',
+          900: '#454e17',
         },
         // Legacy colors for compatibility
         skyblue: {
@@ -100,18 +102,18 @@ export default {
           800: '#991b1b',
           900: '#7f1d1d',
         },
-        // Custom yellow color - stronger, more vibrant
+        // Custom yellow color - kept for compatibility
         yellow: {
-          50: '#e8ebc4',
-          100: '#e1e5b8',
-          200: '#d9dfac',
-          300: '#d2d9a0',
-          400: '#cdd74a', // Main yellow
-          500: '#cdd74a', // Main yellow
-          600: '#b8c242', // Darker
-          700: '#a3ad3a', // Darker
-          800: '#8e9832', // Darker
-          900: '#79832a', // Darkest
+          50: '#f8fae8',
+          100: '#eef4c5',
+          200: '#e0eb96',
+          300: '#d0df5d',
+          400: '#cbd93a', // User requested
+          500: '#cbd93a',
+          600: '#adbc29',
+          700: '#86961c',
+          800: '#657218',
+          900: '#525c17',
         },
       },
       fontFamily: {

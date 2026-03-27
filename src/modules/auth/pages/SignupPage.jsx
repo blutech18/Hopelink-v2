@@ -281,11 +281,11 @@ const SignupPage = () => {
   }, [error])
 
   return (
-    <div className="min-h-screen" style={{backgroundColor: '#00237d'}}>
-      <div className="max-w-7xl mx-auto px-4 py-4">
-        <div className="flex h-[calc(100vh-6rem)] rounded-3xl overflow-hidden shadow-2xl">
-        {/* Left Column - Signup Form (yellow background column) */}
-        <div className="w-full lg:w-1/2 flex flex-col justify-center py-2 px-4 sm:px-6" style={{backgroundColor: '#cdd74a'}}>
+    <div className="min-h-screen bg-gray-50 border-t border-gray-200">
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="flex h-[calc(100vh-8rem)] rounded-3xl overflow-hidden shadow-2xl border border-gray-200">
+        {/* Left Column - Signup Form */}
+        <div className="w-full lg:w-1/2 flex flex-col justify-center py-2 px-4 sm:px-6 bg-gray-50">
         <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -294,11 +294,11 @@ const SignupPage = () => {
           >
             {/* Mobile Logo */}
             <div className="lg:hidden text-center mb-3">
-              <div className="inline-block p-2 rounded-lg mb-2" style={{backgroundColor: '#001a5c'}}>
+              <div className="inline-block p-2 rounded-xl mb-2 bg-logoBlue shadow-md">
                 <img src="/hopelinklogo.png" alt="HopeLink" className="h-12 rounded mx-auto" />
               </div>
-              <h2 className="text-lg font-bold" style={{color: '#001a5c'}}>Join HopeLink</h2>
-              <p className="text-xs mt-0.5" style={{color: '#001a5c'}}>Create your account and start making a difference</p>
+              <h2 className="text-lg font-bold text-gray-900">Join HopeLink</h2>
+              <p className="text-xs mt-0.5 text-gray-600">Create your account and start making a difference</p>
           </div>
 
             {/* Quick Signup Notice removed for compactness */}
@@ -310,27 +310,27 @@ const SignupPage = () => {
               <div key={step.number} className="flex items-center">
                     <div className={`flex items-center justify-center w-6 h-6 rounded-full border-2 text-xs ${
                   currentStep >= step.number 
-                        ? 'bg-[#001a5c] border-[#001a5c] text-white' 
-                        : 'bg-white border-gray-700 text-gray-900'
+                        ? 'bg-logoBlue border-logoBlue text-white' 
+                        : 'bg-white border-gray-300 text-gray-400'
                 }`}>
                   {step.number}
                 </div>
                 {index < steps.length - 1 && (
                       <div className={`w-8 h-0.5 ${
-                        currentStep > step.number ? 'bg-gray-800' : 'bg-gray-600'
+                        currentStep > step.number ? 'bg-logoBlue' : 'bg-gray-200'
                   }`} />
                 )}
               </div>
             ))}
           </div>
           <div className="mt-1.5 text-center">
-                <p className="text-xs font-medium text-[#001a5c]">{steps[currentStep - 1].title}</p>
-                <p className="text-[10px] text-[#001a5c]">{steps[currentStep - 1].description}</p>
+                <p className="text-xs font-medium text-gray-900">{steps[currentStep - 1].title}</p>
+                <p className="text-[10px] text-gray-500">{steps[currentStep - 1].description}</p>
         </div>
       </div>
 
-            <div className="py-3 px-4 shadow-xl rounded-2xl" style={{backgroundColor: '#001a5c'}}>
-              <form className="space-y-3" onSubmit={handleSubmit(onSubmit)}>
+            <div className="py-6 px-6 shadow-xl rounded-2xl bg-white border border-gray-100">
+              <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
             <AnimatePresence mode="wait">
               {currentStep === 1 && (
                 <motion.div
@@ -338,10 +338,10 @@ const SignupPage = () => {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
-                      className="space-y-3"
+                      className="space-y-4"
                 >
                   <div>
-                        <label htmlFor="fullName" className="block text-sm font-medium text-white">
+                        <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">
                       Full Name
                     </label>
                     <div className="mt-1">
@@ -365,7 +365,7 @@ const SignupPage = () => {
                   </div>
 
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-white">
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                           Email Address
                     </label>
                     <div className="mt-1">
@@ -399,7 +399,7 @@ const SignupPage = () => {
                   </div>
 
                   <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-white">
+                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
                       Phone Number
                     </label>
                     <div className="mt-1 relative">
@@ -434,10 +434,10 @@ const SignupPage = () => {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
-                      className="space-y-3"
+                      className="space-y-4"
                     >
                   <div>
-                    <label htmlFor="password" className="block text-sm font-medium text-white">
+                    <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                       Password
                     </label>
                     <div className="mt-1 relative">
@@ -476,14 +476,14 @@ const SignupPage = () => {
                       <p className="mt-1 text-sm text-danger-600">{errors.password.message}</p>
                     )}
                     {!errors.password && password && (
-                      <p className="mt-1 text-xs text-gray-400">
+                      <p className="mt-1 text-xs text-gray-500">
                         Use 8+ characters with uppercase, lowercase, and numbers
                       </p>
                     )}
                   </div>
 
                   <div>
-                    <label htmlFor="confirmPassword" className="block text-sm font-medium text-white">
+                    <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
                       Confirm Password
                     </label>
                     <div className="mt-1 relative">
@@ -523,10 +523,10 @@ const SignupPage = () => {
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -20 }}
-                      className="space-y-3"
+                      className="space-y-4"
                     >
                       <div>
-                        <label className="block text-sm font-medium text-white mb-3">
+                        <label className="block text-sm font-medium text-gray-900 mb-3">
                           Choose Your Role
                         </label>
                         {roles.length === 0 ? (
@@ -547,24 +547,20 @@ const SignupPage = () => {
                                   className="sr-only"
                                 />
                                 <div className={`
-                                  flex items-center p-3 rounded-lg border-2 transition-all
+                                  flex items-center p-3 rounded-xl border-2 transition-all
                                   ${selectedRole === role.value 
-                                    ? 'shadow-lg' 
-                                    : 'border-gray-600 bg-gray-800 hover:border-gray-500'
+                                    ? 'shadow-md border-logoBlue bg-blue-50' 
+                                    : 'border-gray-200 bg-white hover:border-blue-200'
                                   }
                                 `}
-                                style={selectedRole === role.value ? {
-                                  borderColor: '#cdd74a',
-                                  backgroundColor: 'rgba(205, 215, 74, 0.2)'
-                                } : {}}
                                 >
-                                  <IconComponent className="h-5 w-5 mr-2.5 flex-shrink-0" style={{color: '#cdd74a'}} />
+                                  <IconComponent className="h-5 w-5 mr-2.5 flex-shrink-0 text-logoBlue" />
                                   <div className="flex-1 min-w-0">
-                                    <h3 className="text-sm font-medium text-white">{role.label}</h3>
-                                    <p className="text-xs text-gray-300">{role.description}</p>
+                                    <h3 className="text-sm font-medium text-gray-900">{role.label}</h3>
+                                    <p className="text-xs text-gray-600">{role.description}</p>
                                   </div>
                                   {selectedRole === role.value && (
-                                    <div className="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0" style={{backgroundColor: '#cdd74a'}}>
+                                    <div className="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 bg-logoBlue">
                                       <div className="w-2 h-2 bg-white rounded-full"></div>
                                     </div>
                                   )}
@@ -579,17 +575,16 @@ const SignupPage = () => {
                         )}
                       </div>
 
-                      <div className="bg-gray-800/50 p-2.5 rounded-lg">
+                      <div className="bg-gray-50 border border-gray-200 p-3 rounded-xl">
                         <label className="flex items-start cursor-pointer" onClick={handleCheckboxClick}>
                           <input
                             type="checkbox"
                             checked={agreeToLegal}
                             onChange={() => {}}
                             onClick={handleCheckboxClick}
-                            className="mt-0.5 h-4 w-4 border-gray-300 rounded pointer-events-none flex-shrink-0"
-                            style={{accentColor: '#cdd74a'}}
+                            className="mt-0.5 h-4 w-4 border-gray-300 rounded pointer-events-none flex-shrink-0 text-logoBlue focus:ring-logoBlue"
                           />
-                          <span className="ml-2.5 text-xs text-gray-300">
+                          <span className="ml-2.5 text-xs text-gray-600">
                             I agree to the{' '}
                             <button
                               type="button"
@@ -597,10 +592,7 @@ const SignupPage = () => {
                                 e.stopPropagation()
                                 setShowLegalModal(true)
                               }}
-                              className="underline transition-colors"
-                              style={{color: '#cdd74a'}}
-                              onMouseEnter={(e) => e.currentTarget.style.color = '#b8c242'}
-                              onMouseLeave={(e) => e.currentTarget.style.color = '#cdd74a'}
+                              className="underline transition-colors text-blue-600 hover:text-blue-700 font-medium"
                             >
                               Terms of Service and Privacy Policy
                             </button>
@@ -618,7 +610,7 @@ const SignupPage = () => {
                     onClick={prevStep}
                     disabled={currentStep === 1}
                     tabIndex={currentStep === 2 ? -1 : 0}
-                    className="flex items-center justify-center px-4 py-2.5 text-sm font-medium text-white bg-gray-700 rounded-lg hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all active:scale-95"
+                    className="flex items-center justify-center px-4 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all active:scale-95"
                   >
                     <ArrowLeft className="h-4 w-4 mr-1.5" />
                     Previous
@@ -629,10 +621,7 @@ const SignupPage = () => {
                       type="button"
                       onClick={nextStep}
                       disabled={currentStep === 1 && (emailTaken || isCheckingEmail)}
-                      className="flex-1 flex items-center justify-center px-4 py-2.5 text-sm font-semibold text-gray-800 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md hover:shadow-lg active:scale-95"
-                      style={{backgroundColor: '#cdd74a'}}
-                      onMouseEnter={(e) => !e.currentTarget.disabled && (e.currentTarget.style.backgroundColor = '#b8c242')}
-                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#cdd74a'}
+                      className="flex-1 flex items-center justify-center px-4 py-2.5 text-sm font-semibold text-white bg-logoBlue hover:bg-navy-800 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md hover:shadow-lg active:scale-95"
                     >
                       Next
                       <ArrowRight className="h-4 w-4 ml-1.5" />
@@ -641,10 +630,7 @@ const SignupPage = () => {
                     <button
                       type="submit"
                       disabled={isLoading || isSigningIn || !agreeToLegal}
-                      className="flex-1 flex items-center justify-center px-4 py-2.5 text-sm font-semibold text-gray-800 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md hover:shadow-lg active:scale-95"
-                      style={{backgroundColor: '#cdd74a'}}
-                      onMouseEnter={(e) => !e.currentTarget.disabled && (e.currentTarget.style.backgroundColor = '#b8c242')}
-                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#cdd74a'}
+                      className="flex-1 flex items-center justify-center px-4 py-2.5 text-sm font-semibold text-white bg-logoBlue hover:bg-navy-800 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md hover:shadow-lg active:scale-95"
                     >
                       {isLoading || isSigningIn ? (
                         <LoadingSpinner size="sm" />
@@ -667,7 +653,7 @@ const SignupPage = () => {
                       <div className="w-full border-t border-gray-300" />
                     </div>
                     <div className="relative flex justify-center text-sm">
-                      <span className="px-2" style={{backgroundColor: '#001a5c', color: '#e8ebc4'}}>Or sign up with</span>
+                      <span className="px-2 bg-white text-gray-500">Or sign up with</span>
                     </div>
                   </div>
 
@@ -696,13 +682,10 @@ const SignupPage = () => {
                 </div>
               )}
 
-              <div className="mt-4 text-center">
+              <div className="mt-6 text-center">
               <Link
                 to="/login"
-                  className="text-sm transition-colors"
-                  style={{color: '#cdd74a'}}
-                  onMouseEnter={(e) => e.currentTarget.style.color = '#b8c242'}
-                  onMouseLeave={(e) => e.currentTarget.style.color = '#cdd74a'}
+                  className="text-sm transition-colors text-blue-600 hover:text-blue-700 font-medium"
               >
                 Already have an account? Sign in
               </Link>
@@ -712,7 +695,7 @@ const SignupPage = () => {
         </div>
 
         {/* Right Column - Logo and Branding (moved to right) */}
-        <div className="hidden lg:flex lg:w-1/2 flex-col justify-center items-center px-12" style={{backgroundColor: '#001a5c'}}>
+        <div className="hidden lg:flex lg:w-1/2 flex-col justify-center items-center px-12 bg-logoBlue">
         <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -721,7 +704,7 @@ const SignupPage = () => {
           >
             <img src="/hopelinklogo.png" alt="HopeLink" className="h-20 rounded mx-auto mb-8" />
             <h1 className="text-4xl font-bold text-white mb-6">Join HopeLink</h1>
-            <p className="text-xl mb-8 max-w-md mx-auto" style={{color: '#e8ebc4'}}>
+            <p className="text-xl mb-8 max-w-md mx-auto text-blue-100">
               Become part of a community that connects hearts and makes a real difference
             </p>
             

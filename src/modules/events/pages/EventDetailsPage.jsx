@@ -253,7 +253,7 @@ const EventDetailsPage = () => {
 
   if (!event) {
     return (
-      <div className="min-h-screen py-8" style={{backgroundColor: '#00237d'}}>
+      <div className="min-h-screen py-8 bg-gray-50">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="card p-12 text-center">
             <AlertCircle className="h-16 w-16 text-danger-500 mx-auto mb-4" />
@@ -287,7 +287,7 @@ const EventDetailsPage = () => {
   }
 
   return (
-    <div className="min-h-screen py-6" style={{backgroundColor: '#00237d'}}>
+    <div className="min-h-screen py-6 bg-gray-50">
       <div className="w-full px-4 sm:px-6 lg:px-8">
         {/* Back Button */}
         <motion.div

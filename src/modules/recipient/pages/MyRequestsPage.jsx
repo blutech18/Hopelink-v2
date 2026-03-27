@@ -157,7 +157,7 @@ const EditRequestModal = ({ request, onClose, onSuccess }) => {
               <Edit3 className="h-6 w-6 text-blue-500" />
             </div>
             <div>
-              <h3 className="text-xl font-bold text-white">Edit Request</h3>
+              <h3 className="text-xl font-bold text-gray-900">Edit Request</h3>
               <p className="text-xs text-gray-600">Update request information</p>
             </div>
           </div>
@@ -216,7 +216,7 @@ const EditRequestModal = ({ request, onClose, onSuccess }) => {
                   />
                   <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-yellow-500 hover:bg-gray-100 transition-all cursor-pointer">
                     <Upload className="h-10 w-10 text-blue-500 mx-auto mb-3" />
-                    <p className="text-white text-sm mb-1">Click to upload image</p>
+                    <p className="text-gray-500 text-sm mb-1">Click to upload image</p>
                     <p className="text-blue-500 text-xs">PNG, JPG up to 5MB</p>
                   </div>
                 </div>
@@ -226,7 +226,7 @@ const EditRequestModal = ({ request, onClose, onSuccess }) => {
             {/* Basic Information */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="md:col-span-2">
-                <label htmlFor="edit-title" className="block text-sm font-medium text-white mb-2">
+                <label htmlFor="edit-title" className="block text-sm font-medium text-gray-700 mb-2">
                   Request Title *
                 </label>
                 <input
@@ -244,7 +244,7 @@ const EditRequestModal = ({ request, onClose, onSuccess }) => {
               </div>
 
               <div className="md:col-span-2">
-                <label htmlFor="edit-description" className="block text-sm font-medium text-white mb-2">
+                <label htmlFor="edit-description" className="block text-sm font-medium text-gray-700 mb-2">
                   Description
                 </label>
                 <textarea
@@ -261,7 +261,7 @@ const EditRequestModal = ({ request, onClose, onSuccess }) => {
               </div>
 
               <div>
-                <label htmlFor="edit-category" className="block text-sm font-medium text-white mb-2">
+                <label htmlFor="edit-category" className="block text-sm font-medium text-gray-700 mb-2">
                   Category *
                 </label>
                 <select
@@ -282,7 +282,7 @@ const EditRequestModal = ({ request, onClose, onSuccess }) => {
               </div>
 
               <div>
-                <label htmlFor="edit-quantity" className="block text-sm font-medium text-white mb-2">
+                <label htmlFor="edit-quantity" className="block text-sm font-medium text-gray-700 mb-2">
                   Quantity *
                 </label>
                 <input
@@ -302,7 +302,7 @@ const EditRequestModal = ({ request, onClose, onSuccess }) => {
               </div>
 
               <div>
-                <label htmlFor="edit-urgency" className="block text-sm font-medium text-white mb-2">
+                <label htmlFor="edit-urgency" className="block text-sm font-medium text-gray-700 mb-2">
                   Urgency Level *
                 </label>
                 <select
@@ -322,7 +322,7 @@ const EditRequestModal = ({ request, onClose, onSuccess }) => {
               </div>
 
               <div>
-                <label htmlFor="edit-needed-by" className="block text-sm font-medium text-white mb-2">
+                <label htmlFor="edit-needed-by" className="block text-sm font-medium text-gray-700 mb-2">
                   Needed By (Optional)
                 </label>
                 <input
@@ -335,7 +335,7 @@ const EditRequestModal = ({ request, onClose, onSuccess }) => {
               </div>
 
               <div className="md:col-span-2">
-                <label htmlFor="edit-location" className="block text-sm font-medium text-white mb-2">
+                <label htmlFor="edit-location" className="block text-sm font-medium text-gray-700 mb-2">
                   Location *
                 </label>
                 <input
@@ -350,7 +350,7 @@ const EditRequestModal = ({ request, onClose, onSuccess }) => {
               </div>
 
               <div className="md:col-span-2">
-                <label htmlFor="edit-delivery-mode" className="block text-sm font-medium text-white mb-2">
+                <label htmlFor="edit-delivery-mode" className="block text-sm font-medium text-gray-700 mb-2">
                   Delivery Mode *
                 </label>
                 <select
@@ -391,7 +391,7 @@ const EditRequestModal = ({ request, onClose, onSuccess }) => {
                 setSampleImage(request.sample_image || null)
                 setImageChanged(false)
               }}
-              className="px-6 py-2.5 bg-gray-50 hover:bg-gray-100 text-white rounded-lg font-medium transition-colors border border-gray-300"
+              className="px-6 py-2.5 bg-white hover:bg-gray-50 text-gray-700 rounded-lg font-medium transition-colors border border-gray-300"
               disabled={isSubmitting}
             >
               Cancel
@@ -731,7 +731,7 @@ const MyRequestsPage = () => {
                   type="text"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-9 sm:pl-10 pr-4 py-2.5 sm:py-3 bg-white/5 border-2 border-white/10 rounded-lg text-sm sm:text-base text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-200"
+                  className="w-full pl-9 sm:pl-10 pr-4 py-2.5 sm:py-3 bg-white border-2 border-gray-200 rounded-lg text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-200"
                   placeholder="Search requests..."
                 />
               </div>
@@ -741,7 +741,7 @@ const MyRequestsPage = () => {
                 <select
                   value={selectedStatus}
                   onChange={(e) => setSelectedStatus(e.target.value)}
-                  className="appearance-none w-full px-4 sm:px-5 py-2.5 sm:py-3 pr-10 bg-white/5 border-2 border-white/10 rounded-lg text-sm sm:text-base text-white font-medium focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-200 cursor-pointer hover:border-yellow-600"
+                  className="appearance-none w-full px-4 sm:px-5 py-2.5 sm:py-3 pr-10 bg-white border-2 border-gray-200 rounded-lg text-sm sm:text-base text-gray-900 font-medium focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-200 cursor-pointer hover:border-blue-500"
                 >
                   <option value="">All Statuses</option>
                   {statusOptions.map(status => (
@@ -756,7 +756,7 @@ const MyRequestsPage = () => {
                 <select
                   value={selectedCategory}
                   onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="appearance-none w-full px-4 sm:px-5 py-2.5 sm:py-3 pr-10 bg-white/5 border-2 border-white/10 rounded-lg text-sm sm:text-base text-white font-medium focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-200 cursor-pointer hover:border-yellow-600"
+                  className="appearance-none w-full px-4 sm:px-5 py-2.5 sm:py-3 pr-10 bg-white border-2 border-gray-200 rounded-lg text-sm sm:text-base text-gray-900 font-medium focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-200 cursor-pointer hover:border-blue-500"
                 >
                   <option value="">All Categories</option>
                   {categories.map(category => (
@@ -765,60 +765,7 @@ const MyRequestsPage = () => {
                 </select>
                 <Package className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-blue-500 pointer-events-none" />
               </div>
-        )}
             </div>
-        {/* Filters */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="mb-4 sm:mb-6 lg:mb-8"
-        >
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-            {/* Search */}
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-blue-500" />
-              <input
-                type="text"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-9 sm:pl-10 pr-4 py-2.5 sm:py-3 bg-gray-50 border-2 border-gray-200 rounded-lg text-sm sm:text-base text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-200"
-                placeholder="Search requests..."
-              />
-            </div>
-
-            {/* Status */}
-            <div className="relative w-full sm:w-auto sm:min-w-[180px]">
-              <select
-                value={selectedStatus}
-                onChange={(e) => setSelectedStatus(e.target.value)}
-                className="appearance-none w-full px-4 sm:px-5 py-2.5 sm:py-3 pr-10 bg-gray-50 border-2 border-gray-200 rounded-lg text-sm sm:text-base text-white font-medium focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-200 cursor-pointer hover:border-yellow-600"
-              >
-                <option value="">All Statuses</option>
-                {statusOptions.map(status => (
-                  <option key={status.value} value={status.value}>{status.label}</option>
-                ))}
-              </select>
-              <Filter className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-blue-500 pointer-events-none" />
-            </div>
-
-            {/* Category */}
-            <div className="relative w-full sm:w-auto sm:min-w-[180px]">
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="appearance-none w-full px-4 sm:px-5 py-2.5 sm:py-3 pr-10 bg-gray-50 border-2 border-gray-200 rounded-lg text-sm sm:text-base text-white font-medium focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-200 cursor-pointer hover:border-yellow-600"
-              >
-                <option value="">All Categories</option>
-                {categories.map(category => (
-                  <option key={category} value={category}>{category}</option>
-                ))}
-              </select>
-              <Package className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-blue-500 pointer-events-none" />
-            </div>
-          </div>
-        </motion.div>
-
           </motion.div>
 
         {/* Requests List */}
@@ -829,7 +776,7 @@ const MyRequestsPage = () => {
             className="text-center py-12"
           >
             <Package className="h-16 w-16 text-blue-500 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-white mb-2">
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">
               {requests.length === 0 ? 'No requests yet' : 'No matching requests'}
             </h3>
             <p className="text-blue-500 mb-6">
@@ -902,9 +849,9 @@ const MyRequestsPage = () => {
                             />
                           </div>
                         ) : (
-                          <div className="w-full sm:w-48 lg:w-56 h-40 sm:h-48 rounded-lg bg-gradient-to-br from-navy-800 to-navy-900 flex flex-col items-center justify-center border-2 border-gray-300 shadow-lg">
-                            <Gift className="h-12 w-12 sm:h-16 sm:w-16 text-blue-500 mb-2" />
-                            <span className="text-[10px] sm:text-xs text-gray-400 font-medium uppercase tracking-wide">No Image</span>
+                          <div className="w-full sm:w-48 lg:w-56 h-40 sm:h-48 rounded-lg bg-gray-100 flex flex-col items-center justify-center border-2 border-gray-200 shadow-sm">
+                            <Gift className="h-12 w-12 sm:h-16 sm:w-16 text-gray-400 mb-2" />
+                            <span className="text-[10px] sm:text-xs text-gray-500 font-medium uppercase tracking-wide">No Image</span>
                             <span className={`mt-2 px-2 py-0.5 sm:py-1 rounded-md text-[10px] sm:text-xs font-semibold ${statusInfo.color}`}>
                               {statusInfo.label}
                             </span>
@@ -917,7 +864,7 @@ const MyRequestsPage = () => {
                         {/* Header with Actions */}
                         <div className="flex flex-col sm:flex-row items-start justify-between gap-3 sm:gap-4">
                           <div className="flex-1 min-w-0">
-                            <h3 className="text-base sm:text-lg lg:text-xl font-bold text-white mb-1.5 sm:mb-2">{request.title}</h3>
+                            <h3 className="text-base sm:text-lg lg:text-xl font-bold text-gray-900 mb-1.5 sm:mb-2">{request.title}</h3>
                             <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-2">
                               <span className={`inline-flex items-center px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-semibold ${statusInfo.color}`}>
                                 {statusInfo.label}
@@ -929,7 +876,7 @@ const MyRequestsPage = () => {
                                 {request.category}
                               </span>
                             </div>
-                            <p className="text-gray-300 text-xs sm:text-sm line-clamp-2">
+                            <p className="text-gray-600 text-xs sm:text-sm line-clamp-2">
                               {request.description || 'No description provided'}
                             </p>
                           </div>
@@ -946,7 +893,7 @@ const MyRequestsPage = () => {
                             <button
                               onClick={() => handleEditRequest(request)}
                               disabled={!canEdit(request)}
-                              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-gray-100 hover:bg-gray-200 border border-gray-200 rounded-lg transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-lg transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                               title={canEdit(request) ? "Edit Request" : "Only open requests can be edited"}
                             >
                               <Edit3 className="h-3.5 w-3.5" />
@@ -975,14 +922,14 @@ const MyRequestsPage = () => {
                           <div className="flex items-center gap-1 sm:gap-1.5">
                             <Package className="h-3 w-3 sm:h-4 sm:w-4 text-blue-400 flex-shrink-0" />
                             <span className="text-blue-400 font-medium">Quantity:</span>
-                            <span className="text-white font-semibold">{request.quantity_needed}</span>
+                            <span className="text-gray-900 font-semibold">{request.quantity_needed}</span>
                           </div>
                           
                           {request.needed_by && (
                             <div className="flex items-center gap-1 sm:gap-1.5">
                               <Clock className="h-3 w-3 sm:h-4 sm:w-4 text-amber-400 flex-shrink-0" />
                               <span className="text-amber-400 font-medium">Deadline:</span>
-                              <span className="text-amber-300 font-semibold">{formatDate(request.needed_by)}</span>
+                              <span className="text-gray-900 font-semibold">{formatDate(request.needed_by)}</span>
                             </div>
                           )}
                           
@@ -990,14 +937,14 @@ const MyRequestsPage = () => {
                             <div className="flex items-center gap-1 sm:gap-1.5">
                               <MapPin className="h-3 w-3 sm:h-4 sm:w-4 text-blue-500 flex-shrink-0" />
                               <span className="text-blue-500 font-medium">Location:</span>
-                              <span className="text-gray-300 truncate">{request.location}</span>
+                              <span className="text-gray-900 truncate">{request.location}</span>
                             </div>
                           )}
                           
                           <div className="flex items-center gap-1 sm:gap-1.5">
                             <Calendar className="h-3 w-3 sm:h-4 sm:w-4 text-purple-400 flex-shrink-0" />
                             <span className="text-purple-400 font-medium">Created:</span>
-                            <span className="text-gray-300">{formatDate(request.created_at)}</span>
+                            <span className="text-gray-900">{formatDate(request.created_at)}</span>
                           </div>
                         </div>
                       </div>
@@ -1028,7 +975,7 @@ const MyRequestsPage = () => {
                       <Heart className="h-5 w-5 sm:h-6 sm:w-6 text-blue-500" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-base sm:text-lg lg:text-xl font-bold text-white truncate">Request Details</h3>
+                      <h3 className="text-base sm:text-lg lg:text-xl font-bold text-gray-900 truncate">Request Details</h3>
                       <p className="text-[10px] sm:text-xs text-gray-600">Complete information</p>
                     </div>
                   </div>
@@ -1064,7 +1011,7 @@ const MyRequestsPage = () => {
                     {/* Title and Status */}
                     <div className="bg-gray-50/50 rounded-lg p-3 sm:p-4 border border-gray-200">
                       <div className="flex flex-col sm:flex-row items-start justify-between gap-2 sm:gap-4 mb-2 sm:mb-3">
-                        <h4 className="text-lg sm:text-xl lg:text-2xl font-bold text-white">{selectedRequest.title}</h4>
+                        <h4 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">{selectedRequest.title}</h4>
                         <span className="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold bg-amber-50 text-gray-600 border border-gray-200 whitespace-nowrap">
                           {selectedRequest.category}
                         </span>
@@ -1080,7 +1027,7 @@ const MyRequestsPage = () => {
                             <Package className="h-4 w-4 text-blue-400" />
                             <span className="text-sm font-semibold text-gray-600">Quantity Needed</span>
                           </div>
-                          <p className="text-white text-lg font-medium">{selectedRequest.quantity_needed}</p>
+                          <p className="text-gray-900 text-lg font-medium">{selectedRequest.quantity_needed}</p>
                         </div>
                       </div>
                       
@@ -1093,7 +1040,7 @@ const MyRequestsPage = () => {
                                 <AlertCircle className="h-4 w-4 text-orange-400" />
                                 <span className="text-sm font-semibold text-gray-600">Status</span>
                               </div>
-                              <p className="text-white text-lg font-medium">{statusInfo.label}</p>
+                              <p className="text-gray-900 text-lg font-medium">{statusInfo.label}</p>
                             </div>
                           </div>
                         )
@@ -1108,7 +1055,7 @@ const MyRequestsPage = () => {
                                 <Clock className="h-4 w-4 text-red-400" />
                                 <span className="text-sm font-semibold text-gray-600">Urgency</span>
                               </div>
-                              <p className="text-white text-lg font-medium">{urgencyInfo.label}</p>
+                              <p className="text-gray-900 text-lg font-medium">{urgencyInfo.label}</p>
                             </div>
                           </div>
                         )
@@ -1120,7 +1067,7 @@ const MyRequestsPage = () => {
                             <Heart className="h-4 w-4 text-green-400" />
                             <span className="text-sm font-semibold text-gray-600">Claims</span>
                           </div>
-                          <p className={`text-lg font-medium ${selectedRequest.claims_count > 0 ? 'text-white' : 'text-gray-400 italic'}`}>
+                          <p className={`text-lg font-medium ${selectedRequest.claims_count > 0 ? 'text-gray-900' : 'text-gray-400 italic'}`}>
                             {selectedRequest.claims_count > 0 ? `${selectedRequest.claims_count} claim(s)` : 'Not provided'}
                           </p>
                         </div>
@@ -1134,7 +1081,7 @@ const MyRequestsPage = () => {
                           <MapPin className="h-4 w-4 text-purple-400" />
                           <span className="text-sm font-semibold text-gray-600">Location</span>
                         </div>
-                        <p className={`text-center max-w-[60%] break-words ${selectedRequest.location ? 'text-white' : 'text-gray-400 italic'}`}>
+                        <p className={`text-center max-w-[60%] break-words ${selectedRequest.location ? 'text-gray-900' : 'text-gray-400 italic'}`}>
                           {selectedRequest.location || 'Not provided'}
                         </p>
                       </div>
@@ -1148,7 +1095,7 @@ const MyRequestsPage = () => {
                             <Calendar className="h-4 w-4 text-orange-400" />
                             <span className="text-sm font-semibold text-gray-600">Posted Date</span>
                           </div>
-                          <p className="text-white">{formatDate(selectedRequest.created_at)}</p>
+                          <p className="text-gray-900">{formatDate(selectedRequest.created_at)}</p>
                         </div>
                       </div>
 
@@ -1158,7 +1105,7 @@ const MyRequestsPage = () => {
                             <Clock className="h-4 w-4 text-red-400" />
                             <span className="text-sm font-semibold text-gray-600">Needed By</span>
                           </div>
-                          <p className={selectedRequest.needed_by ? 'text-white' : 'text-gray-400 italic'}>
+                          <p className={selectedRequest.needed_by ? 'text-gray-900' : 'text-gray-400 italic'}>
                             {selectedRequest.needed_by ? formatDate(selectedRequest.needed_by) : 'Not provided'}
                           </p>
                         </div>
@@ -1197,7 +1144,7 @@ const MyRequestsPage = () => {
                   )}
                   <button
                     onClick={() => setShowViewModal(false)}
-                    className="px-4 sm:px-6 py-2.5 bg-gray-50 hover:bg-gray-100 text-white rounded-lg font-medium transition-colors border border-gray-300"
+                    className="px-4 sm:px-6 py-2.5 bg-white hover:bg-gray-50 text-gray-700 rounded-lg font-medium transition-colors border border-gray-300"
                   >
                     Close
                   </button>
@@ -1229,7 +1176,7 @@ const MyRequestsPage = () => {
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center space-x-3">
                     <AlertCircle className="h-6 w-6 text-red-400" />
-                    <h3 className="text-xl font-semibold text-white">Confirm Deletion</h3>
+                    <h3 className="text-xl font-semibold text-gray-900">Confirm Deletion</h3>
                   </div>
                   <button
                     onClick={() => setShowDeleteModal(false)}
@@ -1245,7 +1192,7 @@ const MyRequestsPage = () => {
                   </p>
                   
                   <div className="p-3 bg-gray-50 rounded-lg">
-                    <h4 className="font-medium text-white mb-1">{requestToDelete.title}</h4>
+                    <h4 className="font-medium text-gray-900 mb-1">{requestToDelete.title}</h4>
                     <p className="text-sm text-blue-500">{requestToDelete.category}</p>
                   </div>
 

@@ -317,11 +317,11 @@ const LoginPage = () => {
   }
 
   return (
-    <div className="min-h-screen" style={{backgroundColor: '#00237d'}}>
-      <div className="max-w-7xl mx-auto px-4 py-4">
-        <div className="flex h-[calc(100vh-6rem)] rounded-3xl overflow-hidden shadow-2xl">
+    <div className="min-h-screen bg-gray-50 border-t border-gray-200">
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="flex h-[calc(100vh-8rem)] rounded-3xl overflow-hidden shadow-2xl border border-gray-200">
         {/* Left Column - Logo and Branding */}
-        <div className="hidden lg:flex lg:w-1/2 flex-col justify-center items-center px-12" style={{backgroundColor: '#001a5c'}}>
+        <div className="hidden lg:flex lg:w-1/2 flex-col justify-center items-center px-12 bg-logoBlue">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -330,15 +330,15 @@ const LoginPage = () => {
           >
             <img src="/hopelinklogo.png" alt="HopeLink" className="h-20 rounded mx-auto mb-8" />
             <h1 className="text-4xl font-bold text-white mb-6">Welcome Back</h1>
-            <p className="text-xl mb-8 max-w-md" style={{color: '#e8ebc4'}}>
+            <p className="text-xl mb-8 max-w-md text-blue-100">
               Continue making a difference in your community through HopeLink
             </p>
             
           </motion.div>
         </div>
 
-        {/* Right Column - Login Form (yellow background column) */}
-        <div className="w-full lg:w-1/2 flex flex-col justify-center py-6 px-6 sm:px-8" style={{backgroundColor: '#cdd74a'}}>
+        {/* Right Column - Login Form */}
+        <div className="w-full lg:w-1/2 flex flex-col justify-center py-6 px-6 sm:px-8 bg-gray-50">
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -347,17 +347,17 @@ const LoginPage = () => {
           >
             {/* Mobile Logo */}
             <div className="lg:hidden text-center mb-8">
-              <div className="inline-block p-3 rounded-lg mb-4" style={{backgroundColor: '#001a5c'}}>
+              <div className="inline-block p-3 rounded-xl mb-4 bg-logoBlue shadow-md">
                 <img src="/hopelinklogo.png" alt="HopeLink" className="h-16 rounded mx-auto" />
               </div>
-              <h2 className="text-2xl font-bold" style={{color: '#001a5c'}}>Welcome Back</h2>
-              <p className="mt-2" style={{color: '#001a5c'}}>Sign in to continue making a difference</p>
+              <h2 className="text-2xl font-bold text-gray-900">Welcome Back</h2>
+              <p className="mt-2 text-gray-600">Sign in to continue making a difference</p>
             </div>
 
-            <div className="py-6 px-6 shadow-xl rounded-2xl" style={{backgroundColor: '#001a5c'}}>
-              <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+            <div className="py-8 px-8 shadow-xl rounded-2xl bg-white border border-gray-100">
+              <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-white">
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                     Email address
                   </label>
                   <div className="mt-1">
@@ -381,7 +381,7 @@ const LoginPage = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="password" className="block text-sm font-medium text-white">
+                  <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                     Password
                   </label>
                   <div className="mt-1 relative">
@@ -425,7 +425,7 @@ const LoginPage = () => {
                       tabIndex={-1}
                       className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded flex-shrink-0"
                     />
-                    <label htmlFor="remember-me" className="ml-2 text-sm text-gray-300 whitespace-nowrap">
+                    <label htmlFor="remember-me" className="ml-2 text-sm text-gray-600 whitespace-nowrap">
                       Remember me
                     </label>
                   </div>
@@ -434,7 +434,7 @@ const LoginPage = () => {
                     <Link
                       to="/reset-password"
                       tabIndex={-1}
-                      className="font-medium text-primary-600 hover:text-primary-500 whitespace-nowrap"
+                      className="font-medium text-blue-600 hover:text-blue-700 whitespace-nowrap"
                     >
                       Forgot Password
                     </Link>
@@ -465,7 +465,7 @@ const LoginPage = () => {
                     <div className="w-full border-t border-gray-300" />
                   </div>
                   <div className="relative flex justify-center text-sm">
-                    <span className="px-2" style={{backgroundColor: '#001a5c', color: '#e8ebc4'}}>Or continue with</span>
+                    <span className="px-2 bg-white text-gray-500">Or continue with</span>
                   </div>
                 </div>
 
@@ -499,17 +499,14 @@ const LoginPage = () => {
                     <div className="w-full border-t border-gray-300" />
                   </div>
                   <div className="relative flex justify-center text-sm">
-                    <span className="px-2" style={{backgroundColor: '#001a5c', color: '#e8ebc4'}}>New to HopeLink?</span>
+                    <span className="px-2 bg-white text-gray-500">New to HopeLink?</span>
                   </div>
                 </div>
 
                 <div className="mt-6">
                   <Link
                     to="/signup"
-                    className="w-full flex justify-center py-2 px-4 border rounded-lg text-sm font-medium transition-colors"
-                    style={{borderColor: '#cdd74a', color: '#cdd74a'}}
-                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(205, 215, 74, 0.1)'}
-                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                    className="w-full flex justify-center py-2.5 px-4 border border-blue-200 text-blue-600 rounded-lg text-sm font-medium hover:bg-blue-50 transition-colors"
                   >
                     Create an account
                   </Link>

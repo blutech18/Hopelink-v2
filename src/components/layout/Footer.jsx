@@ -89,30 +89,30 @@ const Footer = ({ userRole = null }) => {
   const currentConfig = userRole ? roleBasedFooterConfig[userRole] : null
 
   return (
-    <footer className="text-white" style={{backgroundColor: '#000f3d'}}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+    <footer className="bg-white border-t border-gray-200 text-gray-600">
+      <div className="w-full px-6 sm:px-8 lg:px-12 xl:px-16 py-6 sm:py-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6">
           {/* Brand Section */}
           <div className="lg:col-span-2 sm:col-span-2">
             <div className="flex items-center space-x-2 mb-2 sm:mb-3">
               <img src="/hopelinklogo.png" alt="HopeLink" className="h-8 sm:h-10 rounded" />
-              <span className="text-lg sm:text-xl font-bold">HopeLink</span>
+              <span className="text-lg sm:text-xl font-bold text-logoBlue">HopeLink</span>
             </div>
-            <p className="text-xs sm:text-sm text-yellow-200 mb-3 sm:mb-4 max-w-md leading-relaxed">
+            <p className="text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4 max-w-md leading-relaxed">
               Connecting hearts and communities through the power of giving.
             </p>
             
             {/* Contact Info */}
             <div className="space-y-1.5">
-              <div className="flex items-center space-x-2 text-yellow-200">
+              <div className="flex items-center space-x-2 text-gray-500">
                 <Mail className="h-4 w-4 flex-shrink-0" />
                 <span className="text-xs sm:text-sm">cfcgkmisor@gmail.com</span>
               </div>
-              <div className="flex items-center space-x-2 text-yellow-200">
+              <div className="flex items-center space-x-2 text-gray-500">
                 <Phone className="h-4 w-4 flex-shrink-0" />
                 <span className="text-xs sm:text-sm">+63 123 456 7890</span>
               </div>
-              <div className="flex items-center space-x-2 text-yellow-200">
+              <div className="flex items-center space-x-2 text-gray-500">
                 <MapPin className="h-4 w-4 flex-shrink-0" />
                 <span className="text-xs sm:text-sm">Pasil, Kauswagan, Kauswagan, Philippines</span>
               </div>
@@ -122,13 +122,13 @@ const Footer = ({ userRole = null }) => {
           {/* Role-specific Section */}
           {currentConfig ? (
             <div className="lg:col-span-1">
-              <h3 className="text-sm sm:text-base font-semibold mb-2 sm:mb-3">Quick Links</h3>
+              <h3 className="text-sm sm:text-base font-semibold mb-2 sm:mb-3 text-logoBlue">Quick Links</h3>
               <ul className="space-y-1.5">
                 {currentConfig.primaryLinks.map((link) => (
                   <li key={link.name}>
                     <Link
                       to={link.href}
-                      className="text-yellow-200 hover:text-yellow-400 transition-colors text-xs sm:text-sm block"
+                      className="text-gray-500 hover:text-logoBlue transition-colors text-xs sm:text-sm block"
                     >
                       {link.name}
                     </Link>
@@ -139,13 +139,13 @@ const Footer = ({ userRole = null }) => {
           ) : (
             /* Default Platform Links for non-authenticated users */
             <div className="lg:col-span-1">
-              <h3 className="text-sm sm:text-base font-semibold mb-2 sm:mb-3">Platform</h3>
+              <h3 className="text-sm sm:text-base font-semibold mb-2 sm:mb-3 text-logoBlue">Platform</h3>
               <ul className="space-y-1.5">
                 {commonLinks.platform.map((link) => (
                   <li key={link.name}>
                     <Link
                       to={link.href}
-                      className="text-yellow-200 hover:text-yellow-400 transition-colors text-xs sm:text-sm block"
+                      className="text-gray-500 hover:text-logoBlue transition-colors text-xs sm:text-sm block"
                     >
                       {link.name}
                     </Link>
@@ -157,14 +157,14 @@ const Footer = ({ userRole = null }) => {
 
           {/* Additional Resources */}
           <div className="lg:col-span-1">
-            <h3 className="text-sm sm:text-base font-semibold mb-2 sm:mb-3">Resources</h3>
+            <h3 className="text-sm sm:text-base font-semibold mb-2 sm:mb-3 text-logoBlue">Resources</h3>
             <ul className="space-y-1.5">
               {currentConfig ? (
                 currentConfig.secondaryLinks.map((link) => (
                   <li key={link.name}>
                     <Link
                       to={link.href}
-                      className="text-yellow-200 hover:text-yellow-400 transition-colors text-xs sm:text-sm"
+                      className="text-gray-500 hover:text-logoBlue transition-colors text-xs sm:text-sm"
                     >
                       {link.name}
                     </Link>
@@ -175,7 +175,7 @@ const Footer = ({ userRole = null }) => {
                   <li key={link.name}>
                     <Link
                       to={link.href}
-                      className="text-yellow-200 hover:text-yellow-400 transition-colors text-xs sm:text-sm"
+                      className="text-gray-500 hover:text-logoBlue transition-colors text-xs sm:text-sm"
                     >
                       {link.name}
                     </Link>
@@ -187,12 +187,12 @@ const Footer = ({ userRole = null }) => {
 
           {/* Community Section */}
           <div className="lg:col-span-1">
-            <h3 className="text-sm sm:text-base font-semibold mb-2 sm:mb-3">Community</h3>
+            <h3 className="text-sm sm:text-base font-semibold mb-2 sm:mb-3 text-logoBlue">Community</h3>
             <ul className="space-y-1.5">
               <li>
                 <Link
                   to="/events"
-                  className="text-yellow-200 hover:text-yellow-400 transition-colors text-xs sm:text-sm"
+                  className="text-gray-500 hover:text-logoBlue transition-colors text-xs sm:text-sm"
                 >
                   Community Events
                 </Link>
@@ -200,7 +200,7 @@ const Footer = ({ userRole = null }) => {
               <li>
                 <Link
                   to="/stories"
-                  className="text-yellow-200 hover:text-yellow-400 transition-colors text-xs sm:text-sm"
+                  className="text-gray-500 hover:text-logoBlue transition-colors text-xs sm:text-sm"
                 >
                   Success Stories
                 </Link>
@@ -208,7 +208,7 @@ const Footer = ({ userRole = null }) => {
               <li>
                 <Link
                   to="/about"
-                  className="text-yellow-200 hover:text-yellow-400 transition-colors text-xs sm:text-sm"
+                  className="text-gray-500 hover:text-logoBlue transition-colors text-xs sm:text-sm"
                 >
                   About Us
                 </Link>
@@ -216,7 +216,7 @@ const Footer = ({ userRole = null }) => {
               <li>
                 <Link
                   to="/contact"
-                  className="text-yellow-200 hover:text-yellow-400 transition-colors text-xs sm:text-sm"
+                  className="text-gray-500 hover:text-logoBlue transition-colors text-xs sm:text-sm"
                 >
                   Contact Us
                 </Link>
@@ -225,7 +225,7 @@ const Footer = ({ userRole = null }) => {
           </div>
         </div>
 
-        <hr className="border-navy-700 my-4 sm:my-6" />
+        <hr className="border-gray-200 my-4 sm:my-6" />
 
         {/* Bottom Section */}
         <div className="flex flex-col sm:flex-row lg:flex-row justify-between items-center gap-3">
@@ -234,21 +234,21 @@ const Footer = ({ userRole = null }) => {
               <Link
                 key={link.name}
                 to={link.href}
-                className="text-yellow-300 hover:text-yellow-400 transition-colors text-xs sm:text-sm"
+                className="text-gray-500 hover:text-logoBlue transition-colors text-xs sm:text-sm"
               >
                 {link.name}
               </Link>
             ))}
           </div>
           
-          <div className="text-yellow-300 text-xs sm:text-sm text-center sm:text-right">
+          <div className="text-gray-500 text-xs sm:text-sm text-center sm:text-right">
             © {currentYear} HopeLink. All rights reserved. Built with ❤️ for the community.
           </div>
         </div>
 
         {/* Mission Statement */}
-        <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-navy-700 text-center">
-          <p className="text-yellow-300 text-xs max-w-2xl mx-auto leading-relaxed">
+        <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-gray-200 text-center">
+          <p className="text-gray-400 text-xs max-w-2xl mx-auto leading-relaxed">
             "Hope is being able to see that there is light despite all of the darkness." - Desmond Tutu
           </p>
         </div>

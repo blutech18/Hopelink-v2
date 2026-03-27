@@ -13,6 +13,7 @@ import { isDevelopment, getEnvironmentStatus } from './shared/lib/devUtils'
 import { supabase } from './shared/lib/supabase'
 import lazyWithRetry from './shared/lib/lazyWithRetry'
 import { preloadRoutes } from './shared/lib/preloadRoutes'
+import useUIStore from './stores/uiStore'
 
 // Import public pages directly (avoiding lazy loading for these specific pages due to Vercel build issues)
 import HomePage from './modules/marketing/pages/HomePage.jsx'
@@ -171,7 +172,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
   
   if (loading || isSigningOut) {
     return (
-      <div className="min-h-screen" style={{backgroundColor: '#1e293b'}}>
+      <div className="min-h-screen bg-gray-50">
         <DashboardSkeleton />
       </div>
     )
@@ -202,7 +203,7 @@ const PublicRoute = ({ children }) => {
   
   if (loading) {
     return (
-      <div className="min-h-screen" style={{backgroundColor: '#1e293b'}}>
+      <div className="min-h-screen bg-gray-50">
         <DashboardSkeleton />
       </div>
     )
@@ -273,27 +274,46 @@ function AppContent() {
     }
   }, [navigate])
 
+  // Sidebar mode from store — must be before any early returns (Rules of Hooks)
+  const sidebarMode = useUIStore((s) => s.sidebarMode)
+  const isDarkMode = useUIStore((s) => s.isDarkMode)
+
+  // Initialize dark mode on mount
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  }, [isDarkMode])
+
   if (loading) {
     return (
-      <div className="min-h-screen" style={{backgroundColor: '#1e293b'}}>
+      <div className="min-h-screen bg-gray-50">
         <DashboardSkeleton />
       </div>
     )
   }
 
   const shouldShowSidebar = profile && location.pathname !== '/auth/callback'
+
+  // Compute the margin class for the main content
+  const getSidebarMargin = () => {
+    if (!shouldShowSidebar) return ''
+    if (sidebarMode === 'pinned') return 'ml-64' // 16rem = w-64
+    return 'ml-12 sm:ml-16' // collapsed sidebar width
+  }
   
   return (
-    <div className="min-h-screen flex flex-col" style={{backgroundColor: '#1e293b'}}>
+    <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-950">
       <Navbar />
       
-      <main className={`flex-1 transition-all duration-300 ease-in-out ${shouldShowSidebar ? 'ml-12 sm:ml-16' : ''}`}>
+      <main className={`flex-1 transition-all duration-300 ease-in-out ${getSidebarMargin()}`}>
           <ErrorBoundaryWithNavigate>
             <React.Suspense 
               fallback={
                 <div 
-                  className="min-h-screen" 
-                  style={{backgroundColor: '#1e293b'}}
+                  className="min-h-screen bg-gray-50" 
                 >
                   <DashboardSkeleton />
                 </div>
@@ -493,7 +513,7 @@ function AppContent() {
           </ErrorBoundaryWithNavigate>
         </main>
         
-        <div className={`transition-all duration-300 ease-in-out ${shouldShowSidebar ? 'ml-12 sm:ml-16' : ''}`}>
+        <div className={`transition-all duration-300 ease-in-out ${getSidebarMargin()}`}>
           {!hideFooter && <Footer userRole={profile?.role} />}
         </div>
         

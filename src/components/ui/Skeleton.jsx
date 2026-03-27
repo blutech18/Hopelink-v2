@@ -222,7 +222,7 @@ export const ListPageSkeleton = ({ title = "Loading" }) => (
 // Page-Specific Skeletons for exact page structure matching
 
 export const DonorDashboardSkeleton = () => (
-  <div className="min-h-screen py-8" style={{backgroundColor: '#00237d'}}>
+  <div className="min-h-screen py-8 bg-gray-50">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Header */}
       <div className="mb-8">
@@ -278,7 +278,7 @@ export const DonorDashboardSkeleton = () => (
 )
 
 export const VolunteerDashboardSkeleton = () => (
-  <div className="min-h-screen py-8" style={{backgroundColor: '#00237d'}}>
+  <div className="min-h-screen py-8 bg-gray-50">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Header */}
       <div className="mb-8">
@@ -339,7 +339,7 @@ export const VolunteerDashboardSkeleton = () => (
 )
 
 export const MyDonationsSkeleton = () => (
-  <div className="min-h-screen py-8" style={{backgroundColor: '#00237d'}}>
+  <div className="min-h-screen py-8 bg-gray-50">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Header with Button */}
       <div className="flex justify-between items-center mb-8">
@@ -398,7 +398,7 @@ export const MyDonationsSkeleton = () => (
 )
 
 export const BrowseRequestsSkeleton = () => (
-  <div className="min-h-screen py-8" style={{backgroundColor: '#00237d'}}>
+  <div className="min-h-screen py-8 bg-gray-50">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Header */}
       <div className="mb-8">

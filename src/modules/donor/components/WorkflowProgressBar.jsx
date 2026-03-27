@@ -148,11 +148,10 @@ const WorkflowProgressBar = ({
                   <StepIcon className={`${classes.icon} ${isActive ? step.color : 'text-gray-500'}`} />
                 </motion.div>
                 
-                {/* Connector Line */}
                 {index < workflowSteps.length - 1 && (
                   <div 
                     className={`w-0.5 flex-1 mt-2 transition-all ${
-                      index < activeIndex ? 'bg-green-400' : 'bg-white/30'
+                      index < activeIndex ? 'bg-green-400' : 'bg-gray-200'
                     }`}
                     style={{ minHeight: '40px' }}
                   />
@@ -161,7 +160,7 @@ const WorkflowProgressBar = ({
 
               {/* Step Info (label only – detailed text shown in Current Status section) */}
               <div className="flex-1 pt-1">
-                <div className={`font-semibold ${classes.text} ${isActive ? 'text-white' : 'text-gray-400'}`}>
+                <div className={`font-semibold ${classes.text} ${isActive ? 'text-gray-900' : 'text-gray-400'}`}>
                   {step.label}
                 </div>
               </div>
@@ -196,10 +195,10 @@ const WorkflowProgressBar = ({
                       ? 'bg-green-500/20 border-green-400 shadow-lg shadow-green-400/30' 
                       : isCurrent 
                       ? `${step.bgColor} ${step.borderColor} shadow-xl shadow-yellow-400/60` 
-                      : 'bg-white/20 border-white/40'
+                      : 'bg-gray-100 border-gray-200'
                   }`}
                 >
-                  <StepIcon className={`${classes.icon} ${isActive ? step.color : 'text-white'}`} />
+                  <StepIcon className={`${classes.icon} ${isActive ? step.color : 'text-gray-400'}`} />
                   {isCurrent && (
                     <>
                       <motion.div
@@ -219,7 +218,7 @@ const WorkflowProgressBar = ({
                 {/* Label (no per-step description – description appears in Current Status only) */}
                 {showLabels && (
                 <div className="mt-1.5 text-center">
-                    <div className={`font-medium ${classes.text} ${isActive ? 'text-white' : 'text-white'}`}>
+                    <div className={`font-medium ${classes.text} ${isActive ? 'text-gray-900' : 'text-gray-500'}`}>
                       {step.label}
                     </div>
                   </div>
@@ -230,7 +229,7 @@ const WorkflowProgressBar = ({
               {index < workflowSteps.length - 1 && (
                 <div 
                   className={`flex-1 h-0.5 relative -mx-1 sm:-mx-1.5 ${
-                    index < activeIndex ? 'bg-green-400' : 'bg-white/30'
+                    index < activeIndex ? 'bg-green-400' : 'bg-gray-200'
                   }`}
                 >
                   {index < activeIndex && (
@@ -260,10 +259,10 @@ const WorkflowProgressBar = ({
             <div className="flex items-center gap-2">
               <CurrentIcon className={`${classes.icon} ${workflowSteps[activeIndex].color}`} />
               <div>
-                <div className={`font-semibold ${classes.text} text-white`}>
+                <div className={`font-semibold ${classes.text} text-gray-900`}>
                   Current Status: {workflowSteps[activeIndex].label}
                 </div>
-                <div className="text-xs text-gray-300 mt-0.5">
+                <div className="text-xs text-gray-600 mt-0.5">
                   {workflowSteps[activeIndex].description}
                 </div>
               </div>
