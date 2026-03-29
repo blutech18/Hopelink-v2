@@ -108,7 +108,7 @@ const AdminFeedbackPage = () => {
     if (role === 'donor') return 'text-blue-400'
     if (role === 'recipient') return 'text-green-400'
     if (role === 'volunteer') return 'text-purple-400'
-    return 'text-gray-400'
+    return 'text-gray-700'
   }
 
   const getRoleBgColor = (role) => {
@@ -540,7 +540,7 @@ const AdminFeedbackPage = () => {
         >
           {filteredFeedback.length === 0 ? (
             <div className="card p-8 border border-gray-200 text-center">
-              <MessageSquare className="h-12 w-12 text-gray-300 mx-auto mb-3" />
+              <MessageSquare className="h-12 w-12 text-gray-600 mx-auto mb-3" />
               <p className="text-gray-500">No feedback found</p>
               <p className="text-blue-500 text-sm mt-2">
                 {roleFilter !== 'all'
@@ -572,11 +572,11 @@ const AdminFeedbackPage = () => {
                             {feedback.user_name || feedback.user?.name || 'User'}
                           </span>
                           <span className="text-xs text-gray-500">•</span>
-                          <span className="text-xs text-gray-400 capitalize">
+                          <span className="text-xs text-gray-700 capitalize">
                             {feedback.user_role || feedback.user?.role || ''}
                           </span>
                           <span className="text-xs text-gray-500">•</span>
-                          <span className="text-xs text-gray-400">
+                          <span className="text-xs text-gray-700">
                             {new Date(feedback.created_at).toLocaleDateString()}
                           </span>
                         </div>
@@ -587,7 +587,7 @@ const AdminFeedbackPage = () => {
                               className={`h-4 w-4 ${
                                 star <= feedback.rating
                                   ? 'text-yellow-400 fill-yellow-400'
-                                  : 'text-gray-300'
+                                  : 'text-gray-700'
                               }`}
                             />
                           ))}
@@ -615,7 +615,7 @@ const AdminFeedbackPage = () => {
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                         {Object.entries(feedback.role_specific_answers).map(([key, value]) => (
                           <div key={key} className="flex items-center justify-between">
-                            <span className="text-xs text-gray-400">
+                            <span className="text-xs text-gray-700">
                               {getQuestionLabel(key)}
                             </span>
                             <div className="flex items-center gap-1">

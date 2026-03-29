@@ -296,8 +296,8 @@ const CookiesPolicyPage = () => {
                   <li>Receive notifications when cookies are set</li>
                   <li>Block third-party cookies specifically</li>
                 </ul>
-                <div className="mt-4 p-4 bg-yellow-400/20 rounded-lg">
-                  <p className="text-gray-600 text-sm">
+                <div className="mt-4 p-4 bg-yellow-100 dark:bg-yellow-900/40 rounded-lg border border-yellow-300 dark:border-yellow-700">
+                  <p className="text-yellow-900 dark:text-yellow-100 text-sm">
                     <strong>Note:</strong> Disabling essential cookies may affect platform functionality.
                   </p>
                 </div>

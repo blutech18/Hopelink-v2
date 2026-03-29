@@ -1003,7 +1003,7 @@ const PendingRequestsPage = () => {
                       <div className="flex flex-col sm:flex-row items-start justify-between gap-2 sm:gap-4 mb-2 sm:mb-3">
                         <h4 className="text-lg sm:text-xl lg:text-2xl font-bold text-white">{selectedRequest.donation?.title || 'N/A'}</h4>
                         {(!selectedRequest.donation?.images || selectedRequest.donation.images.length === 0) && (
-                          <span className="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold bg-amber-50 text-gray-600 border border-gray-200 whitespace-nowrap">
+                          <span className="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold bg-yellow-300 text-yellow-900 border border-yellow-500 whitespace-nowrap">
                             {selectedRequest.type === 'donation_request' ? 'Donation Request' : 'Volunteer Request'}
                           </span>
                         )}

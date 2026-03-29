@@ -75,7 +75,7 @@ const AdminRequestsPage = () => {
       case 'open': return 'text-amber-700 bg-amber-50 border border-amber-200'
       case 'fulfilled': return 'text-green-400 bg-green-500/20'
       case 'cancelled': return 'text-red-400 bg-red-500/20'
-      case 'expired': return 'text-gray-400 bg-gray-500/20'
+      case 'expired': return 'text-gray-700 bg-gray-500/20'
       default: return 'text-amber-700 bg-amber-50 border border-amber-200'
     }
   }
@@ -156,7 +156,7 @@ const AdminRequestsPage = () => {
         return {
           icon: AlertTriangle,
           label: 'Expired',
-          color: 'text-gray-400',
+          color: 'text-gray-700',
           bgColor: 'bg-gray-500/20',
           borderColor: 'border-gray-500/30',
           hoverColor: 'hover:bg-gray-500/30'
@@ -165,7 +165,7 @@ const AdminRequestsPage = () => {
         return {
           icon: Clock,
           label: status,
-          color: 'text-gray-400',
+          color: 'text-gray-700',
           bgColor: 'bg-gray-500/20',
           borderColor: 'border-gray-500/30',
           hoverColor: 'hover:bg-gray-500/30'
@@ -508,7 +508,7 @@ const AdminRequestsPage = () => {
           {/* Filters */}
           <div className="flex flex-col gap-3 sm:gap-4 mb-6">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 flex-shrink-0" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-600 flex-shrink-0" />
               <input
                 type="text"
                 placeholder="Search requests by title or requester..."
@@ -531,7 +531,7 @@ const AdminRequestsPage = () => {
                   <option value="cancelled">Cancelled</option>
                   <option value="expired">Expired</option>
                 </select>
-                <Filter className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+                <Filter className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-600 pointer-events-none" />
               </div>
 
               <div className="relative flex-1">
@@ -545,7 +545,7 @@ const AdminRequestsPage = () => {
                   <option value="medium">Medium</option>
                   <option value="low">Low</option>
                 </select>
-                <AlertTriangle className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+                <AlertTriangle className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-600 pointer-events-none" />
               </div>
             </div>
           </div>
@@ -802,12 +802,12 @@ const AdminRequestsPage = () => {
                 </div>
                 <div className="min-w-0 flex-1">
                   <h3 className="text-xl font-bold text-gray-900 truncate">{selectedRequest.title}</h3>
-                  <p className="text-sm text-gray-400">Request Details</p>
+                  <p className="text-sm text-gray-700">Request Details</p>
                 </div>
               </div>
               <button
                 onClick={() => setShowModal(false)}
-                className="p-2 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-700 transition-colors flex-shrink-0"
+                className="p-2 rounded-lg hover:bg-gray-100 text-gray-700 hover:text-gray-900 transition-colors flex-shrink-0"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -871,26 +871,26 @@ const AdminRequestsPage = () => {
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-medium text-gray-400 mb-2">Name</label>
+                    <label className="block text-xs font-medium text-gray-700 mb-2">Name</label>
                     <div className="flex items-center gap-2">
-                      <User className="h-4 w-4 text-gray-400" />
+                      <User className="h-4 w-4 text-gray-600" />
                       <p className="text-sm text-gray-900 font-medium">{selectedRequest.requester?.name || 'Unknown'}</p>
                     </div>
                   </div>
                   {selectedRequest.requester?.email && (
                     <div>
-                      <label className="block text-xs font-medium text-gray-400 mb-2">Email</label>
+                      <label className="block text-xs font-medium text-gray-700 mb-2">Email</label>
                       <div className="flex items-center gap-2">
-                        <Mail className="h-4 w-4 text-gray-400" />
+                        <Mail className="h-4 w-4 text-gray-600" />
                         <p className="text-sm text-gray-900">{selectedRequest.requester.email}</p>
                       </div>
                     </div>
                   )}
                   {selectedRequest.requester?.phone_number && (
                     <div>
-                      <label className="block text-xs font-medium text-gray-400 mb-2">Phone</label>
+                      <label className="block text-xs font-medium text-gray-700 mb-2">Phone</label>
                       <div className="flex items-center gap-2">
-                        <Phone className="h-4 w-4 text-gray-400" />
+                        <Phone className="h-4 w-4 text-gray-600" />
                         <p className="text-sm text-gray-900">{selectedRequest.requester.phone_number}</p>
                       </div>
                     </div>

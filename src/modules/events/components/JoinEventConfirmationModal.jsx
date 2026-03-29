@@ -184,12 +184,12 @@ const JoinEventConfirmationModal = ({ isOpen, onClose, onConfirm, event, loading
             </div>
 
             {/* Important Notice */}
-            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+            <div className="bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-700 rounded-lg p-4">
               <div className="flex items-start gap-3">
-                <AlertCircle className="h-5 w-5 text-amber-600 flex-shrink-0 mt-0.5" />
+                <AlertCircle className="h-5 w-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
                 <div className="flex-1">
-                  <h4 className="text-sm font-semibold text-amber-700 mb-1">Important Notice</h4>
-                  <p className="text-xs text-gray-600 leading-relaxed">
+                  <h4 className="text-sm font-semibold text-amber-700 dark:text-amber-100 mb-1">Important Notice</h4>
+                  <p className="text-xs text-amber-900 dark:text-amber-200 leading-relaxed">
                     By joining this event, you commit to attending. If you cannot attend, please cancel your registration 
                     as soon as possible to allow others to join. Repeated no-shows may affect your ability to join future events.
                   </p>

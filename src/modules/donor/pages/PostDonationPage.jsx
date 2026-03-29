@@ -265,18 +265,18 @@ const PostDonationPage = () => {
             transition={{ delay: 0.1 }}
             className="lg:w-80 xl:w-96 flex-shrink-0"
           >
-            <div className="card px-6 py-10 sm:py-11 lg:px-8 lg:py-12 xl:py-14 border-2 border-[#000f3d]/20 shadow-sm lg:sticky lg:top-20 rounded-2xl">
+            <div className="card px-6 py-8 sm:py-10 lg:px-8 lg:py-12 border-2 border-primary-200 dark:border-[#000f3d]/20 shadow-md dark:shadow-sm lg:sticky lg:top-24 rounded-2xl bg-gradient-to-b from-white via-white to-blue-50/30 dark:from-slate-800 dark:via-slate-800 dark:to-slate-800">
               {/* Header */}
-              <div className="flex items-center justify-between mb-10 sm:mb-11 lg:mb-12 pb-7 sm:pb-8 lg:pb-9 border-b border-[#000f3d]/15">
-                <h3 className="text-xl font-bold text-gray-900">Progress</h3>
+              <div className="flex items-center justify-between mb-10 sm:mb-12 lg:mb-14 pb-8 sm:pb-9 lg:pb-10 border-b-2 border-primary-200 dark:border-[#000f3d]/15">
+                <h3 className="text-2xl font-bold bg-gradient-to-r from-primary-900 to-primary-700 dark:from-primary-300 dark:to-primary-400 bg-clip-text text-transparent">Progress</h3>
                 <button
                   type="button"
                   onClick={() => setShowWorkflowGuide(true)}
-                  className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 transition-all"
+                  className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-primary-100 dark:bg-primary-900/40 hover:bg-primary-200 dark:hover:bg-primary-800/50 text-primary-700 dark:text-primary-300 transition-all shadow-sm hover:shadow-md"
                   title="How the workflow works"
                   aria-label="How the workflow works"
                 >
-                  <Info className="h-4 w-4" />
+                  <Info className="h-5 w-5" />
                 </button>
               </div>
 
@@ -308,7 +308,7 @@ const PostDonationPage = () => {
                             }`}
                           >
                             <StepIcon className={`h-7 w-7 lg:h-8 lg:w-8 transition-all relative z-10 ${
-                              isActive ? 'text-white' : isCompleted ? 'text-white' : 'text-gray-500'
+                              isActive ? 'text-white' : isCompleted ? 'text-white' : 'text-gray-700'
                             }`} />
                             {/* Yellow wave/glow effect for active step */}
                             {isActive && (
@@ -331,12 +331,12 @@ const PostDonationPage = () => {
                         {/* Text Content */}
                         <div className="flex-1 pt-2 sm:pt-2.5 lg:pt-3 min-w-0">
                           <div className={`text-xs font-semibold uppercase tracking-wider mb-1.5 sm:mb-2 ${
-                            isActive ? 'text-blue-600' : isCompleted ? 'text-blue-600/70' : 'text-gray-500'
+                            isActive ? 'text-primary-700' : isCompleted ? 'text-primary-700' : 'text-gray-700'
                           }`}>
                             Step {step.number}
                           </div>
                           <div className={`text-sm lg:text-base font-semibold leading-tight ${
-                            isActive ? 'text-gray-900' : isCompleted ? 'text-gray-700' : 'text-gray-500'
+                            isActive ? 'text-gray-900' : isCompleted ? 'text-gray-800' : 'text-gray-700'
                           }`}>
                             {step.title}
                           </div>
@@ -345,11 +345,11 @@ const PostDonationPage = () => {
 
                       {/* Connector Line */}
                       {index < steps.length - 1 && (
-                        <div className="relative ml-7 lg:ml-8 my-8 sm:my-10 lg:my-12">
-                          <div className={`absolute left-0 top-0 w-0.5 transition-all duration-500 ${
+                        <div className="relative ml-8 lg:ml-9 my-7 sm:my-9 lg:my-11">
+                          <div className={`absolute left-0 top-0 w-1 transition-all duration-500 rounded-full ${
                             isCompleted 
-                              ? 'h-full bg-gradient-to-b from-yellow-500 via-yellow-500 to-yellow-600' 
-                              : 'h-full bg-gray-200'
+                              ? 'h-full bg-gradient-to-b from-primary-500 via-primary-500 to-primary-600' 
+                              : 'h-full bg-gray-300 dark:bg-gray-600'
                           }`} />
                         </div>
                       )}
@@ -723,11 +723,11 @@ const PostDonationPage = () => {
 
                   {/* Info message when organization is selected */}
                   {donationDestination === 'organization' && (
-                    <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-start space-x-3">
-                      <AlertCircle className="h-5 w-5 flex-shrink-0 mt-0.5 text-amber-700" />
+                    <div className="bg-amber-200 border-2 border-amber-500 rounded-xl p-4 flex items-start space-x-3 shadow-sm">
+                      <AlertCircle className="h-5 w-5 flex-shrink-0 mt-0.5 text-amber-900" />
                       <div className="flex-1">
-                        <p className="text-sm font-medium text-amber-900">Sending to Organization</p>
-                        <p className="text-sm text-amber-800 mt-1">
+                        <p className="text-sm font-bold text-amber-950">Sending to Organization</p>
+                        <p className="text-sm text-amber-900 mt-1">
                           Your donation will be sent directly to the organization (CFC-GK) for distribution to those in need.
                         </p>
                       </div>
@@ -774,8 +774,8 @@ const PostDonationPage = () => {
                         onClick={() => setValue('is_urgent', false)}
                         className={`relative p-2 sm:p-2.5 rounded-lg border-2 transition-all duration-300 ${
                           !watchedIsUrgent
-                            ? 'border-blue-500 bg-blue-50 shadow-sm'
-                            : 'border-[#000f3d]/15 bg-white hover:bg-gray-50 hover:border-[#000f3d]/30'
+                            ? 'border-yellow-500 bg-yellow-100 dark:bg-yellow-900/20 shadow-sm'
+                            : 'border-gray-300 dark:border-[#000f3d]/15 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-gray-400 dark:hover:border-[#000f3d]/30'
                         }`}
                       >
                         <div className="flex items-start space-x-2">

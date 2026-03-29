@@ -464,19 +464,19 @@ const MyRequestsPage = () => {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
 
   const statusOptions = [
-    { value: 'open', label: 'Open', color: 'text-blue-400 bg-blue-900/20' },
-    { value: 'claimed', label: 'Claimed', color: 'text-blue-500 bg-amber-50' },
-    { value: 'in_progress', label: 'In Progress', color: 'text-purple-400 bg-purple-900/20' },
-    { value: 'fulfilled', label: 'Received', color: 'text-green-400 bg-green-900/20' },
-    { value: 'cancelled', label: 'Cancelled', color: 'text-red-400 bg-red-900/20' },
-    { value: 'expired', label: 'Expired', color: 'text-gray-400 bg-gray-900/20' }
+    { value: 'open', label: 'Open', color: 'text-blue-700 bg-blue-100 dark:text-blue-400 dark:bg-blue-900/20' },
+    { value: 'claimed', label: 'Claimed', color: 'text-amber-700 bg-amber-100 dark:text-amber-400 dark:bg-amber-900/20' },
+    { value: 'in_progress', label: 'In Progress', color: 'text-purple-700 bg-purple-100 dark:text-purple-400 dark:bg-purple-900/20' },
+    { value: 'fulfilled', label: 'Received', color: 'text-green-700 bg-green-100 dark:text-green-400 dark:bg-green-900/20' },
+    { value: 'cancelled', label: 'Cancelled', color: 'text-red-700 bg-red-100 dark:text-red-400 dark:bg-red-900/20' },
+    { value: 'expired', label: 'Expired', color: 'text-gray-700 bg-gray-100 dark:text-gray-400 dark:bg-gray-900/20' }
   ]
 
   const urgencyLevels = [
-    { value: 'low', label: 'Low', color: 'text-green-400 bg-green-900/20' },
-    { value: 'medium', label: 'Medium', color: 'text-blue-500 bg-amber-50' },
-    { value: 'high', label: 'High', color: 'text-orange-400 bg-orange-900/20' },
-    { value: 'critical', label: 'Critical', color: 'text-red-400 bg-red-900/20' }
+    { value: 'low', label: 'Low', color: 'text-green-700 bg-green-100 dark:text-green-400 dark:bg-green-900/20' },
+    { value: 'medium', label: 'Medium', color: 'text-amber-700 bg-amber-100 dark:text-amber-400 dark:bg-amber-900/20' },
+    { value: 'high', label: 'High', color: 'text-orange-700 bg-orange-100 dark:text-orange-400 dark:bg-orange-900/20' },
+    { value: 'critical', label: 'Critical', color: 'text-red-700 bg-red-100 dark:text-red-400 dark:bg-red-900/20' }
   ]
 
   const categories = [
@@ -1016,7 +1016,7 @@ const MyRequestsPage = () => {
                           {selectedRequest.category}
                         </span>
                       </div>
-                      <p className="text-sm sm:text-base text-gray-300 leading-relaxed">{selectedRequest.description || 'No description provided'}</p>
+                      <p className="text-sm sm:text-base text-gray-700 leading-relaxed">{selectedRequest.description || 'No description provided'}</p>
                     </div>
 
                     {/* Details Grid */}
@@ -1025,7 +1025,7 @@ const MyRequestsPage = () => {
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
                             <Package className="h-4 w-4 text-blue-400" />
-                            <span className="text-sm font-semibold text-gray-600">Quantity Needed</span>
+                            <span className="text-sm font-semibold text-gray-800">Quantity Needed</span>
                           </div>
                           <p className="text-gray-900 text-lg font-medium">{selectedRequest.quantity_needed}</p>
                         </div>
@@ -1038,7 +1038,7 @@ const MyRequestsPage = () => {
                             <div className="flex items-center justify-between">
                               <div className="flex items-center gap-2">
                                 <AlertCircle className="h-4 w-4 text-orange-400" />
-                                <span className="text-sm font-semibold text-gray-600">Status</span>
+                                <span className="text-sm font-semibold text-gray-800">Status</span>
                               </div>
                               <p className="text-gray-900 text-lg font-medium">{statusInfo.label}</p>
                             </div>
@@ -1053,7 +1053,7 @@ const MyRequestsPage = () => {
                             <div className="flex items-center justify-between">
                               <div className="flex items-center gap-2">
                                 <Clock className="h-4 w-4 text-red-400" />
-                                <span className="text-sm font-semibold text-gray-600">Urgency</span>
+                                <span className="text-sm font-semibold text-gray-800">Urgency</span>
                               </div>
                               <p className="text-gray-900 text-lg font-medium">{urgencyInfo.label}</p>
                             </div>
@@ -1065,9 +1065,9 @@ const MyRequestsPage = () => {
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
                             <Heart className="h-4 w-4 text-green-400" />
-                            <span className="text-sm font-semibold text-gray-600">Claims</span>
+                            <span className="text-sm font-semibold text-gray-800">Claims</span>
                           </div>
-                          <p className={`text-lg font-medium ${selectedRequest.claims_count > 0 ? 'text-gray-900' : 'text-gray-400 italic'}`}>
+                          <p className={`text-lg font-medium ${selectedRequest.claims_count > 0 ? 'text-gray-900' : 'text-gray-600 italic'}`}>
                             {selectedRequest.claims_count > 0 ? `${selectedRequest.claims_count} claim(s)` : 'Not provided'}
                           </p>
                         </div>
@@ -1079,9 +1079,9 @@ const MyRequestsPage = () => {
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                           <MapPin className="h-4 w-4 text-purple-400" />
-                          <span className="text-sm font-semibold text-gray-600">Location</span>
+                          <span className="text-sm font-semibold text-gray-800">Location</span>
                         </div>
-                        <p className={`text-center max-w-[60%] break-words ${selectedRequest.location ? 'text-gray-900' : 'text-gray-400 italic'}`}>
+                        <p className={`text-center max-w-[60%] break-words ${selectedRequest.location ? 'text-gray-900' : 'text-gray-600 italic'}`}>
                           {selectedRequest.location || 'Not provided'}
                         </p>
                       </div>
@@ -1105,7 +1105,7 @@ const MyRequestsPage = () => {
                             <Clock className="h-4 w-4 text-red-400" />
                             <span className="text-sm font-semibold text-gray-600">Needed By</span>
                           </div>
-                          <p className={selectedRequest.needed_by ? 'text-gray-900' : 'text-gray-400 italic'}>
+                          <p className={selectedRequest.needed_by ? 'text-gray-900' : 'text-gray-600 italic'}>
                             {selectedRequest.needed_by ? formatDate(selectedRequest.needed_by) : 'Not provided'}
                           </p>
                         </div>
@@ -1125,7 +1125,7 @@ const MyRequestsPage = () => {
                           ))}
                         </div>
                       ) : (
-                        <p className="text-gray-400 italic text-sm">Not provided</p>
+                        <p className="text-gray-600 italic text-sm">Not provided</p>
                       )}
                     </div>
                   </div>

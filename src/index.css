@@ -9,6 +9,27 @@
   --app-text: #0f172a;
   --app-text-muted: #475569;
   --app-border: #d7e0ea;
+  
+  /* Alert/Warning Colors - Light Mode - Enhanced Contrast */
+  --alert-success-bg: #d1fae5;
+  --alert-success-border: #10b981;
+  --alert-success-text: #065f46;
+  --alert-success-icon: #047857;
+  
+  --alert-error-bg: #fee2e2;
+  --alert-error-border: #ef4444;
+  --alert-error-text: #7f1d1d;
+  --alert-error-icon: #b91c1c;
+  
+  --alert-warning-bg: #fef3c7;
+  --alert-warning-border: #f59e0b;
+  --alert-warning-text: #78350f;
+  --alert-warning-icon: #92400e;
+  
+  --alert-info-bg: #dbeafe;
+  --alert-info-border: #3b82f6;
+  --alert-info-text: #1e3a8a;
+  --alert-info-icon: #1e40af;
 }
 
 .dark {
@@ -18,6 +39,27 @@
   --app-text: #e6edf7;
   --app-text-muted: #c3d0e3;
   --app-border: #2a3a55;
+  
+  /* Alert/Warning Colors - Dark Mode */
+  --alert-success-bg: #064e3b;
+  --alert-success-border: #059669;
+  --alert-success-text: #d1fae5;
+  --alert-success-icon: #10b981;
+  
+  --alert-error-bg: #7f1d1d;
+  --alert-error-border: #ef4444;
+  --alert-error-text: #fee2e2;
+  --alert-error-icon: #fca5a5;
+  
+  --alert-warning-bg: #78350f;
+  --alert-warning-border: #fbbf24;
+  --alert-warning-text: #fef3c7;
+  --alert-warning-icon: #fcd34d;
+  
+  --alert-info-bg: #1e3a8a;
+  --alert-info-border: #93c5fd;
+  --alert-info-text: #dbeafe;
+  --alert-info-icon: #60a5fa;
 }
 
 @layer base {
@@ -96,6 +138,34 @@
 
   .badge-primary {
     @apply bg-primary-100 text-primary-800;
+  }
+  
+  .alert {
+    @apply rounded-lg border p-4 flex items-start gap-3;
+  }
+  
+  .alert-success {
+    background-color: var(--alert-success-bg);
+    border-color: var(--alert-success-border);
+    color: var(--alert-success-text);
+  }
+  
+  .alert-error {
+    background-color: var(--alert-error-bg);
+    border-color: var(--alert-error-border);
+    color: var(--alert-error-text);
+  }
+  
+  .alert-warning {
+    background-color: var(--alert-warning-bg);
+    border-color: var(--alert-warning-border);
+    color: var(--alert-warning-text);
+  }
+  
+  .alert-info {
+    background-color: var(--alert-info-bg);
+    border-color: var(--alert-info-border);
+    color: var(--alert-info-text);
   }
 
   .badge-secondary {

@@ -231,8 +231,8 @@ const CodeOfConductPage = () => {
                   <li><strong>Permanent Ban:</strong> Severe violations result in permanent account termination</li>
                   <li><strong>Legal Action:</strong> We may involve law enforcement for criminal behavior</li>
                 </ul>
-                <div className="mt-4 p-4 bg-red-400/20 rounded-lg">
-                  <p className="text-gray-600 text-sm">
+                <div className="mt-4 p-4 bg-red-100 dark:bg-red-900/40 rounded-lg border border-red-300 dark:border-red-700">
+                  <p className="text-red-900 dark:text-red-100 text-sm">
                     <strong>Note:</strong> We reserve the right to take immediate action for severe violations.
                   </p>
                 </div>
@@ -286,8 +286,8 @@ const CodeOfConductPage = () => {
                 </div>
               </div>
               
-              <div className="mt-8 p-4 bg-yellow-400/20 rounded-lg">
-                <p className="text-gray-600 text-sm">
+              <div className="mt-8 p-4 bg-yellow-100 dark:bg-yellow-900/40 rounded-lg border border-yellow-300 dark:border-yellow-700">
+                <p className="text-yellow-900 dark:text-yellow-100 text-sm">
                   <strong>Fair Process:</strong> We are committed to fair and impartial review of all appeals. 
                   Our goal is to maintain community standards while being understanding of individual circumstances.
                 </p>

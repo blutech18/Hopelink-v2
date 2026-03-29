@@ -188,7 +188,7 @@ const AdminCFCDonationsPage = () => {
         return {
           icon: Clock,
           label: status,
-          color: 'text-gray-400',
+          color: 'text-gray-700',
           bgColor: 'bg-gray-500/20',
           borderColor: 'border-gray-500/30',
           hoverColor: 'hover:bg-gray-500/30'
@@ -488,7 +488,7 @@ const AdminCFCDonationsPage = () => {
           {/* Filters */}
           <div className="flex flex-col gap-3 sm:gap-4 mb-6">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 flex-shrink-0" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-600 flex-shrink-0" />
                 <input
                 type="text"
                 placeholder="Search direct donations..."
@@ -510,7 +510,7 @@ const AdminCFCDonationsPage = () => {
                   <option value="delivered">Delivered (Pending Admin Approval)</option>
                   <option value="claimed">Claimed (Completed)</option>
                 </select>
-                <Filter className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+                <Filter className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-600 pointer-events-none" />
               </div>
               
               <button
@@ -741,7 +741,7 @@ const AdminCFCDonationsPage = () => {
           
           {filteredDonations.length === 0 && (
             <div className="text-center py-12">
-              <Building className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+              <Building className="h-12 w-12 text-gray-600 mx-auto mb-4" />
               <p className="text-gray-600">No direct donations found</p>
               <p className="text-gray-500 text-sm">
                 {searchTerm || statusFilter !== 'all'
@@ -777,7 +777,7 @@ const AdminCFCDonationsPage = () => {
               </div>
               <button
                 onClick={() => setShowModal(false)}
-                className="text-gray-400 hover:text-gray-900 transition-colors p-2 hover:bg-gray-100 rounded-lg"
+                className="text-gray-700 hover:text-gray-900 transition-colors p-2 hover:bg-gray-100 rounded-lg"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -791,7 +791,7 @@ const AdminCFCDonationsPage = () => {
                   <div className="flex items-start justify-between gap-4 mb-3">
                     <div className="flex-1">
                       <h4 className="text-2xl font-bold text-gray-900 mb-2">{selectedDonation.title}</h4>
-                      <p className="text-sm text-gray-400">{selectedDonation.description}</p>
+                      <p className="text-sm text-gray-700">{selectedDonation.description}</p>
                     </div>
                     <div className="flex flex-col gap-2 items-end">
                       <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
@@ -900,7 +900,7 @@ const AdminCFCDonationsPage = () => {
             {/* Footer */}
             <div className="p-6 pt-4 border-t border-gray-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 flex-shrink-0">
               <div className="flex items-center gap-3 flex-1">
-                <label className="text-xs font-medium text-gray-400">Update Status:</label>
+                <label className="text-xs font-medium text-gray-700">Update Status:</label>
                 {/* Enhanced Status Dropdown */}
                 <div className="relative status-dropdown-container">
                   <button

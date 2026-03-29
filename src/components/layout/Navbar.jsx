@@ -607,7 +607,7 @@ const Navbar = () => {
                         ? isSidebarExpanded
                           ? "text-logoBlue bg-blue-50 dark:bg-blue-900/30 font-semibold border border-blue-100 dark:border-blue-800"
                           : "text-logoBlue bg-blue-50/70 dark:bg-blue-900/20"
-                        : "text-gray-600 dark:text-gray-400 hover:text-logoBlue"
+                        : "text-gray-800 dark:text-gray-400 hover:text-logoBlue"
                     }`}
                   >
                     <span className="h-5 w-5 flex items-center justify-center flex-shrink-0">
@@ -646,8 +646,8 @@ const Navbar = () => {
               onClick={toggleDarkMode}
               className={`relative flex items-center w-full transition-all duration-200 group/btn ${
                 isSidebarExpanded
-                  ? "justify-start space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400 hover:text-logoBlue"
-                  : "justify-center py-2.5 text-gray-600 dark:text-gray-400 hover:text-logoBlue"
+                  ? "justify-start space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-800 dark:text-gray-400 hover:text-logoBlue"
+                  : "justify-center py-2.5 text-gray-800 dark:text-gray-400 hover:text-logoBlue"
               }`}
             >
               {isDarkMode ? (
@@ -682,8 +682,8 @@ const Navbar = () => {
               onClick={() => setShowSidebarModeModal((prev) => !prev)}
               className={`relative flex items-center w-full transition-all duration-200 group/btn ${
                 isSidebarExpanded
-                  ? "justify-start space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400 hover:text-logoBlue"
-                  : "justify-center py-2.5 text-gray-600 dark:text-gray-400 hover:text-logoBlue"
+                  ? "justify-start space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-800 dark:text-gray-400 hover:text-logoBlue"
+                  : "justify-center py-2.5 text-gray-800 dark:text-gray-400 hover:text-logoBlue"
               }`}
             >
               <Layers className="h-4 w-4 md:h-5 md:w-5 flex-shrink-0" />
@@ -747,7 +747,7 @@ const Navbar = () => {
                         >
                           <div className="flex items-start gap-2">
                             <ModeIcon
-                              className={`h-4 w-4 mt-0.5 ${isActive ? "text-logoBlue" : "text-gray-500 dark:text-gray-400"}`}
+                              className={`h-4 w-4 mt-0.5 ${isActive ? "text-logoBlue" : "text-gray-700 dark:text-gray-400"}`}
                             />
                             <div>
                               <p

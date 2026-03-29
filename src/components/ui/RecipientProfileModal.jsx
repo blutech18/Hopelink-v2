@@ -342,12 +342,12 @@ const RecipientProfileModal = ({ isOpen, onClose, recipient, request = null }) =
                 </div>
               </div>
             ) : (
-              <div className="bg-orange-500/10 rounded-xl p-4 border border-orange-400/20">
+              <div className="bg-orange-50 dark:bg-orange-950 rounded-xl p-4 border border-orange-200 dark:border-orange-700">
                 <div className="flex items-start gap-3">
-                  <AlertCircle className="h-5 w-5 text-orange-400 flex-shrink-0 mt-0.5" />
+                  <AlertCircle className="h-5 w-5 text-orange-600 dark:text-orange-400 flex-shrink-0 mt-0.5" />
                   <div>
-                    <p className="text-sm font-medium text-orange-300 mb-1">Verification Pending</p>
-                    <p className="text-xs text-orange-200/80">
+                    <p className="text-sm font-medium text-orange-800 dark:text-orange-100 mb-1">Verification Pending</p>
+                    <p className="text-xs text-orange-700 dark:text-orange-200">
                       This recipient's profile is not yet fully verified. Consider reviewing their request details carefully.
                     </p>
                   </div>

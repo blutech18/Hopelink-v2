@@ -22,32 +22,39 @@ const Toast = React.forwardRef(({ toast, onRemove }, ref) => {
 
   const Icon = icons[toast.type] || Info
 
-  const bgColors = {
-    success: 'bg-[#001a5c] border-gray-200',
-    error: 'bg-[#001a5c] border-gray-200',
-    warning: 'bg-[#001a5c] border-gray-200',
-    info: 'bg-[#001a5c] border-gray-200',
+  const bgClass = {
+    success: 'bg-emerald-50 dark:bg-emerald-950',
+    error: 'bg-red-50 dark:bg-red-950',
+    warning: 'bg-amber-50 dark:bg-amber-950',
+    info: 'bg-blue-50 dark:bg-blue-950',
   }
 
   const leftBorderColors = {
-    success: 'border-l-4 border-l-yellow-500',
-    error: 'border-l-4 border-l-yellow-500',
-    warning: 'border-l-4 border-l-yellow-500',
-    info: 'border-l-4 border-l-yellow-500',
+    success: 'border-l-4 border-l-emerald-500 dark:border-l-emerald-400',
+    error: 'border-l-4 border-l-red-500 dark:border-l-red-400',
+    warning: 'border-l-4 border-l-amber-500 dark:border-l-amber-400',
+    info: 'border-l-4 border-l-blue-500 dark:border-l-blue-400',
+  }
+
+  const borderColors = {
+    success: 'border-emerald-200 dark:border-emerald-700',
+    error: 'border-red-200 dark:border-red-700',
+    warning: 'border-amber-200 dark:border-amber-700',
+    info: 'border-blue-200 dark:border-blue-700',
   }
 
   const textColors = {
-    success: 'text-white',
-    error: 'text-white',
-    warning: 'text-white',
-    info: 'text-white',
+    success: 'text-emerald-900 dark:text-emerald-100',
+    error: 'text-red-900 dark:text-red-100',
+    warning: 'text-amber-900 dark:text-amber-100',
+    info: 'text-blue-900 dark:text-blue-100',
   }
 
   const iconColors = {
-    success: 'text-gray-600',
-    error: 'text-gray-600',
-    warning: 'text-gray-600',
-    info: 'text-gray-600',
+    success: 'text-emerald-500 dark:text-emerald-400',
+    error: 'text-red-500 dark:text-red-400',
+    warning: 'text-amber-500 dark:text-amber-400',
+    info: 'text-blue-500 dark:text-blue-400',
   }
 
   return (
@@ -56,7 +63,7 @@ const Toast = React.forwardRef(({ toast, onRemove }, ref) => {
       initial={{ opacity: 0, x: 300, scale: 0.9 }}
       animate={{ opacity: 1, x: 0, scale: 1 }}
       exit={{ opacity: 0, x: 300, scale: 0.9, transition: { duration: 0.3 } }}
-      className={`w-full max-w-xs sm:min-w-80 sm:max-w-md border rounded-lg shadow-lg p-3 sm:p-4 ${bgColors[toast.type]} ${leftBorderColors[toast.type]}`}
+      className={`w-full max-w-xs sm:min-w-80 sm:max-w-md rounded-lg shadow-lg p-3 sm:p-4 ${bgClass[toast.type]} border ${borderColors[toast.type]} ${leftBorderColors[toast.type]}`}
     >
       <div className="flex items-start space-x-2 sm:space-x-3">
         <div className="flex-shrink-0 mt-0.5">
@@ -76,7 +83,7 @@ const Toast = React.forwardRef(({ toast, onRemove }, ref) => {
         </div>
         <div className="flex-shrink-0">
           <button
-            className={`rounded p-0.5 sm:p-1 hover:bg-gray-50 transition-colors duration-200 focus:outline-none focus:ring-1 focus:ring-blue-500 ${textColors[toast.type]} opacity-70 hover:opacity-100`}
+            className={`rounded p-0.5 sm:p-1 hover:bg-black/5 dark:hover:bg-white/10 transition-colors duration-200 focus:outline-none focus:ring-1 ${textColors[toast.type]} opacity-70 hover:opacity-100`}
             onClick={() => onRemove(toast.id)}
             aria-label="Close notification"
           >

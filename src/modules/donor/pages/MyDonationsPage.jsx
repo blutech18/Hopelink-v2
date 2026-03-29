@@ -356,32 +356,32 @@ const MyDonationsPage = () => {
   }, [donations, searchTerm, statusFilter, categoryFilter])
 
   const getStatusColor = (status, donation) => {
-    // Regular donations color mapping
+    // Regular donations color mapping with light/dark mode support
     const colors = {
-      available: 'bg-success-900/70 text-white',
-      matched: 'bg-yellow-900/70 text-white',
-      donated: 'bg-blue-900/70 text-white',
-      claimed: 'bg-amber-900/70 text-white',
-      in_transit: 'bg-purple-900/70 text-white',
-      delivered: 'bg-emerald-900/70 text-white',
-      completed: 'bg-green-500/70 text-white border border-green-500/50',
-      cancelled: 'bg-danger-900/70 text-white',
-      expired: 'bg-gray-900/70 text-white'
+      available: 'bg-green-100 text-green-800 border-green-300 dark:bg-success-900/70 dark:text-white dark:border-transparent',
+      matched: 'bg-yellow-100 text-yellow-800 border-yellow-300 dark:bg-yellow-900/70 dark:text-white dark:border-transparent',
+      donated: 'bg-blue-100 text-blue-800 border-blue-300 dark:bg-blue-900/70 dark:text-white dark:border-transparent',
+      claimed: 'bg-amber-100 text-amber-800 border-amber-300 dark:bg-amber-900/70 dark:text-white dark:border-transparent',
+      in_transit: 'bg-purple-100 text-purple-800 border-purple-300 dark:bg-purple-900/70 dark:text-white dark:border-transparent',
+      delivered: 'bg-emerald-100 text-emerald-800 border-emerald-300 dark:bg-emerald-900/70 dark:text-white dark:border-transparent',
+      completed: 'bg-green-100 text-green-800 border-green-400 dark:bg-green-500/70 dark:text-white dark:border-green-500/50',
+      cancelled: 'bg-red-100 text-red-800 border-red-300 dark:bg-danger-900/70 dark:text-white dark:border-transparent',
+      expired: 'bg-gray-100 text-gray-800 border-gray-300 dark:bg-gray-900/70 dark:text-white dark:border-transparent'
     }
     
     // Special handling for direct donations
     if (donation?.donation_destination === 'organization') {
       const directStatusColors = {
-        available: donation?.delivery_mode === 'donor_delivery' ? 'bg-blue-900/70 text-white' :
-                    donation?.delivery_mode === 'organization_pickup' ? 'bg-purple-900/70 text-white' :
-                    'bg-yellow-900/70 text-white', // volunteer delivery waiting
-        delivered: 'bg-green-900/70 text-white',
-        claimed: 'bg-emerald-900/70 text-white'
+        available: donation?.delivery_mode === 'donor_delivery' ? 'bg-blue-100 text-blue-800 border-blue-300 dark:bg-blue-900/70 dark:text-white dark:border-transparent' :
+                    donation?.delivery_mode === 'organization_pickup' ? 'bg-purple-100 text-purple-800 border-purple-300 dark:bg-purple-900/70 dark:text-white dark:border-transparent' :
+                    'bg-yellow-100 text-yellow-800 border-yellow-300 dark:bg-yellow-900/70 dark:text-white dark:border-transparent', // volunteer delivery waiting
+        delivered: 'bg-green-100 text-green-800 border-green-300 dark:bg-green-900/70 dark:text-white dark:border-transparent',
+        claimed: 'bg-emerald-100 text-emerald-800 border-emerald-300 dark:bg-emerald-900/70 dark:text-white dark:border-transparent'
       }
-      return directStatusColors[status] || colors[status] || 'bg-gray-900/70 text-white'
+      return directStatusColors[status] || colors[status] || 'bg-gray-100 text-gray-800 border-gray-300 dark:bg-gray-900/70 dark:text-white dark:border-transparent'
     }
     
-    return colors[status] || 'bg-gray-900/70 text-white'
+    return colors[status] || 'bg-gray-100 text-gray-800 border-gray-300 dark:bg-gray-900/70 dark:text-white dark:border-transparent'
   }
 
   const getStatusIcon = (status) => {
@@ -598,7 +598,7 @@ const MyDonationsPage = () => {
                     <p className="text-gray-600 text-sm">Self-pickup donation updates</p>
                   </div>
                 </div>
-                <span className="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm font-medium">
+                <span className="bg-blue-100 text-blue-700 dark:bg-blue-400 dark:text-blue-950 px-3 py-1 rounded-full text-sm font-bold">
                   {pickupNotifications.length} updates
                 </span>
               </div>
@@ -711,7 +711,7 @@ const MyDonationsPage = () => {
                     <p className="text-gray-600 text-sm">Direct delivery coordination and updates</p>
                   </div>
                 </div>
-                <span className="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-sm font-medium">
+                <span className="bg-orange-100 text-orange-700 dark:bg-orange-400 dark:text-orange-950 px-3 py-1 rounded-full text-sm font-bold">
                   {directDeliveryNotifications.length} updates
                 </span>
               </div>
@@ -996,7 +996,7 @@ const MyDonationsPage = () => {
                           <div className="flex-1 min-w-0">
                             <h3 className="text-base sm:text-lg lg:text-xl font-bold text-gray-900 mb-1.5 sm:mb-2">{donation.title}</h3>
                             <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-2">
-                              <span className="px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-semibold bg-amber-100 text-amber-800 border border-yellow-300 whitespace-nowrap">
+                              <span className="px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-semibold bg-amber-100 text-amber-800 dark:bg-amber-100 dark:text-amber-800 border border-amber-300 dark:border-yellow-300 whitespace-nowrap">
                                 {donation.category}
                               </span>
                               {/* Requested Donation Badge */}
@@ -1007,7 +1007,7 @@ const MyDonationsPage = () => {
                                 </span>
                               )}
                               {donation.donation_destination === 'organization' && (
-                                <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-semibold bg-blue-100 text-blue-700 border border-blue-300 whitespace-nowrap">
+                                <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-semibold bg-blue-400 text-blue-950 border border-blue-600 whitespace-nowrap">
                                   <Building className="h-3 w-3" />
                                   Direct
                                 </span>
@@ -1143,7 +1143,7 @@ const MyDonationsPage = () => {
                     <Gift className="h-5 w-5 sm:h-6 sm:w-6 text-blue-500" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-base sm:text-lg lg:text-xl font-bold text-white truncate">Donation Details</h3>
+                    <h3 className="text-base sm:text-lg lg:text-xl font-bold text-gray-900 truncate">Donation Details</h3>
                     <p className="text-[10px] sm:text-xs text-gray-600">Complete information</p>
                   </div>
                 </div>
@@ -1179,11 +1179,11 @@ const MyDonationsPage = () => {
                   <div className="bg-gray-50/50 rounded-lg p-3 sm:p-4 border border-gray-200">
                     <div className="flex flex-col sm:flex-row items-start justify-between gap-2 sm:gap-4 mb-2 sm:mb-3">
                       <h4 className="text-lg sm:text-xl lg:text-2xl font-bold text-white">{selectedDonation.title}</h4>
-                      <span className="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold bg-amber-50 text-gray-600 border border-gray-200 whitespace-nowrap">
+                      <span className="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold bg-yellow-300 text-yellow-900 border border-yellow-500 whitespace-nowrap">
                         {selectedDonation.category}
                       </span>
                     </div>
-                    <p className="text-sm sm:text-base text-gray-300 leading-relaxed">{selectedDonation.description || 'No description provided'}</p>
+                    <p className="text-sm sm:text-base text-gray-700 leading-relaxed">{selectedDonation.description || 'No description provided'}</p>
                   </div>
 
                   {/* Details Grid */}
@@ -1194,7 +1194,7 @@ const MyDonationsPage = () => {
                           <Package className="h-4 w-4 text-blue-400" />
                           <label className="text-sm font-semibold text-gray-600">Quantity Available</label>
                         </div>
-                        <span className={`text-lg font-medium ${selectedDonation.quantity != null ? 'text-white' : 'text-gray-400 italic'}`}>
+                        <span className={`text-lg font-medium ${selectedDonation.quantity != null ? 'text-gray-900' : 'text-gray-600 italic'}`}>
                           {selectedDonation.quantity != null ? selectedDonation.quantity : 'Not provided'}
                         </span>
                       </div>
@@ -1206,7 +1206,7 @@ const MyDonationsPage = () => {
                           <CheckCircle className="h-4 w-4 text-green-400" />
                           <label className="text-sm font-semibold text-gray-600">Condition</label>
                         </div>
-                        <span className={`text-lg font-medium ${selectedDonation.condition ? 'text-white capitalize' : 'text-gray-400 italic'}`}>
+                        <span className={`text-lg font-medium ${selectedDonation.condition ? 'text-gray-900 capitalize' : 'text-gray-600 italic'}`}>
                           {selectedDonation.condition ? selectedDonation.condition.replace('_', ' ') : 'Not provided'}
                         </span>
                       </div>
@@ -1220,7 +1220,7 @@ const MyDonationsPage = () => {
                         <MapPin className="h-4 w-4 text-purple-400" />
                         <label className="text-sm font-semibold text-gray-600">Pickup Location</label>
                       </div>
-                      <span className={`text-center max-w-[60%] break-words ${selectedDonation.pickup_location ? 'text-white' : 'text-gray-400 italic'}`}>
+                      <span className={`text-center max-w-[60%] break-words ${selectedDonation.pickup_location ? 'text-gray-900' : 'text-gray-600 italic'}`}>
                         {selectedDonation.pickup_location || 'Not provided'}
                       </span>
                     </div>
@@ -1232,7 +1232,7 @@ const MyDonationsPage = () => {
                         <AlertCircle className="h-4 w-4 text-orange-400" />
                         <label className="text-sm font-semibold text-gray-600">Pickup Instructions</label>
                       </div>
-                      <span className={`text-center max-w-[60%] break-words ${selectedDonation.pickup_instructions ? 'text-white' : 'text-gray-400 italic'}`}>
+                      <span className={`text-center max-w-[60%] break-words ${selectedDonation.pickup_instructions ? 'text-gray-900' : 'text-gray-600 italic'}`}>
                         {selectedDonation.pickup_instructions || 'Not provided'}
                       </span>
                     </div>
@@ -1246,7 +1246,7 @@ const MyDonationsPage = () => {
                           <Package className="h-4 w-4 text-blue-500" />
                           <label className="text-sm font-semibold text-gray-600">Delivery Mode</label>
                         </div>
-                        <span className={`text-lg font-medium ${selectedDonation.delivery_mode ? 'text-white' : 'text-gray-400 italic'}`}>
+                        <span className={`text-lg font-medium ${selectedDonation.delivery_mode ? 'text-gray-900' : 'text-gray-600 italic'}`}>
                           {selectedDonation.delivery_mode
                             ? (selectedDonation.delivery_mode === 'pickup' ? 'Self Pickup'
                               : selectedDonation.delivery_mode === 'volunteer' ? 'Volunteer Delivery'
@@ -1285,7 +1285,7 @@ const MyDonationsPage = () => {
                         <Clock className="h-4 w-4 text-red-400" />
                         <label className="text-sm font-semibold text-gray-600">Expires On</label>
                       </div>
-                      <span className={`text-lg font-medium ${selectedDonation.expiry_date ? 'text-white' : 'text-gray-400 italic'}`}>
+                      <span className={`text-lg font-medium ${selectedDonation.expiry_date ? 'text-gray-900' : 'text-gray-600 italic'}`}>
                         {selectedDonation.expiry_date
                           ? new Date(selectedDonation.expiry_date).toLocaleDateString('en-US', {
                               year: 'numeric',
@@ -1329,7 +1329,7 @@ const MyDonationsPage = () => {
                                   <User className="h-4 w-4 text-blue-400" />
                                   <div>
                                     <p className="text-white text-sm font-medium">Recipient: {claim.recipient.name}</p>
-                                    <p className="text-gray-400 text-xs">{claim.recipient.email}</p>
+                                    <p className="text-gray-700 text-xs">{claim.recipient.email}</p>
                                   </div>
                                 </div>
                                 <button
@@ -1361,7 +1361,7 @@ const MyDonationsPage = () => {
                                   <Truck className="h-4 w-4 text-purple-400" />
                                   <div>
                                     <p className="text-white text-sm font-medium">Volunteer: {claim.delivery[0].volunteer.name}</p>
-                                    <p className="text-gray-400 text-xs">{claim.delivery[0].volunteer.email}</p>
+                                    <p className="text-gray-700 text-xs">{claim.delivery[0].volunteer.email}</p>
                                   </div>
                                 </div>
                                 <button

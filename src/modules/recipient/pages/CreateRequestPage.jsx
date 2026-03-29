@@ -314,7 +314,7 @@ const CreateRequestPage = () => {
               <AlertCircle className="h-5 w-5 text-orange-400 flex-shrink-0 mt-0.5" />
               <div className="flex-1 flex items-center justify-between gap-4">
                 <div className="flex-1">
-                  <h4 className="text-sm font-bold text-white mb-2">ID Verification Required</h4>
+                  <h4 className="text-sm font-bold text-gray-900 dark:text-white mb-2">ID Verification Required</h4>
                   <p className="text-xs text-gray-600/80">
                     You must complete ID verification before creating donation requests. This helps ensure community safety and trust.
                   </p>
@@ -343,7 +343,7 @@ const CreateRequestPage = () => {
             <div className="card px-6 py-10 sm:py-11 lg:px-8 lg:py-12 xl:py-14 border-2 border-gray-200 shadow-2xl lg:sticky lg:top-20 rounded-xl" className="bg-gray-50">
               {/* Header */}
               <div className="flex items-center justify-between mb-10 sm:mb-11 lg:mb-12 pb-7 sm:pb-8 lg:pb-9 border-b border-gray-200">
-                <h3 className="text-xl font-bold text-white">Progress</h3>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white">Progress</h3>
                 <button
                   type="button"
                   onClick={() => setShowWorkflowGuide(true)}
@@ -410,7 +410,7 @@ const CreateRequestPage = () => {
                             Step {step.number}
                           </div>
                           <div className={`text-sm lg:text-base font-semibold leading-tight ${
-                            isActive ? 'text-white' : isCompleted ? 'text-gray-300' : 'text-gray-500'
+                            isActive ? 'text-gray-900' : isCompleted ? 'text-gray-700' : 'text-gray-600'
                           }`}>
                             {step.title}
                           </div>
@@ -462,7 +462,7 @@ const CreateRequestPage = () => {
                   className="space-y-6"
                 >
                   <div>
-                    <label className="block text-sm font-medium text-white mb-2">
+                    <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
                       <div className="flex items-center gap-2">
                         Request Title *
                         <HelpIcon content="A clear title helps donors find your request. Your request will be matched with donors who have this item." />
@@ -483,7 +483,7 @@ const CreateRequestPage = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-white mb-2">
+                    <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
                       <div className="flex items-center gap-2">
                         Description
                         <HelpIcon content="Detailed descriptions help donors understand what you need. This improves matching and helps your request reach those who can help." />
@@ -506,7 +506,7 @@ const CreateRequestPage = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-white mb-2">
+                      <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
                         <div className="flex items-center gap-2">
                           Category *
                           <HelpIcon content="Selecting the right category helps our smart matching algorithm connect your request with donors who have this type of item." />
@@ -531,7 +531,7 @@ const CreateRequestPage = () => {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-white mb-2">
+                      <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
                         Quantity Needed *
                       </label>
                       <input
@@ -552,7 +552,7 @@ const CreateRequestPage = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-white mb-2">
+                    <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
                       Tags (optional)
                     </label>
                     <input
@@ -581,11 +581,11 @@ const CreateRequestPage = () => {
                   <div className="space-y-4">
                     <div className="flex items-center gap-2 mb-4">
                       <MapPin className="h-5 w-5 text-blue-500" />
-                      <h3 className="text-lg font-semibold text-white">Pickup/Delivery Location</h3>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Pickup/Delivery Location</h3>
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium text-white mb-2">
+                      <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
                         Complete Address *
                       </label>
                       <div className="space-y-3">
@@ -620,7 +620,7 @@ const CreateRequestPage = () => {
                         {errors.location && (
                           <p className="mt-2 text-sm text-danger-600">{errors.location.message}</p>
                         )}
-                        <p className="text-xs text-gray-400">
+                        <p className="text-xs text-gray-700">
                           Provide a complete address to help donors and volunteers locate you easily
                         </p>
                       </div>
@@ -631,12 +631,12 @@ const CreateRequestPage = () => {
                   <div className="space-y-4">
                     <div className="flex items-center gap-2 mb-4">
                       <Package className="h-5 w-5 text-blue-500" />
-                      <h3 className="text-lg font-semibold text-white">Preferred Delivery Method</h3>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Preferred Delivery Method</h3>
                     </div>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-sm font-medium text-white mb-2">
+                        <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
                           How would you like to receive this donation? (Optional)
                         </label>
                         <select
@@ -651,13 +651,13 @@ const CreateRequestPage = () => {
                         {errors.delivery_mode && (
                           <p className="mt-2 text-sm text-danger-600">{errors.delivery_mode.message}</p>
                         )}
-                        <p className="mt-2 text-xs text-blue-500">
+                        <p className="mt-2 text-xs text-gray-700">
                           Choose how you prefer to receive this donation
                         </p>
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-white mb-2">
+                        <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
                           Deadline (Optional)
                         </label>
                         <input
@@ -666,7 +666,7 @@ const CreateRequestPage = () => {
                           className="input text-sm px-4 py-3 w-full h-[42px]"
                           min={new Date().toISOString().split('T')[0]}
                         />
-                        <p className="mt-2 text-xs text-gray-400">
+                        <p className="mt-2 text-xs text-gray-700">
                           Specify a deadline if you need this item by a specific date
                         </p>
                       </div>
@@ -676,7 +676,7 @@ const CreateRequestPage = () => {
                   {/* Delivery Instructions Section */}
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-white mb-2">
+                      <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
                         Delivery Instructions (Optional)
                       </label>
                       <textarea
@@ -684,7 +684,7 @@ const CreateRequestPage = () => {
                         className="input h-24 resize-none text-sm px-4 py-3 w-full"
                         placeholder="e.g., Best time to contact, gate code, landmarks, special instructions..."
                       />
-                      <p className="mt-2 text-xs text-gray-400">
+                      <p className="mt-2 text-xs text-gray-700">
                         Add any special instructions to help with delivery
                       </p>
                     </div>
@@ -704,7 +704,7 @@ const CreateRequestPage = () => {
                 >
                   {/* Urgency Level Section */}
                   <div>
-                    <label className="block text-sm font-medium text-white mb-2">
+                    <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
                       Urgency Level *
                     </label>
                     <p className="text-sm text-blue-500 mb-4">
@@ -731,7 +731,7 @@ const CreateRequestPage = () => {
                           />
                           <div className="flex flex-col items-center">
                             <h3 className={`text-sm font-semibold ${
-                              watchedUrgency === level.value ? 'text-white' : 'text-gray-300'
+                              watchedUrgency === level.value ? 'text-gray-900' : 'text-gray-700'
                             }`}>
                               {level.label}
                             </h3>
@@ -755,7 +755,7 @@ const CreateRequestPage = () => {
 
                   {/* Sample Image Upload Section */}
                   <div>
-                    <label className="block text-sm font-medium text-white mb-2">
+                    <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
                       Sample Image (Optional)
                     </label>
                     <p className="text-sm text-blue-500 mb-4">
@@ -822,7 +822,7 @@ const CreateRequestPage = () => {
                         </div>
                         <div>
                           <h3 className="text-2xl font-bold text-white">Request Review</h3>
-                          <p className="text-sm text-gray-400 mt-1">Please review all information before submitting</p>
+                          <p className="text-sm text-gray-700 mt-1">Please review all information before submitting</p>
                         </div>
                       </div>
                     </div>

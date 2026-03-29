@@ -113,24 +113,28 @@ const RequestWorkflowProgressBar = ({
                   }}
                   className={`relative w-10 h-10 sm:w-11 sm:h-11 rounded-full border-2 flex items-center justify-center transition-all ${
                     isCompleted 
-                      ? 'bg-green-500/20 border-green-400 shadow-lg shadow-green-400/30' 
+                      ? 'bg-emerald-500/20 dark:bg-emerald-500/20 border-emerald-600 dark:border-emerald-400 shadow-lg shadow-emerald-500/30 dark:shadow-emerald-400/30' 
                       : isCurrent 
-                      ? `${step.bgColor} ${step.borderColor} shadow-xl shadow-yellow-400/60` 
-                      : 'bg-gray-100 border-gray-200'
+                      ? `bg-amber-500/20 dark:bg-amber-500/20 border-amber-600 dark:border-amber-400 shadow-xl shadow-amber-500/60 dark:shadow-amber-400/60` 
+                      : 'bg-gray-200 dark:bg-gray-700 border-gray-300 dark:border-gray-600'
                   }`}
                 >
-                  <StepIcon className={`${classes.icon} ${isActive ? step.color : 'text-gray-400'}`} />
+                  <StepIcon className={`${classes.icon} ${
+                    isCompleted ? 'text-emerald-600 dark:text-emerald-400' 
+                    : isCurrent ? 'text-amber-600 dark:text-amber-400'
+                    : 'text-gray-500 dark:text-gray-400'
+                  }`} />
                   {isCurrent && (
                     <>
                       <motion.div
                         animate={{ scale: [1, 1.3, 1] }}
                         transition={{ repeat: Infinity, duration: 2 }}
-                        className="absolute inset-0 rounded-full border-2 border-yellow-400 opacity-80"
+                        className="absolute inset-0 rounded-full border-2 border-amber-500 dark:border-amber-400 opacity-80"
                       />
                       <motion.div
                         animate={{ scale: [1, 1.5, 1] }}
                         transition={{ repeat: Infinity, duration: 2, delay: 0.1 }}
-                        className="absolute inset-0 rounded-full border-2 border-yellow-500 opacity-60"
+                        className="absolute inset-0 rounded-full border-2 border-amber-600 dark:border-amber-300 opacity-60"
                       />
                     </>
                   )}
@@ -138,8 +142,10 @@ const RequestWorkflowProgressBar = ({
 
                 {/* Label */}
                 {showLabels && (
-                <div className="mt-1.5 text-center">
-                    <div className={`font-medium ${classes.text} ${isActive ? 'text-gray-900' : 'text-gray-500'}`}>
+                <div className="mt-2 text-center">
+                    <div className={`font-medium ${classes.text} ${
+                      isActive ? 'text-gray-900 dark:text-gray-100' : 'text-gray-500 dark:text-gray-400'
+                    }`}>
                       {step.label}
                     </div>
                   </div>
@@ -149,8 +155,8 @@ const RequestWorkflowProgressBar = ({
               {/* Connector Line */}
               {index < workflowSteps.length - 1 && (
                 <div 
-                  className={`flex-1 h-0.5 relative -mx-1 sm:-mx-1.5 ${
-                    index < activeIndex ? 'bg-green-400' : 'bg-gray-200'
+                  className={`flex-1 h-1 relative -mx-1 sm:-mx-1.5 ${
+                    index < activeIndex ? 'bg-emerald-500 dark:bg-emerald-400' : 'bg-gray-300 dark:bg-gray-600'
                   }`}
                 >
                   {index < activeIndex && (
@@ -158,7 +164,7 @@ const RequestWorkflowProgressBar = ({
                       initial={{ width: 0 }}
                       animate={{ width: '100%' }}
                       transition={{ duration: 0.5 }}
-                      className="h-full bg-green-400"
+                      className="h-full bg-emerald-600 dark:bg-emerald-400"
                     />
                   )}
                 </div>
@@ -175,15 +181,29 @@ const RequestWorkflowProgressBar = ({
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className={`mt-4 p-3 rounded-lg border ${workflowSteps[activeIndex].bgColor} ${workflowSteps[activeIndex].borderColor} border-opacity-30`}
+            className={`mt-6 p-4 sm:p-5 rounded-lg sm:rounded-xl border-l-4 border ${
+              isCompleted 
+                ? 'bg-emerald-50 dark:bg-emerald-950 border-l-emerald-600 dark:border-l-emerald-400 border-emerald-200 dark:border-emerald-700'
+                : isCurrent
+                ? 'bg-amber-50 dark:bg-amber-950 border-l-amber-600 dark:border-l-amber-400 border-amber-200 dark:border-amber-700'
+                : 'bg-gray-50 dark:bg-gray-900 border-l-gray-500 dark:border-l-gray-400 border-gray-200 dark:border-gray-700'
+            }`}
           >
-            <div className="flex items-center gap-2">
-              <CurrentIcon className={`${classes.icon} ${workflowSteps[activeIndex].color}`} />
-              <div>
-                <div className={`font-semibold ${classes.text} text-gray-900`}>
+            <div className="flex items-start gap-3">
+              <CurrentIcon className={`${classes.icon} flex-shrink-0 ${
+                isCompleted ? 'text-emerald-600 dark:text-emerald-400' 
+                : isCurrent ? 'text-amber-600 dark:text-amber-400'
+                : 'text-gray-600 dark:text-gray-400'
+              }`} />
+              <div className="flex-1">
+                <div className={`font-semibold ${classes.text} ${
+                  isCompleted ? 'text-emerald-900 dark:text-emerald-100'
+                  : isCurrent ? 'text-amber-900 dark:text-amber-100'
+                  : 'text-gray-900 dark:text-gray-100'
+                }`}>
                   Current Status: {workflowSteps[activeIndex].label}
                 </div>
-                <div className="text-xs text-gray-600 mt-0.5">
+                <div className="text-xs text-gray-700 dark:text-gray-300 mt-1">
                   {workflowSteps[activeIndex].description}
                 </div>
               </div>

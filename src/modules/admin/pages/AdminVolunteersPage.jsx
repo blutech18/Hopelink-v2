@@ -244,7 +244,7 @@ const AdminVolunteersPage = () => {
   const getStatusColor = (status) => {
     switch (status) {
       case 'active': return 'text-green-400 bg-green-500/20'
-      case 'inactive': return 'text-gray-400 bg-gray-500/20'
+      case 'inactive': return 'text-gray-700 bg-gray-500/20'
       case 'suspended': return 'text-red-400 bg-red-500/20'
       default: return 'text-amber-700 bg-amber-50 border border-amber-200'
     }
@@ -699,7 +699,7 @@ const AdminVolunteersPage = () => {
           {/* Filters */}
           <div className="flex flex-col gap-3 sm:gap-4 mb-6">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 flex-shrink-0" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-600 flex-shrink-0" />
               <input
                 type="text"
                 placeholder="Search volunteers by name or email..."
@@ -719,7 +719,7 @@ const AdminVolunteersPage = () => {
                 <option value="active">Active</option>
                 <option value="inactive">Inactive</option>
               </select>
-              <Truck className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+              <Truck className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-600 pointer-events-none" />
             </div>
           </div>
         </motion.div>
@@ -905,7 +905,7 @@ const AdminVolunteersPage = () => {
                                 }`}>
                                   {volunteer.activeThisWeek || 0} / {volunteer.maxCapacity}
                                 </span>
-                                <span className="text-xs text-gray-400">
+                                <span className="text-xs text-gray-700">
                                   ({volunteer.capacityUtilization || 0}%)
                                 </span>
                               </div>
@@ -922,22 +922,22 @@ const AdminVolunteersPage = () => {
                               </div>
                             </div>
                           ) : (
-                            <span className="text-xs text-gray-400">N/A</span>
+                            <span className="text-xs text-gray-700">N/A</span>
                           )}
                         </td>
                         <td className="px-4 sm:px-6 py-4 text-center">
                           <div className="flex items-center justify-center gap-3 text-sm">
                             <div className="text-center">
                               <div className="text-gray-900 font-bold">{volunteer.total_deliveries || volunteer.totalDeliveries || 0}</div>
-                              <div className="text-xs text-gray-400">Total</div>
+                              <div className="text-xs text-gray-700">Total</div>
                             </div>
                             <div className="text-center">
                               <div className="text-green-400 font-bold">{volunteer.completed_deliveries || 0}</div>
-                              <div className="text-xs text-gray-400">Done</div>
+                              <div className="text-xs text-gray-700">Done</div>
                             </div>
                             <div className="text-center">
                               <div className="text-amber-600 font-bold">{deliveries.filter(d => d.volunteer_id === volunteer.id && d.status === 'in_progress').length}</div>
-                              <div className="text-xs text-gray-400">Active</div>
+                              <div className="text-xs text-gray-700">Active</div>
                             </div>
                           </div>
                         </td>
@@ -1019,7 +1019,7 @@ const AdminVolunteersPage = () => {
                             </div>
                           </td>
                           <td className="px-4 sm:px-6 py-4 text-center">
-                            <div className="flex items-start justify-center gap-2 text-sm text-gray-300 max-w-[200px] mx-auto">
+                            <div className="flex items-start justify-center gap-2 text-sm text-gray-700 max-w-[200px] mx-auto">
                               <MapPin className="h-3.5 w-3.5 text-green-400 flex-shrink-0 mt-0.5" />
                               <span className="truncate">
                                 {delivery.pickup_location || delivery.pickup_address || delivery.pickup_city || 'Not specified'}
@@ -1027,7 +1027,7 @@ const AdminVolunteersPage = () => {
                             </div>
                           </td>
                           <td className="px-4 sm:px-6 py-4 text-center">
-                            <div className="flex items-start justify-center gap-2 text-sm text-gray-300 max-w-[200px] mx-auto">
+                            <div className="flex items-start justify-center gap-2 text-sm text-gray-700 max-w-[200px] mx-auto">
                               <MapPin className="h-3.5 w-3.5 text-red-400 flex-shrink-0 mt-0.5" />
                               <span className="truncate">
                                 {delivery.delivery_location || delivery.delivery_address || delivery.delivery_city || 'Not specified'}
@@ -1036,7 +1036,7 @@ const AdminVolunteersPage = () => {
                           </td>
                           <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-center">
                             <div className="flex items-center justify-center gap-2 text-sm text-gray-600">
-                              <Calendar className="h-3.5 w-3.5 text-gray-400" />
+                              <Calendar className="h-3.5 w-3.5 text-gray-600" />
                               <span>
                                 {delivery.scheduled_delivery_date 
                                   ? new Date(delivery.scheduled_delivery_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
@@ -1121,7 +1121,7 @@ const AdminVolunteersPage = () => {
                   <div className="flex justify-between items-center mb-2">
                     <div className="flex items-center gap-2 min-w-0 flex-1">
                       <div className="p-1.5 bg-blue-50 rounded-lg flex-shrink-0">
-                        <Truck className="h-4 w-4 text-gray-400" />
+                        <Truck className="h-4 w-4 text-gray-600" />
                       </div>
                       <h3 className="text-base sm:text-lg font-bold text-gray-900 truncate">
                         Volunteer Profile
@@ -1129,7 +1129,7 @@ const AdminVolunteersPage = () => {
                     </div>
                     <button
                       onClick={() => setShowProfileModal(false)}
-                      className="text-gray-400 hover:text-gray-700 transition-colors p-1.5 hover:bg-gray-100 rounded-lg flex-shrink-0 ml-2"
+                      className="text-gray-700 hover:text-gray-900 transition-colors p-1.5 hover:bg-gray-100 rounded-lg flex-shrink-0 ml-2"
                       aria-label="Close profile modal"
                     >
                       <X className="h-5 w-5" />
@@ -1156,7 +1156,7 @@ const AdminVolunteersPage = () => {
                             />
                           ) : (
                             <div className="h-full w-full bg-gray-100 flex items-center justify-center">
-                              <User className="h-16 w-16 sm:h-20 sm:w-20 text-gray-400" />
+                              <User className="h-16 w-16 sm:h-20 sm:w-20 text-gray-600" />
                             </div>
                           )}
                         </div>
@@ -1226,7 +1226,7 @@ const AdminVolunteersPage = () => {
                         <div className="space-y-2 text-xs sm:text-sm">
                           <div className="flex items-start gap-2 min-w-0">
                             <span className="text-gray-500 font-medium flex-shrink-0">Birthdate:</span>
-                            <span className={`break-words flex-1 ${selectedVolunteer?.birthdate ? 'text-gray-900' : 'text-gray-400 italic'}`}>
+                            <span className={`break-words flex-1 ${selectedVolunteer?.birthdate ? 'text-gray-900' : 'text-gray-700 italic'}`}>
                               {selectedVolunteer?.birthdate ? (
                                 new Date(selectedVolunteer.birthdate).toLocaleDateString('en-US', {
                                   year: 'numeric',
@@ -1240,13 +1240,13 @@ const AdminVolunteersPage = () => {
                           </div>
                           <div className="flex items-start gap-2 min-w-0">
                             <span className="text-gray-500 font-medium flex-shrink-0">Age:</span>
-                            <span className={`break-words flex-1 ${selectedVolunteer?.birthdate ? 'text-gray-900' : 'text-gray-400 italic'}`}>
+                            <span className={`break-words flex-1 ${selectedVolunteer?.birthdate ? 'text-gray-900' : 'text-gray-700 italic'}`}>
                               {selectedVolunteer?.birthdate ? (calculateAge(selectedVolunteer.birthdate) || 'Not available') : 'Not provided'}
                             </span>
                           </div>
                           <div className="flex items-start gap-2 min-w-0">
                             <span className="text-gray-500 font-medium flex-shrink-0">Account Type:</span>
-                            <span className={`break-words flex-1 ${selectedVolunteer?.account_type ? 'text-gray-900' : 'text-gray-400 italic'}`}>
+                            <span className={`break-words flex-1 ${selectedVolunteer?.account_type ? 'text-gray-900' : 'text-gray-700 italic'}`}>
                               {selectedVolunteer?.account_type ? (selectedVolunteer.account_type === 'business' ? 'Business/Organization' : 'Individual') : 'Not provided'}
                             </span>
                           </div>
@@ -1254,7 +1254,7 @@ const AdminVolunteersPage = () => {
                             <>
                               <div className="flex items-start gap-2 min-w-0">
                                 <span className="text-gray-500 font-medium flex-shrink-0">Organization:</span>
-                                <span className={`break-words flex-1 ${selectedVolunteer?.organization_name ? 'text-gray-900' : 'text-gray-400 italic'}`}>
+                                <span className={`break-words flex-1 ${selectedVolunteer?.organization_name ? 'text-gray-900' : 'text-gray-700 italic'}`}>
                                   {selectedVolunteer?.organization_name || 'Not provided'}
                                 </span>
                               </div>
@@ -1271,7 +1271,7 @@ const AdminVolunteersPage = () => {
                                     {selectedVolunteer.website_link}
                                   </a>
                                 ) : (
-                                  <span className="text-gray-400 italic break-words flex-1">Not provided</span>
+                                  <span className="text-gray-700 italic break-words flex-1">Not provided</span>
                                 )}
                               </div>
                             </>
@@ -1297,7 +1297,7 @@ const AdminVolunteersPage = () => {
                                   {selectedVolunteer.phone_number || selectedVolunteer.phone}
                                 </a>
                               ) : (
-                                <span className="text-gray-400 italic">Not provided</span>
+                                <span className="text-gray-700 italic">Not provided</span>
                               )}
                             </span>
                           </div>
@@ -1312,7 +1312,7 @@ const AdminVolunteersPage = () => {
                                   {selectedVolunteer.email}
                                 </a>
                               ) : (
-                                <span className="text-gray-400 italic">Not provided</span>
+                                <span className="text-gray-700 italic">Not provided</span>
                               )}
                             </span>
                           </div>
@@ -1329,37 +1329,37 @@ const AdminVolunteersPage = () => {
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs sm:text-sm">
                         <div className="flex items-start gap-2 min-w-0">
                           <span className="text-gray-500 font-medium flex-shrink-0">Street:</span>
-                          <span className={`break-words flex-1 ${selectedVolunteer?.address_street ? 'text-gray-900' : 'text-gray-400 italic'}`}>
+                          <span className={`break-words flex-1 ${selectedVolunteer?.address_street ? 'text-gray-900' : 'text-gray-700 italic'}`}>
                             {selectedVolunteer?.address_street || 'Not provided'}
                           </span>
                         </div>
                         <div className="flex items-start gap-2 min-w-0">
                           <span className="text-gray-500 font-medium flex-shrink-0">Barangay:</span>
-                          <span className={`break-words flex-1 ${selectedVolunteer?.address_barangay ? 'text-gray-900' : 'text-gray-400 italic'}`}>
+                          <span className={`break-words flex-1 ${selectedVolunteer?.address_barangay ? 'text-gray-900' : 'text-gray-700 italic'}`}>
                             {selectedVolunteer?.address_barangay || 'Not provided'}
                           </span>
                         </div>
                         <div className="flex items-start gap-2 min-w-0">
                           <span className="text-gray-500 font-medium flex-shrink-0">Landmark:</span>
-                          <span className={`break-words flex-1 ${selectedVolunteer?.address_landmark ? 'text-gray-900' : 'text-gray-400 italic'}`}>
+                          <span className={`break-words flex-1 ${selectedVolunteer?.address_landmark ? 'text-gray-900' : 'text-gray-700 italic'}`}>
                             {selectedVolunteer?.address_landmark || 'Not provided'}
                           </span>
                         </div>
                         <div className="flex items-start gap-2 min-w-0">
                           <span className="text-gray-500 font-medium flex-shrink-0">City:</span>
-                          <span className={`break-words flex-1 ${selectedVolunteer?.city ? 'text-gray-900' : 'text-gray-400 italic'}`}>
+                          <span className={`break-words flex-1 ${selectedVolunteer?.city ? 'text-gray-900' : 'text-gray-700 italic'}`}>
                             {selectedVolunteer?.city || 'Not provided'}
                           </span>
                         </div>
                         <div className="flex items-start gap-2 min-w-0">
                           <span className="text-gray-500 font-medium flex-shrink-0">Province:</span>
-                          <span className={`break-words flex-1 ${selectedVolunteer?.province ? 'text-gray-900' : 'text-gray-400 italic'}`}>
+                          <span className={`break-words flex-1 ${selectedVolunteer?.province ? 'text-gray-900' : 'text-gray-700 italic'}`}>
                             {selectedVolunteer?.province || 'Not provided'}
                           </span>
                         </div>
                         <div className="flex items-start gap-2 min-w-0">
                           <span className="text-gray-500 font-medium flex-shrink-0">ZIP Code:</span>
-                          <span className={`break-words flex-1 ${selectedVolunteer?.zip_code ? 'text-gray-900' : 'text-gray-400 italic'}`}>
+                          <span className={`break-words flex-1 ${selectedVolunteer?.zip_code ? 'text-gray-900' : 'text-gray-700 italic'}`}>
                             {selectedVolunteer?.zip_code || 'Not provided'}
                           </span>
                         </div>
@@ -1376,26 +1376,26 @@ const AdminVolunteersPage = () => {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
                           <div className="flex items-start gap-2 min-w-0">
                             <span className="text-gray-500 font-medium flex-shrink-0">ID Type:</span>
-                            <span className={`break-words flex-1 ${selectedVolunteer?.primary_id_type ? 'text-gray-900' : 'text-gray-400 italic'}`}>
+                            <span className={`break-words flex-1 ${selectedVolunteer?.primary_id_type ? 'text-gray-900' : 'text-gray-700 italic'}`}>
                               {selectedVolunteer?.primary_id_type ? getIDTypeLabel(selectedVolunteer.primary_id_type) : 'Not provided'}
                             </span>
                           </div>
                           <div className="flex items-start gap-2 min-w-0">
                             <span className="text-gray-500 font-medium flex-shrink-0">Experience:</span>
-                            <span className={`break-words flex-1 ${selectedVolunteer?.volunteer_experience ? 'text-gray-900' : 'text-gray-400 italic'}`}>
+                            <span className={`break-words flex-1 ${selectedVolunteer?.volunteer_experience ? 'text-gray-900' : 'text-gray-700 italic'}`}>
                               {selectedVolunteer?.volunteer_experience || 'Not provided'}
                             </span>
                           </div>
                           <div className="flex items-start gap-2 min-w-0">
                             <span className="text-gray-500 font-medium flex-shrink-0">Insurance:</span>
-                            <span className={`break-words flex-1 ${selectedVolunteer?.has_insurance !== undefined ? 'text-gray-900' : 'text-gray-400 italic'}`}>
+                            <span className={`break-words flex-1 ${selectedVolunteer?.has_insurance !== undefined ? 'text-gray-900' : 'text-gray-700 italic'}`}>
                               {selectedVolunteer?.has_insurance !== undefined ? (selectedVolunteer.has_insurance ? 'Yes' : 'No') : 'Not provided'}
                             </span>
                           </div>
                           {selectedVolunteer?.has_insurance && (
                             <div className="flex items-start gap-2 min-w-0">
                               <span className="text-gray-500 font-medium flex-shrink-0">Insurance Provider:</span>
-                              <span className={`break-words flex-1 ${selectedVolunteer?.insurance_provider ? 'text-gray-900' : 'text-gray-400 italic'}`}>
+                              <span className={`break-words flex-1 ${selectedVolunteer?.insurance_provider ? 'text-gray-900' : 'text-gray-700 italic'}`}>
                                 {selectedVolunteer?.insurance_provider || 'Not provided'}
                               </span>
                             </div>
@@ -1422,7 +1422,7 @@ const AdminVolunteersPage = () => {
                               ))}
                             </div>
                           ) : (
-                            <p className="text-gray-400 italic text-xs">Not provided</p>
+                            <p className="text-gray-700 italic text-xs">Not provided</p>
                           )}
                         </div>
 
@@ -1441,7 +1441,7 @@ const AdminVolunteersPage = () => {
                               ))}
                             </div>
                           ) : (
-                            <p className="text-gray-400 italic text-xs">Not provided</p>
+                            <p className="text-gray-700 italic text-xs">Not provided</p>
                           )}
                         </div>
                       </div>
@@ -1465,7 +1465,7 @@ const AdminVolunteersPage = () => {
                               ))}
                             </div>
                           ) : (
-                            <p className="text-gray-400 italic text-xs">Not provided</p>
+                            <p className="text-gray-700 italic text-xs">Not provided</p>
                           )}
                         </div>
 
@@ -1484,7 +1484,7 @@ const AdminVolunteersPage = () => {
                               ))}
                             </div>
                           ) : (
-                            <p className="text-gray-400 italic text-xs">Not provided</p>
+                            <p className="text-gray-700 italic text-xs">Not provided</p>
                           )}
                         </div>
                       </div>
@@ -1496,7 +1496,7 @@ const AdminVolunteersPage = () => {
                         <MessageSquare className="h-3.5 w-3.5 text-blue-500 flex-shrink-0" />
                         About
                       </h5>
-                      <p className={`text-xs sm:text-sm leading-relaxed break-words ${selectedVolunteer?.bio ? 'text-gray-700' : 'text-gray-400 italic'}`}>
+                      <p className={`text-xs sm:text-sm leading-relaxed break-words ${selectedVolunteer?.bio ? 'text-gray-700' : 'text-gray-700 italic'}`}>
                         {selectedVolunteer?.bio || 'Not provided'}
                       </p>
                     </div>
@@ -1508,7 +1508,7 @@ const AdminVolunteersPage = () => {
                           <Truck className="h-3.5 w-3.5 text-blue-500 flex-shrink-0" />
                           Delivery Notes
                         </h5>
-                        <p className={`text-xs sm:text-sm leading-relaxed break-words ${selectedVolunteer?.delivery_notes ? 'text-gray-900' : 'text-gray-400 italic'}`}>
+                        <p className={`text-xs sm:text-sm leading-relaxed break-words ${selectedVolunteer?.delivery_notes ? 'text-gray-900' : 'text-gray-700 italic'}`}>
                           {selectedVolunteer?.delivery_notes || 'Not provided'}
                         </p>
                       </div>
@@ -1572,9 +1572,9 @@ const AdminVolunteersPage = () => {
                 ) : (
                   <div className="relative flex flex-col items-center justify-center text-center">
                     <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-gray-100 border-4 border-gray-200 flex items-center justify-center mb-4">
-                      <User className="h-16 w-16 sm:h-20 sm:w-20 text-gray-400" />
+                      <User className="h-16 w-16 sm:h-20 sm:w-20 text-gray-600" />
                     </div>
-                    <p className="text-gray-400 text-sm sm:text-base">No profile picture uploaded</p>
+                    <p className="text-gray-700 text-sm sm:text-base">No profile picture uploaded</p>
                     {/* Close Button */}
                     <button
                       type="button"
@@ -1611,7 +1611,7 @@ const AdminVolunteersPage = () => {
                   <div className="flex justify-between items-center">
                     <div className="flex items-center gap-2 min-w-0">
                       <div className="p-1.5 bg-blue-50 rounded-lg flex-shrink-0">
-                        <Package className="h-4 w-4 text-gray-400" />
+                        <Package className="h-4 w-4 text-gray-600" />
                       </div>
                       <h3 className="text-base sm:text-lg font-bold text-gray-900 truncate">
                         {selectedDelivery.donation_title || 'Delivery Details'}
@@ -1623,7 +1623,7 @@ const AdminVolunteersPage = () => {
                       </span>
                       <button
                         onClick={() => setShowDeliveryModal(false)}
-                        className="text-gray-400 hover:text-gray-700 transition-colors p-1.5 hover:bg-gray-100 rounded-lg flex-shrink-0 ml-2"
+                        className="text-gray-700 hover:text-gray-900 transition-colors p-1.5 hover:bg-gray-100 rounded-lg flex-shrink-0 ml-2"
                         aria-label="Close delivery modal"
                       >
                         <X className="h-5 w-5" />

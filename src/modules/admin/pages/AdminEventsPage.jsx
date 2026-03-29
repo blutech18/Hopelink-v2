@@ -93,7 +93,7 @@ const AdminEventsPage = () => {
     switch (status) {
       case 'active': return 'text-green-400 bg-green-500/20'
       case 'upcoming': return 'text-blue-400 bg-blue-500/20'
-      case 'completed': return 'text-gray-400 bg-gray-500/20'
+      case 'completed': return 'text-gray-700 bg-gray-500/20'
       case 'cancelled': return 'text-red-400 bg-red-500/20'
       default: return 'text-amber-700 bg-amber-50 border border-amber-200'
     }
@@ -568,7 +568,7 @@ const AdminEventsPage = () => {
           {/* Filters */}
           <div className="flex flex-col gap-3 sm:gap-4 mb-6">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 flex-shrink-0" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-600 flex-shrink-0" />
               <input
                 type="text"
                 placeholder="Search events by title or description..."
@@ -654,7 +654,7 @@ const AdminEventsPage = () => {
             
             <div className="card p-4 sm:p-6">
               <div className="flex items-center space-x-3">
-                <CalendarDays className="h-6 w-6 sm:h-8 sm:w-8 text-gray-400" />
+                <CalendarDays className="h-6 w-6 sm:h-8 sm:w-8 text-gray-600" />
                 <div className="flex flex-col">
                   <p className="text-xl sm:text-2xl font-bold text-gray-900">
                     {events.filter(e => e.status === 'completed').length}
@@ -749,7 +749,7 @@ const AdminEventsPage = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-center">
                         <div className="flex items-center justify-center gap-2">
-                          <Users className="h-4 w-4 text-gray-400 flex-shrink-0" />
+                          <Users className="h-4 w-4 text-gray-600 flex-shrink-0" />
                           <span className="text-sm text-gray-900 font-medium">
                             {event.participants?.[0]?.count || 0}
                             {event.max_participants && ` / ${event.max_participants}`}
@@ -886,7 +886,7 @@ const AdminEventsPage = () => {
                       setShowViewModal(false)
                       setSelectedEvent(null)
                     }}
-                    className="p-2 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                    className="p-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
                   >
                     <XCircle className="h-5 w-5" />
                   </button>
@@ -904,9 +904,9 @@ const AdminEventsPage = () => {
                       />
                     ) : (
                       <div className="w-full h-64 bg-gradient-to-br from-gray-100 via-gray-50 to-gray-100 flex flex-col items-center justify-center">
-                        <Calendar className="h-20 w-20 text-gray-300 mb-4" />
+                        <Calendar className="h-20 w-20 text-gray-600 mb-4" />
                         <p className="text-gray-500 text-lg font-medium">No Image Available</p>
-                        <p className="text-gray-400 text-sm mt-1">Event image not uploaded</p>
+                        <p className="text-gray-700 text-sm mt-1">Event image not uploaded</p>
                       </div>
                     )}
                   </div>
@@ -952,9 +952,9 @@ const AdminEventsPage = () => {
                       <h4 className="text-sm font-semibold text-gray-500 mb-3 uppercase tracking-wide">Date & Time</h4>
                       <div className="space-y-3">
                         <div className="flex items-start space-x-3">
-                          <Calendar className="h-5 w-5 text-gray-400 mt-0.5 flex-shrink-0" />
+                          <Calendar className="h-5 w-5 text-gray-600 mt-0.5 flex-shrink-0" />
                           <div>
-                            <p className="text-xs text-gray-400">Start Date</p>
+                            <p className="text-xs text-gray-700">Start Date</p>
                             <p className="text-gray-900 font-medium">
                               {new Date(selectedEvent.start_date).toLocaleDateString('en-US', {
                                 weekday: 'short',
@@ -974,9 +974,9 @@ const AdminEventsPage = () => {
                         </div>
                         {selectedEvent.end_date && (
                           <div className="flex items-start space-x-3">
-                            <Clock className="h-5 w-5 text-gray-400 mt-0.5 flex-shrink-0" />
+                            <Clock className="h-5 w-5 text-gray-600 mt-0.5 flex-shrink-0" />
                             <div>
-                              <p className="text-xs text-gray-400">End Date</p>
+                              <p className="text-xs text-gray-700">End Date</p>
                               <p className="text-gray-900 font-medium">
                                 {new Date(selectedEvent.end_date).toLocaleDateString('en-US', {
                                   weekday: 'short',
@@ -1004,17 +1004,17 @@ const AdminEventsPage = () => {
                       <div className="space-y-3">
                         {selectedEvent.location && (
                           <div className="flex items-start space-x-3">
-                            <MapPin className="h-5 w-5 text-gray-400 mt-0.5 flex-shrink-0" />
+                            <MapPin className="h-5 w-5 text-gray-600 mt-0.5 flex-shrink-0" />
                             <div>
-                              <p className="text-xs text-gray-400">Location</p>
+                              <p className="text-xs text-gray-700">Location</p>
                               <p className="text-gray-900 font-medium">{selectedEvent.location}</p>
                             </div>
                           </div>
                         )}
                         <div className="flex items-start space-x-3">
-                          <Calendar className="h-5 w-5 text-gray-400 mt-0.5 flex-shrink-0" />
+                          <Calendar className="h-5 w-5 text-gray-600 mt-0.5 flex-shrink-0" />
                           <div>
-                            <p className="text-xs text-gray-400">Created On</p>
+                            <p className="text-xs text-gray-700">Created On</p>
                             <p className="text-gray-900 font-medium">
                               {new Date(selectedEvent.created_at).toLocaleDateString('en-US', {
                                 year: 'numeric',
