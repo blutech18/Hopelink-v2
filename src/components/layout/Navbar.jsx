@@ -226,6 +226,31 @@ const Navbar = () => {
     };
   }, []);
 
+  // Clear sidebar hover when clicking/moving outside sidebar
+  useEffect(() => {
+    if (sidebarMode !== "hover" || isMobile) return;
+
+    const handleClickOrMove = (event) => {
+      // Get the sidebar element
+      const sidebarElement = document.querySelector('[data-sidebar="true"]');
+      if (!sidebarElement) return;
+
+      // Check if click was outside the sidebar
+      if (!sidebarElement.contains(event.target)) {
+        // Immediately clear any pending timeout
+        if (sidebarHoverCloseTimeoutRef.current) {
+          clearTimeout(sidebarHoverCloseTimeoutRef.current);
+          sidebarHoverCloseTimeoutRef.current = null;
+        }
+        // Clear hover state immediately
+        setSidebarHovered(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOrMove);
+    return () => document.removeEventListener("click", handleClickOrMove);
+  }, [sidebarMode, isMobile]);
+
   // Periodic floating animation for feedback tooltip every 20 minutes
   useEffect(() => {
     const showFloatingTooltip = () => {
@@ -568,6 +593,7 @@ const Navbar = () => {
             width: isSidebarExpanded ? "16rem" : isMobile ? "3rem" : "4rem",
           }}
           transition={{ type: "tween", duration: 0.28, ease: "easeInOut" }}
+          data-sidebar="true"
           className={`fixed top-14 sm:top-16 left-0 bottom-0 border-r bg-white dark:bg-gray-900 dark:border-gray-700 border-gray-200 flex flex-col overflow-visible ${
             sidebarMode === "hover" && isSidebarHovered
               ? "z-[70] shadow-2xl"
@@ -586,7 +612,7 @@ const Navbar = () => {
             if (sidebarMode === "hover" && !isMobile) {
               sidebarHoverCloseTimeoutRef.current = setTimeout(() => {
                 setSidebarHovered(false);
-              }, 90);
+              }, 20);
             }
           }}
         >
@@ -600,14 +626,8 @@ const Navbar = () => {
                     to={link.path}
                     className={`relative flex items-center transition-all duration-200 group/link ${
                       isSidebarExpanded
-                        ? "justify-start px-2 sm:px-3 py-2 sm:py-2.5 md:py-3 rounded-lg text-xs sm:text-sm font-medium border border-transparent hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-logoBlue"
-                        : "justify-start px-2 sm:px-3 py-2 sm:py-2.5 md:py-3 rounded-lg text-xs sm:text-sm font-medium border border-transparent hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-logoBlue"
-                    } ${
-                      location.pathname === link.path
-                        ? isSidebarExpanded
-                          ? "text-logoBlue bg-blue-50 dark:bg-blue-900/30 font-semibold border border-blue-100 dark:border-blue-800"
-                          : "text-logoBlue bg-blue-50/70 dark:bg-blue-900/20"
-                        : "text-gray-800 dark:text-gray-400 hover:text-logoBlue"
+                        ? "justify-start px-2 sm:px-3 py-2 sm:py-2.5 md:py-3 rounded-lg text-xs sm:text-sm font-medium border border-transparent text-gray-800 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-logoBlue"
+                        : "justify-start px-2 sm:px-3 py-2 sm:py-2.5 md:py-3 rounded-lg text-xs sm:text-sm font-medium border border-transparent text-gray-800 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-logoBlue"
                     }`}
                   >
                     <span className="h-5 w-5 flex items-center justify-center flex-shrink-0">

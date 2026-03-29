@@ -1,133 +1,166 @@
-import React from 'react'
-import { motion } from 'framer-motion'
-import { AlertCircle, CheckCircle, Settings, ArrowRight } from 'lucide-react'
-import { Link } from 'react-router-dom'
-import { useAuth } from '@/modules/auth/AuthContext'
-import { IDVerificationBadge } from './VerificationBadge'
+import React from "react";
+import { motion } from "framer-motion";
+import { AlertCircle, CheckCircle, Settings, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useAuth } from "@/modules/auth/AuthContext";
+import { IDVerificationBadge } from "./VerificationBadge";
 
 const ProfileCompletionPrompt = () => {
-  const { profile } = useAuth()
+  const { profile } = useAuth();
 
-  if (!profile) return null
-  
+  if (!profile) return null;
+
   // Don't show completion prompt for admin users
-  if (profile.role === 'admin') return null
+  if (profile.role === "admin") return null;
 
   // Check completion status based on role (matching ProfilePage logic)
   const getCompletionStatus = () => {
-    if (!profile) return { isComplete: false, missingFields: [] }
+    if (!profile) return { isComplete: false, missingFields: [] };
 
     // Admin users don't require ID verification and have minimal requirements
-    const baseRequiredFields = profile.role === 'admin' 
-      ? ['name', 'phone_number'] // Only essential contact info for admins
-      : ['name', 'phone_number', 'address', 'city', 'primary_id_type', 'primary_id_number']
-    
+    const baseRequiredFields =
+      profile.role === "admin"
+        ? ["name", "phone_number"] // Only essential contact info for admins
+        : [
+            "name",
+            "phone_number",
+            "address",
+            "city",
+            "primary_id_type",
+            "primary_id_number",
+          ];
+
     const roleSpecificFields = {
-      donor: ['donation_types'],
-      recipient: ['household_size', 'assistance_needs', 'emergency_contact_name'],
+      donor: ["donation_types"],
+      recipient: [
+        "household_size",
+        "assistance_needs",
+        "emergency_contact_name",
+      ],
       volunteer: [], // No required fields in volunteer settings tab (removed vehicle, availability, background check, emergency contact)
-      admin: [] // Admins have minimal required fields
-    }
+      admin: [], // Admins have minimal required fields
+    };
 
     // Additional recommended fields for better profile completion
     const recommendedFields = {
-      donor: ['bio', 'donation_frequency'],
-      recipient: ['emergency_contact_phone', 'bio'], // Emergency contact phone and bio for better trust
+      donor: ["bio", "donation_frequency"],
+      recipient: ["emergency_contact_phone", "bio"], // Emergency contact phone and bio for better trust
       volunteer: [],
-      admin: []
-    }
+      admin: [],
+    };
 
     // Add organization-specific required fields
-    let organizationFields = []
-    if ((profile.account_type === 'business' || profile.account_type === 'organization') && 
-        (profile.role === 'donor' || profile.role === 'recipient')) {
-      organizationFields = ['secondary_id_type', 'secondary_id_number', 'organization_representative_name']
+    let organizationFields = [];
+    if (
+      (profile.account_type === "business" ||
+        profile.account_type === "organization") &&
+      (profile.role === "donor" || profile.role === "recipient")
+    ) {
+      organizationFields = [
+        "secondary_id_type",
+        "secondary_id_number",
+        "organization_representative_name",
+      ];
     }
 
-    const allRequiredFields = [...baseRequiredFields, ...(roleSpecificFields[profile.role] || []), ...organizationFields]
-    const allRecommendedFields = [...allRequiredFields, ...(recommendedFields[profile.role] || [])]
-    
-    const missingRequired = allRequiredFields.filter(field => {
-      const value = profile[field]
-      if (Array.isArray(value)) return value.length === 0
-      return !value || value === 'To be completed' || value === '09000000000'
-    })
-    
+    const allRequiredFields = [
+      ...baseRequiredFields,
+      ...(roleSpecificFields[profile.role] || []),
+      ...organizationFields,
+    ];
+    const allRecommendedFields = [
+      ...allRequiredFields,
+      ...(recommendedFields[profile.role] || []),
+    ];
+
+    const missingRequired = allRequiredFields.filter((field) => {
+      const value = profile[field];
+      if (Array.isArray(value)) return value.length === 0;
+      return !value || value === "To be completed" || value === "09000000000";
+    });
+
     // Special validation for volunteers - must have driver's license type and ID image
     // Note: primary_id_number is already checked in baseRequiredFields above
-    if (profile.role === 'volunteer') {
+    if (profile.role === "volunteer") {
       // Check if ID type is specifically driver's license (not just any ID type)
-      if (profile.primary_id_type !== 'drivers_license') {
-        missingRequired.push('drivers_license_required')
+      if (profile.primary_id_type !== "drivers_license") {
+        missingRequired.push("drivers_license_required");
       }
       // Check if ID image is uploaded (not in baseRequiredFields)
       if (!profile.primary_id_image_url) {
-        missingRequired.push('primary_id_image_url')
+        missingRequired.push("primary_id_image_url");
       }
     }
 
-    const missingRecommended = allRecommendedFields.filter(field => {
-      const value = profile[field]
-      if (Array.isArray(value)) return value.length === 0
-      return !value || value === 'To be completed' || value === '09000000000'
-    })
+    const missingRecommended = allRecommendedFields.filter((field) => {
+      const value = profile[field];
+      if (Array.isArray(value)) return value.length === 0;
+      return !value || value === "To be completed" || value === "09000000000";
+    });
 
     // Calculate percentage based on recommended fields for better UX
-    const percentage = Math.round(((allRecommendedFields.length - missingRecommended.length) / allRecommendedFields.length) * 100)
+    const percentage = Math.round(
+      ((allRecommendedFields.length - missingRecommended.length) /
+        allRecommendedFields.length) *
+        100,
+    );
 
     // Convert field names to display names
     const fieldDisplayNames = {
-      'name': 'Full Name',
-      'phone_number': 'Phone Number',
-      'address': 'Address',
-      'city': 'City',
-      'primary_id_type': 'Primary ID Type',
-      'primary_id_number': 'Primary ID Number',
-      'primary_id_image_url': 'Primary ID Image',
-      'secondary_id_type': 'Secondary ID Type',
-      'secondary_id_number': 'Secondary ID Number',
-      'organization_representative_name': 'Organization Representative Name',
-      'donation_types': 'Donation Types',
-      'preferred_contact_method': 'Preferred Contact Method',
-      'preferred_pickup_location': 'Pickup Location',
-      'donation_frequency': 'Donation Frequency',
-      'bio': 'Bio/Description',
-      'availability_days': 'Available Days',
-      'household_size': 'Household Size',
-      'assistance_needs': 'Assistance Needs',
-      'emergency_contact_name': 'Emergency Contact Name',
-      'emergency_contact_phone': 'Emergency Contact Phone',
-      'availability_times': 'Availability Times',
-      'background_check_consent': 'Background Check Consent',
-      'has_vehicle': 'Vehicle Ownership',
-      'vehicle_type': 'Vehicle Type',
-      'max_delivery_distance': 'Maximum Delivery Distance',
-      'volunteer_experience': 'Volunteer Experience',
-      'drivers_license_required': 'Driver\'s License (Required for Volunteers)',
-      'organization_name': 'Organization Name',
-      'website_link': 'Website Link'
-    }
+      name: "Full Name",
+      phone_number: "Phone Number",
+      address: "Address",
+      city: "City",
+      primary_id_type: "Primary ID Type",
+      primary_id_number: "Primary ID Number",
+      primary_id_image_url: "Primary ID Image",
+      secondary_id_type: "Secondary ID Type",
+      secondary_id_number: "Secondary ID Number",
+      organization_representative_name: "Organization Representative Name",
+      donation_types: "Donation Types",
+      preferred_contact_method: "Preferred Contact Method",
+      preferred_pickup_location: "Pickup Location",
+      donation_frequency: "Donation Frequency",
+      bio: "Bio/Description",
+      availability_days: "Available Days",
+      household_size: "Household Size",
+      assistance_needs: "Assistance Needs",
+      emergency_contact_name: "Emergency Contact Name",
+      emergency_contact_phone: "Emergency Contact Phone",
+      availability_times: "Availability Times",
+      background_check_consent: "Background Check Consent",
+      has_vehicle: "Vehicle Ownership",
+      vehicle_type: "Vehicle Type",
+      max_delivery_distance: "Maximum Delivery Distance",
+      volunteer_experience: "Volunteer Experience",
+      drivers_license_required: "Driver's License (Required for Volunteers)",
+      organization_name: "Organization Name",
+      website_link: "Website Link",
+    };
 
-    const missingFieldsDisplay = missingRequired.map(field => fieldDisplayNames[field] || field)
+    const missingFieldsDisplay = missingRequired.map(
+      (field) => fieldDisplayNames[field] || field,
+    );
 
     return {
       isComplete: missingRequired.length === 0,
       missingFields: missingFieldsDisplay,
-      completionPercentage: percentage
-    }
-  }
+      completionPercentage: percentage,
+    };
+  };
 
-  const { isComplete, missingFields, completionPercentage } = getCompletionStatus()
+  const { isComplete, missingFields, completionPercentage } =
+    getCompletionStatus();
 
   // Don't show if profile is complete
-  if (isComplete) return null
+  if (isComplete) return null;
 
   return (
     <motion.div
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="rounded-2xl p-4 sm:p-5 mb-6 border border-[#000f3d] bg-blue-50 shadow-sm"
+      className="rounded-2xl p-4 sm:p-5 mb-6 border border-[#000f3d] dark:border-slate-600 bg-blue-50 dark:bg-slate-800 shadow-sm"
     >
       <div className="flex items-start gap-3">
         <div className="flex-shrink-0 mt-1">
@@ -143,37 +176,46 @@ const ProfileCompletionPrompt = () => {
               {/* ID Verification Status */}
               <IDVerificationBadge
                 idStatus={profile.id_verification_status}
-                hasIdUploaded={profile.primary_id_type && profile.primary_id_number}
+                hasIdUploaded={
+                  profile.primary_id_type && profile.primary_id_number
+                }
                 size="xs"
                 showText={true}
                 showDescription={false}
               />
-              <span className="text-xs font-medium text-blue-700 bg-white/80 border border-blue-100 px-2.5 py-1 rounded-full whitespace-nowrap">
+              <span className="text-xs font-medium text-blue-700 dark:text-blue-300 bg-white/80 dark:bg-slate-700/50 border border-blue-100 dark:border-slate-600 px-2.5 py-1 rounded-full whitespace-nowrap">
                 {completionPercentage}% Complete
               </span>
             </div>
           </div>
-          
-          <p className="text-xs sm:text-sm text-gray-700 mb-3 leading-relaxed">
-            Complete your profile to gain trust from the community and access all features.{' '}
-            Verified profiles are prioritized for {profile.role === 'donor' ? 'donation requests' : 
-            profile.role === 'recipient' ? 'receiving donations' : 'volunteer opportunities'}.
+
+          <p className="text-xs sm:text-sm text-gray-700 dark:text-gray-300 mb-3 leading-relaxed">
+            Complete your profile to gain trust from the community and access
+            all features. Verified profiles are prioritized for{" "}
+            {profile.role === "donor"
+              ? "donation requests"
+              : profile.role === "recipient"
+                ? "receiving donations"
+                : "volunteer opportunities"}
+            .
           </p>
 
           {missingFields.length > 0 && (
             <div className="mb-4">
-              <p className="text-xs sm:text-sm font-medium text-gray-800 mb-2">Missing information</p>
+              <p className="text-xs sm:text-sm font-medium text-gray-800 dark:text-gray-200 mb-2">
+                Missing information
+              </p>
               <div className="flex flex-wrap gap-1.5">
                 {missingFields.slice(0, 4).map((field, index) => (
                   <span
                     key={index}
-                    className="inline-flex items-center px-2.5 py-1 text-xs bg-white text-blue-700 rounded-md border border-blue-200"
+                    className="inline-flex items-center px-2.5 py-1 text-xs bg-white dark:bg-slate-700 text-blue-700 dark:text-blue-300 rounded-md border border-blue-200 dark:border-slate-600"
                   >
                     {field}
                   </span>
                 ))}
                 {missingFields.length > 4 && (
-                  <span className="inline-flex items-center px-2.5 py-1 text-xs bg-white text-blue-700 rounded-md border border-blue-200 font-medium">
+                  <span className="inline-flex items-center px-2.5 py-1 text-xs bg-white dark:bg-slate-700 text-blue-700 dark:text-blue-300 rounded-md border border-blue-200 dark:border-slate-600 font-medium">
                     +{missingFields.length - 4} more
                   </span>
                 )}
@@ -184,17 +226,17 @@ const ProfileCompletionPrompt = () => {
           {/* Progress Bar and Action Button - Responsive */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div className="flex items-center space-x-3 flex-1">
-              <div className="flex-1 max-w-[220px] bg-blue-100 rounded-full h-2.5">
+              <div className="flex-1 max-w-[220px] bg-blue-100 dark:bg-slate-700 rounded-full h-2.5">
                 <div
-                  className="bg-gradient-to-r from-blue-500 to-blue-600 h-2.5 rounded-full transition-all duration-300"
+                  className="bg-gradient-to-r from-blue-500 to-blue-600 dark:from-blue-600 dark:to-blue-500 h-2.5 rounded-full transition-all duration-300"
                   style={{ width: `${completionPercentage}%` }}
                 />
               </div>
-              <span className="text-xs sm:text-sm font-semibold text-blue-700 whitespace-nowrap">
+              <span className="text-xs sm:text-sm font-semibold text-blue-700 dark:text-blue-300 whitespace-nowrap">
                 {completionPercentage}%
               </span>
             </div>
-            
+
             <Link
               to="/profile"
               className="inline-flex items-center justify-center px-4 py-2 text-xs sm:text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg active:scale-95 whitespace-nowrap"
@@ -207,7 +249,7 @@ const ProfileCompletionPrompt = () => {
         </div>
       </div>
     </motion.div>
-  )
-}
+  );
+};
 
-export default ProfileCompletionPrompt 
+export default ProfileCompletionPrompt;
