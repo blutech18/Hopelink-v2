@@ -110,48 +110,6 @@ const Navbar = () => {
   const isCallbackPage = location.pathname === "/auth/callback";
   const shouldShowProfile = isAuthenticated && profile && !isCallbackPage;
 
-  // IntersectionObserver scroll spy for homepage sections
-  useEffect(() => {
-    if (location.pathname !== "/") return;
-    const sectionIds = [
-      "home",
-      "events",
-      "how-it-works",
-      "guide",
-      "about",
-      "contact",
-    ];
-    const observers = [];
-
-    const handleIntersect = (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
-        }
-      });
-    };
-
-    // Small delay to let sections render
-    const timer = setTimeout(() => {
-      sectionIds.forEach((id) => {
-        const el = document.getElementById(id);
-        if (el) {
-          const observer = new IntersectionObserver(handleIntersect, {
-            rootMargin: "-20% 0px -60% 0px",
-            threshold: 0,
-          });
-          observer.observe(el);
-          observers.push(observer);
-        }
-      });
-    }, 300);
-
-    return () => {
-      clearTimeout(timer);
-      observers.forEach((obs) => obs.disconnect());
-    };
-  }, [location.pathname]);
-
   // Detect mobile screen size
   useEffect(() => {
     const checkMobile = () => {
@@ -420,7 +378,7 @@ const Navbar = () => {
     setIsMenuOpen(false);
   }, [isAuthenticated]);
 
-  // Track scroll position to update active section
+  // Track scroll position to update active homepage section accurately.
   useEffect(() => {
     const handleScroll = () => {
       if (location.pathname !== "/") {
@@ -428,8 +386,15 @@ const Navbar = () => {
         return;
       }
 
-      const sections = ["home", "events", "about", "contact"];
-      const scrollPosition = window.scrollY + 100; // Offset for navbar height
+      const sections = [
+        "home",
+        "events",
+        "how-it-works",
+        "guide",
+        "about",
+        "contact",
+      ];
+      const scrollPosition = window.scrollY + 120;
 
       for (let i = sections.length - 1; i >= 0; i--) {
         const section = sections[i];
@@ -487,6 +452,8 @@ const Navbar = () => {
   };
 
   const handleScrollNavigation = (scrollTo) => {
+    setActiveSection(scrollTo);
+
     const doScroll = () => {
       if (scrollTo === "home") {
         window.scrollTo({ top: 0, behavior: "smooth" });
