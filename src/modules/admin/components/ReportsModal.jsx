@@ -170,7 +170,7 @@ const ReportsModal = ({ isOpen, onClose }) => {
   return (
     <AnimatePresence>
       <div 
-        className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+        className="fixed inset-0 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center z-[120] p-4"
       >
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -403,7 +403,7 @@ const ReportsModal = ({ isOpen, onClose }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[60] p-4"
+            className="fixed inset-0 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center z-[130] p-4"
             onClick={() => setSelectedReport(null)}
           >
             <motion.div
@@ -467,7 +467,7 @@ const ReportsModal = ({ isOpen, onClose }) => {
         {/* Profile Modal */}
         <AnimatePresence>
           {showProfileModal && selectedProfile && (
-            <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[70] p-2 sm:p-4">
+            <div className="fixed inset-0 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center z-[140] p-2 sm:p-4">
               <motion.div
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -525,7 +525,7 @@ const ReportsModal = ({ isOpen, onClose }) => {
                           </div>
                           {/* View Overlay - Shows on hover */}
                           <div
-                            className="absolute inset-0 h-28 w-28 sm:h-36 sm:w-36 rounded-full bg-black bg-opacity-50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity pointer-events-none cursor-pointer"
+                            className="absolute inset-0 h-28 w-28 sm:h-36 sm:w-36 rounded-full bg-slate-950/70 backdrop-blur-sm flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity pointer-events-none cursor-pointer"
                           >
                             <Camera className="h-6 w-6 text-white" />
                           </div>
@@ -1006,14 +1006,14 @@ const ReportsModal = ({ isOpen, onClose }) => {
         {/* Profile Image Viewer Modal */}
         <AnimatePresence>
           {showProfileImageModal && selectedProfile && (
-            <div className="fixed inset-0 z-[80]">
+            <div className="fixed inset-0 z-[150]">
               {/* Backdrop */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={() => setShowProfileImageModal(false)}
-                className="absolute inset-0 bg-black/90 backdrop-blur-sm"
+                className="absolute inset-0 bg-slate-950/75 backdrop-blur-sm"
               />
               
               {/* Image Container */}
@@ -1035,7 +1035,7 @@ const ReportsModal = ({ isOpen, onClose }) => {
                     <button
                       type="button"
                       onClick={() => setShowProfileImageModal(false)}
-                      className="absolute top-4 right-4 p-2.5 rounded-full bg-black/70 hover:bg-black/90 text-white transition-colors backdrop-blur-sm z-10 shadow-lg"
+                      className="absolute top-4 right-4 p-2.5 rounded-full bg-slate-950/70 hover:bg-slate-950/75 text-white transition-colors backdrop-blur-sm z-10 shadow-lg"
                       title="Close"
                       aria-label="Close image viewer"
                     >
@@ -1052,7 +1052,7 @@ const ReportsModal = ({ isOpen, onClose }) => {
                     <button
                       type="button"
                       onClick={() => setShowProfileImageModal(false)}
-                      className="absolute top-4 right-4 p-2.5 rounded-full bg-black/70 hover:bg-black/90 text-white transition-colors backdrop-blur-sm z-10 shadow-lg"
+                      className="absolute top-4 right-4 p-2.5 rounded-full bg-slate-950/70 hover:bg-slate-950/75 text-white transition-colors backdrop-blur-sm z-10 shadow-lg"
                       title="Close"
                       aria-label="Close image viewer"
                     >

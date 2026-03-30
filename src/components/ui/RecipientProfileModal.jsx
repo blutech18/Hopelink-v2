@@ -102,13 +102,13 @@ const RecipientProfileModal = ({ isOpen, onClose, recipient, request = null }) =
   }
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto">
+    <div className="fixed inset-0 z-[120] overflow-y-auto">
       {/* Backdrop */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="absolute inset-0 bg-black/60 backdrop-blur-md"
+        className="absolute inset-0 bg-slate-950/70 backdrop-blur-md"
         onClick={onClose}
       />
 
@@ -119,7 +119,7 @@ const RecipientProfileModal = ({ isOpen, onClose, recipient, request = null }) =
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           onClick={(e) => e.stopPropagation()}
-          className="relative z-10 w-full max-w-3xl bg-white rounded-2xl border border-gray-200 shadow-2xl max-h-[90vh] overflow-y-auto"
+          className="relative z-10 w-full max-w-3xl bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-2xl max-h-[90vh] overflow-y-auto"
         >
           {/* Header */}
           <div className="sticky top-0 z-20 flex items-center justify-between p-6 border-b border-gray-200 bg-white">

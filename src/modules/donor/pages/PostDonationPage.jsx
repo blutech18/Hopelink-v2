@@ -20,6 +20,7 @@ import {
   Upload,
   X,
   Plus,
+  Minus,
   Check,
 } from "lucide-react";
 import { Info } from "lucide-react";
@@ -31,6 +32,10 @@ import LoadingSpinner from "@/shared/components/ui/LoadingSpinner";
 import LocationPicker from "@/shared/components/ui/LocationPicker";
 import { HelpIcon } from "@/shared/components/ui/HelpTooltip";
 import WorkflowGuideModal from "@/shared/components/ui/WorkflowGuideModal";
+import {
+  focusAndShakeField,
+  handleFormValidationErrors,
+} from "@/shared/lib/formValidationUX";
 
 const PostDonationPage = () => {
   const { user, profile } = useAuth();
@@ -47,12 +52,14 @@ const PostDonationPage = () => {
   const formTopRef = useRef(null);
   const [showWorkflowGuide, setShowWorkflowGuide] = useState(false);
   const [stepDirection, setStepDirection] = useState(1);
+  const [tagInput, setTagInput] = useState("");
 
   const {
     register,
     handleSubmit,
     watch,
     trigger,
+    getFieldState,
     setValue,
     formState: { errors },
   } = useForm({
@@ -82,6 +89,12 @@ const PostDonationPage = () => {
   const watchedCondition = watch("condition");
   const watchedIsUrgent = watch("is_urgent");
   const watchedDeliveryMode = watch("delivery_mode");
+  const watchedQuantity = Number(watch("quantity") || 1);
+  const watchedTags = watch("tags") || "";
+  const parsedTags = watchedTags
+    .split(",")
+    .map((tag) => tag.trim())
+    .filter(Boolean);
 
   const categories = [
     "Food & Beverages",
@@ -156,7 +169,57 @@ const PostDonationPage = () => {
       setStepDirection(1);
       setCurrentStep(currentStep + 1);
       scrollToFormTop();
+    } else if (!isValid) {
+      const firstInvalidField = fieldsToValidate.find((field) =>
+        Boolean(getFieldState(field).error),
+      );
+      if (firstInvalidField) {
+        focusAndShakeField(firstInvalidField);
+      } else {
+        handleFormValidationErrors(errors, fieldsToValidate);
+      }
     }
+  };
+
+  const handleSubmitErrors = (formErrors) => {
+    handleFormValidationErrors(formErrors);
+  };
+
+  const updateQuantity = (delta) => {
+    const nextQuantity = Math.min(1000, Math.max(1, watchedQuantity + delta));
+    setValue("quantity", nextQuantity, {
+      shouldDirty: true,
+      shouldValidate: true,
+    });
+  };
+
+  const addTag = (rawTag) => {
+    const cleanedTag = rawTag.trim().replace(/^#/, "");
+    if (!cleanedTag) {
+      return;
+    }
+    if (
+      parsedTags.some(
+        (existing) => existing.toLowerCase() === cleanedTag.toLowerCase(),
+      )
+    ) {
+      setTagInput("");
+      return;
+    }
+    const nextTags = [...parsedTags, cleanedTag].slice(0, 8);
+    setValue("tags", nextTags.join(", "), {
+      shouldDirty: true,
+      shouldValidate: true,
+    });
+    setTagInput("");
+  };
+
+  const removeTag = (tagToRemove) => {
+    const nextTags = parsedTags.filter((tag) => tag !== tagToRemove);
+    setValue("tags", nextTags.join(", "), {
+      shouldDirty: true,
+      shouldValidate: true,
+    });
   };
 
   const prevStep = () => {
@@ -293,7 +356,7 @@ const PostDonationPage = () => {
                     e.preventDefault();
                     return;
                   }
-                  handleSubmit(onSubmit)(e);
+                  handleSubmit(onSubmit, handleSubmitErrors)(e);
                 }}
               >
                 <AnimatePresence mode="wait">
@@ -308,132 +371,266 @@ const PostDonationPage = () => {
                       className="space-y-6"
                     >
                       <div>
-                        <label className="block text-sm font-medium text-gray-900 mb-2">
-                          <div className="flex items-center gap-2">
-                            Donation Title *
-                            <HelpIcon content="A clear title helps recipients find your donation. Your donation will be matched with recipients who need this item." />
-                          </div>
-                        </label>
-                        <input
-                          {...register("title", {
-                            required: "Title is required",
-                            minLength: {
-                              value: 5,
-                              message: "Title must be at least 5 characters",
-                            },
-                            maxLength: {
-                              value: 100,
-                              message: "Title must be less than 100 characters",
-                            },
-                          })}
-                          className="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-[#000f3d]/20 dark:border-slate-500 rounded-lg text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                          placeholder="e.g., Winter Clothes for Children"
-                        />
-                        {errors.title && (
-                          <p className="mt-2 text-sm text-danger-600">
-                            {errors.title.message}
-                          </p>
-                        )}
+                        <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">
+                          Share your kindness
+                        </h1>
+                        <p className="mt-2 text-base text-gray-600">
+                          Fill in the details to list your donation and help
+                          someone today.
+                        </p>
                       </div>
 
-                      <div>
-                        <label className="block text-sm font-medium text-gray-900 mb-2">
-                          <div className="flex items-center gap-2">
-                            Description
-                            <HelpIcon content="Detailed descriptions help recipients understand what you're offering. This improves matching and helps your donation reach those who need it most." />
-                          </div>
-                        </label>
-                        <textarea
-                          {...register("description", {
-                            maxLength: {
-                              value: 1000,
-                              message:
-                                "Description must be less than 1000 characters",
-                            },
-                          })}
-                          className="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-[#000f3d]/20 dark:border-slate-500 rounded-lg text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm h-32 sm:h-36 resize-none"
-                          placeholder="Describe what you're donating, its condition, and any special instructions..."
-                        />
-                        {errors.description && (
-                          <p className="mt-2 text-sm text-danger-600">
-                            {errors.description.message}
-                          </p>
-                        )}
-                        <div className="mt-2 text-sm text-gray-500 text-right">
-                          {watch("description")?.length || 0}/1000 characters
-                        </div>
-                      </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-900 mb-2">
-                            <div className="flex items-center gap-2">
-                              Category *
-                              <HelpIcon content="Selecting the right category helps our smart matching algorithm connect your donation with recipients who need this type of item." />
-                            </div>
-                          </label>
-                          <select
-                            {...register("category", {
-                              required: "Category is required",
-                            })}
-                            className="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-[#000f3d]/20 dark:border-slate-500 rounded-lg text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                          >
-                            <option value="">Select a category</option>
-                            {categories.map((category) => (
-                              <option key={category} value={category}>
-                                {category}
-                              </option>
-                            ))}
-                          </select>
-                          {errors.category && (
-                            <p className="mt-2 text-sm text-danger-600">
-                              {errors.category.message}
+                      <div className="rounded-2xl bg-[#f6f8ff] border border-[#dfe7ff] p-4 sm:p-5">
+                        <div className="rounded-xl bg-blue-50 border border-blue-100 p-4 flex items-start gap-3">
+                          <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-blue-600 text-white flex-shrink-0">
+                            <CheckCircle className="h-5 w-5" />
+                          </span>
+                          <div>
+                            <p className="text-sm font-semibold text-blue-900">
+                              Safe Giving
                             </p>
-                          )}
+                            <p className="text-xs text-blue-700 mt-1">
+                              Your donation is visible to verified community
+                              members for a safer exchange.
+                            </p>
+                          </div>
                         </div>
 
-                        <div>
+                        <div className="mt-5">
+                          <label className="block text-xs font-semibold uppercase tracking-wide text-gray-700 mb-3">
+                            Donation Images
+                          </label>
+                          <div className="flex flex-wrap gap-3">
+                            <label className="h-28 w-28 rounded-xl border border-[#d7def5] bg-white hover:bg-blue-50 transition-colors cursor-pointer flex flex-col items-center justify-center text-gray-500">
+                              <input
+                                type="file"
+                                accept="image/*"
+                                multiple
+                                onChange={handleImageUpload}
+                                className="hidden"
+                              />
+                              <ImageIcon className="h-6 w-6" />
+                              <span className="mt-2 text-xs font-medium">
+                                Add Photo
+                              </span>
+                            </label>
+                            {uploadedImages.slice(0, 4).map((image) => (
+                              <div
+                                key={image.id}
+                                className="relative h-28 w-28 rounded-xl overflow-hidden border border-[#d7def5] bg-white"
+                              >
+                                <img
+                                  src={image.preview}
+                                  alt="Donation preview"
+                                  className="h-full w-full object-cover"
+                                />
+                                <button
+                                  type="button"
+                                  onClick={() => removeImage(image.id)}
+                                  className="absolute top-1.5 right-1.5 h-6 w-6 rounded-full bg-black/70 text-white flex items-center justify-center"
+                                  aria-label="Remove uploaded image"
+                                >
+                                  <X className="h-3.5 w-3.5" />
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="mt-5">
                           <label className="block text-sm font-medium text-gray-900 mb-2">
-                            Quantity *
+                            Donation Title *
                           </label>
                           <input
-                            {...register("quantity", {
-                              required: "Quantity is required",
-                              min: {
-                                value: 1,
-                                message: "Quantity must be at least 1",
+                            {...register("title", {
+                              required: "Title is required",
+                              minLength: {
+                                value: 5,
+                                message: "Title must be at least 5 characters",
                               },
-                              max: {
-                                value: 1000,
-                                message: "Quantity must be less than 1000",
+                              maxLength: {
+                                value: 100,
+                                message:
+                                  "Title must be less than 100 characters",
                               },
                             })}
-                            type="number"
-                            className="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-[#000f3d]/20 dark:border-slate-500 rounded-lg text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                            placeholder="1"
-                            min="1"
+                            className="w-full px-4 py-3 bg-white border border-[#d7def5] rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                            placeholder="e.g., Set of 5 warm winter blankets"
                           />
-                          {errors.quantity && (
+                          {errors.title && (
                             <p className="mt-2 text-sm text-danger-600">
-                              {errors.quantity.message}
+                              {errors.title.message}
                             </p>
                           )}
                         </div>
-                      </div>
 
-                      <div>
-                        <label className="block text-sm font-medium text-gray-900 mb-2">
-                          Tags (optional)
-                        </label>
-                        <input
-                          {...register("tags")}
-                          className="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-[#000f3d]/20 dark:border-slate-500 rounded-lg text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                          placeholder="urgent, winter, children (separate with commas)"
-                        />
-                        <p className="mt-2 text-sm text-gray-600">
-                          Add tags to help recipients find your donation more
-                          easily
-                        </p>
+                        <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-900 mb-2">
+                              Category *
+                            </label>
+                            <select
+                              {...register("category", {
+                                required: "Category is required",
+                              })}
+                              className="w-full px-4 py-3 bg-white border border-[#d7def5] rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                            >
+                              <option value="">Select a category</option>
+                              {categories.map((category) => (
+                                <option key={category} value={category}>
+                                  {category}
+                                </option>
+                              ))}
+                            </select>
+                            {errors.category && (
+                              <p className="mt-2 text-sm text-danger-600">
+                                {errors.category.message}
+                              </p>
+                            )}
+                          </div>
+
+                          <div>
+                            <label className="block text-sm font-medium text-gray-900 mb-2">
+                              Quantity *
+                            </label>
+                            <div className="flex items-center bg-white border border-[#d7def5] rounded-xl overflow-hidden h-[46px]">
+                              <button
+                                type="button"
+                                onClick={() => updateQuantity(-1)}
+                                className="h-full w-12 inline-flex items-center justify-center text-blue-700 hover:bg-blue-50 transition-colors"
+                                aria-label="Decrease quantity"
+                              >
+                                <Minus className="h-4 w-4" />
+                              </button>
+                              <input
+                                {...register("quantity", {
+                                  required: "Quantity is required",
+                                  min: {
+                                    value: 1,
+                                    message: "Quantity must be at least 1",
+                                  },
+                                  max: {
+                                    value: 1000,
+                                    message: "Quantity must be less than 1000",
+                                  },
+                                })}
+                                type="number"
+                                min="1"
+                                className="w-full h-full text-center text-sm font-semibold text-gray-900 focus:outline-none"
+                              />
+                              <button
+                                type="button"
+                                onClick={() => updateQuantity(1)}
+                                className="h-full w-12 inline-flex items-center justify-center text-blue-700 hover:bg-blue-50 transition-colors"
+                                aria-label="Increase quantity"
+                              >
+                                <Plus className="h-4 w-4" />
+                              </button>
+                            </div>
+                            {errors.quantity && (
+                              <p className="mt-2 text-sm text-danger-600">
+                                {errors.quantity.message}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="mt-5">
+                          <label className="block text-sm font-medium text-gray-900 mb-2">
+                            Description & Details
+                          </label>
+                          <textarea
+                            {...register("description", {
+                              maxLength: {
+                                value: 1000,
+                                message:
+                                  "Description must be less than 1000 characters",
+                              },
+                            })}
+                            className="w-full px-4 py-3 bg-white border border-[#d7def5] rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm h-32 resize-none"
+                            placeholder="Describe the item condition, size, or relevant details..."
+                          />
+                          {errors.description && (
+                            <p className="mt-2 text-sm text-danger-600">
+                              {errors.description.message}
+                            </p>
+                          )}
+                        </div>
+
+                        <div className="mt-5">
+                          <label className="block text-xs font-semibold uppercase tracking-wide text-gray-700 mb-3">
+                            Discoverability Tags
+                          </label>
+                          <p className="text-xs text-gray-500 mb-2">
+                            Example:{" "}
+                            <span className="font-medium">#winter-care</span>,{" "}
+                            <span className="font-medium">#new-condition</span>,{" "}
+                            <span className="font-medium">
+                              #ready-for-pickup
+                            </span>
+                          </p>
+                          <div className="flex flex-wrap gap-2 mb-3">
+                            {[
+                              "winter-care",
+                              "new-condition",
+                              "ready-for-pickup",
+                            ].map((sampleTag) => (
+                              <button
+                                key={sampleTag}
+                                type="button"
+                                onClick={() => addTag(sampleTag)}
+                                className="inline-flex items-center px-2.5 py-1 rounded-full border border-[#d7def5] bg-white hover:bg-blue-50 text-[11px] font-medium text-[#4255b6] transition-colors"
+                              >
+                                #{sampleTag}
+                              </button>
+                            ))}
+                          </div>
+                          <div className="flex flex-wrap items-center gap-2">
+                            {parsedTags.map((tag) => (
+                              <span
+                                key={tag}
+                                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-violet-100 text-violet-700 text-xs font-semibold"
+                              >
+                                #{tag}
+                                <button
+                                  type="button"
+                                  onClick={() => removeTag(tag)}
+                                  className="text-violet-500 hover:text-violet-700"
+                                  aria-label={`Remove tag ${tag}`}
+                                >
+                                  <X className="h-3.5 w-3.5" />
+                                </button>
+                              </span>
+                            ))}
+                            <div className="flex items-center gap-2">
+                              <input
+                                value={tagInput}
+                                onChange={(e) => setTagInput(e.target.value)}
+                                onKeyDown={(e) => {
+                                  if (e.key === "Enter" || e.key === ",") {
+                                    e.preventDefault();
+                                    addTag(tagInput);
+                                  }
+                                }}
+                                className="w-36 px-3 py-1.5 bg-white border border-[#d7def5] rounded-full text-xs text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                placeholder="add a tag"
+                              />
+                              <button
+                                type="button"
+                                onClick={() => addTag(tagInput)}
+                                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-[#e8ecff] hover:bg-[#dbe3ff] text-[#3144a3] text-xs font-semibold transition-colors"
+                              >
+                                <Plus className="h-3.5 w-3.5" />
+                                Add Tag
+                              </button>
+                            </div>
+                          </div>
+                          <input {...register("tags")} type="hidden" />
+                          <p className="mt-2 text-xs text-gray-500">
+                            Add short keywords buyers might search for, like
+                            item condition, urgency, or pickup style.
+                          </p>
+                        </div>
                       </div>
                     </motion.div>
                   )}

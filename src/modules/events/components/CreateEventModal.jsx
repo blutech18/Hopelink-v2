@@ -495,13 +495,13 @@ const CreateEventModal = ({ isOpen, onClose, event = null, onSave }) => {
   return (
     <AnimatePresence mode="wait">
       {isOpen && (
-        <div key="modal" className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div key="modal" className="fixed inset-0 z-[120] flex items-center justify-center p-4">
         <motion.div
             key="backdrop"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+          className="absolute inset-0 bg-slate-950/70 backdrop-blur-sm"
           onClick={onClose}
         />
         
@@ -511,7 +511,7 @@ const CreateEventModal = ({ isOpen, onClose, event = null, onSave }) => {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           transition={{ duration: 0.2 }}
-          className="relative bg-white rounded-lg shadow-xl border border-gray-200 w-full max-w-4xl max-h-[90vh] overflow-hidden mx-4"
+          className="relative modal-panel w-full max-w-4xl max-h-[90vh] overflow-hidden mx-4"
         >
           {/* Header */}
           <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200">

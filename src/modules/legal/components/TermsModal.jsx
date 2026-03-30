@@ -39,14 +39,14 @@ const TermsModal = ({ isOpen, onClose, title, children, onScrolledToBottom, hasS
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 overflow-y-auto">
+        <div className="fixed inset-0 z-[120] overflow-y-auto">
           <div className="flex items-center justify-center min-h-screen p-3 sm:p-4 text-center">
             {/* Background overlay */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/50 backdrop-blur-sm"
+              className="fixed inset-0 bg-slate-950/70 backdrop-blur-sm"
               onClick={() => onClose(false)}
             />
 

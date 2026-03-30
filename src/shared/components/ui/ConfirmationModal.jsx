@@ -1,7 +1,7 @@
-import React from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { AlertTriangle, X, CheckCircle, XCircle } from 'lucide-react'
-import LoadingSpinner from './LoadingSpinner'
+import React from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { AlertTriangle, X, CheckCircle, XCircle } from "lucide-react";
+import LoadingSpinner from "./LoadingSpinner";
 
 const ConfirmationModal = ({
   isOpen,
@@ -13,71 +13,71 @@ const ConfirmationModal = ({
   cancelText = "Cancel",
   type = "warning", // warning, danger, info
   loading = false,
-  confirmButtonVariant = "primary" // primary, danger, success
+  confirmButtonVariant = "primary", // primary, danger, success
 }) => {
-  if (!isOpen) return null
+  if (!isOpen) return null;
 
   const getIcon = () => {
     switch (type) {
-      case 'danger':
-        return <XCircle className="h-6 w-6 text-danger-400" />
-      case 'success':
-        return <CheckCircle className="h-6 w-6 text-success-400" />
+      case "danger":
+        return <XCircle className="h-6 w-6 text-danger-400" />;
+      case "success":
+        return <CheckCircle className="h-6 w-6 text-success-400" />;
       default:
-        return <AlertTriangle className="h-6 w-6 text-warning-400" />
+        return <AlertTriangle className="h-6 w-6 text-warning-400" />;
     }
-  }
+  };
 
   const getIconBg = () => {
     switch (type) {
-      case 'danger':
-        return 'bg-danger-500/10'
-      case 'success':
-        return 'bg-success-500/10'
+      case "danger":
+        return "bg-danger-500/10";
+      case "success":
+        return "bg-success-500/10";
       default:
-        return 'bg-warning-500/10'
+        return "bg-warning-500/10";
     }
-  }
+  };
 
   const getConfirmButtonClass = () => {
     switch (confirmButtonVariant) {
-      case 'danger':
-        return 'btn btn-danger'
-      case 'success':
-        return 'btn btn-success'
+      case "danger":
+        return "btn btn-danger";
+      case "success":
+        return "btn btn-success";
       default:
-        return 'btn btn-primary'
+        return "btn btn-primary";
     }
-  }
+  };
 
   const handleConfirm = () => {
-    onConfirm()
-  }
+    onConfirm();
+  };
 
   const handleCancel = () => {
-    onClose()
-  }
+    onClose();
+  };
 
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <div className="fixed inset-0 z-[120] flex items-center justify-center">
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            className="absolute inset-0 bg-slate-950/70 backdrop-blur-sm"
             onClick={onClose}
           />
-          
+
           {/* Modal */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.2 }}
-            className="relative bg-white border border-gray-200 shadow-xl rounded-xl p-6 max-w-md w-full mx-4"
+            className="relative modal-panel p-6 max-w-md w-full mx-4"
           >
             {/* Header */}
             <div className="flex items-center justify-between mb-6">
@@ -85,11 +85,13 @@ const ConfirmationModal = ({
                 <div className={`p-2 rounded-lg ${getIconBg()}`}>
                   {getIcon()}
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
+                <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+                  {title}
+                </h3>
               </div>
               <button
                 onClick={onClose}
-                className="text-gray-400 hover:text-gray-800 transition-colors p-2 hover:bg-gray-100 rounded-lg"
+                className="modal-close-btn"
                 disabled={loading}
               >
                 <X className="h-5 w-5" />
@@ -98,7 +100,7 @@ const ConfirmationModal = ({
 
             {/* Message */}
             <div className="mb-6">
-              <p className="text-gray-600 leading-relaxed">
+              <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
                 {message}
               </p>
             </div>
@@ -112,7 +114,7 @@ const ConfirmationModal = ({
               >
                 {cancelText}
               </button>
-              
+
               <button
                 onClick={handleConfirm}
                 disabled={loading}
@@ -132,7 +134,7 @@ const ConfirmationModal = ({
         </div>
       )}
     </AnimatePresence>
-  )
-}
+  );
+};
 
-export default ConfirmationModal
+export default ConfirmationModal;

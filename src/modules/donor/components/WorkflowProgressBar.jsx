@@ -1,128 +1,131 @@
-import React from 'react'
-import { motion } from 'framer-motion'
-import { 
-  Package, 
-  Sparkles, 
-  Heart, 
-  Truck, 
+import React from "react";
+import { motion } from "framer-motion";
+import {
+  Package,
+  Sparkles,
+  Heart,
+  Truck,
   CheckCircle2,
   Circle,
-  ArrowRight
-} from 'lucide-react'
+  ArrowRight,
+} from "lucide-react";
 
-const WorkflowProgressBar = ({ 
-  status, 
-  currentStep = null, 
-  showLabels = true, 
+const WorkflowProgressBar = ({
+  status,
+  currentStep = null,
+  showLabels = true,
   showStatusInfo = true,
-  size = 'md',
-  orientation = 'horizontal' 
+  size = "md",
+  orientation = "horizontal",
+  theme = "default",
 }) => {
   // Define workflow steps
   const workflowSteps = [
     {
-      id: 'available',
-      label: 'Available',
+      id: "available",
+      label: "Available",
       icon: Package,
-      color: 'text-blue-400',
-      bgColor: 'bg-blue-500/20',
-      borderColor: 'border-blue-400',
-      description: 'Donation is posted and available for matching'
+      color: "text-blue-400",
+      bgColor: "bg-blue-500/20",
+      borderColor: "border-blue-400",
+      description: "Donation is posted and available for matching",
     },
     {
-      id: 'matched',
-      label: 'Matched',
+      id: "matched",
+      label: "Matched",
       icon: Sparkles,
-      color: 'text-purple-400',
-      bgColor: 'bg-purple-500/20',
-      borderColor: 'border-purple-400',
-      description: 'Matched with recipient through smart algorithm'
+      color: "text-purple-400",
+      bgColor: "bg-purple-500/20",
+      borderColor: "border-purple-400",
+      description: "Matched with recipient through smart algorithm",
     },
     {
-      id: 'claimed',
-      label: 'Claimed',
+      id: "claimed",
+      label: "Claimed",
       icon: Heart,
-      color: 'text-pink-400',
-      bgColor: 'bg-pink-500/20',
-      borderColor: 'border-pink-400',
-      description: 'Recipient has claimed the donation'
+      color: "text-pink-400",
+      bgColor: "bg-pink-500/20",
+      borderColor: "border-pink-400",
+      description: "Recipient has claimed the donation",
     },
     {
-      id: 'in_transit',
-      label: 'In Transit',
+      id: "in_transit",
+      label: "In Transit",
       icon: Truck,
-      color: 'text-yellow-400',
-      bgColor: 'bg-yellow-500/20',
-      borderColor: 'border-yellow-400',
-      description: 'Volunteer is delivering to recipient'
+      color: "text-yellow-400",
+      bgColor: "bg-yellow-500/20",
+      borderColor: "border-yellow-400",
+      description: "Volunteer is delivering to recipient",
     },
     {
-      id: 'delivered',
-      label: 'Delivered',
+      id: "delivered",
+      label: "Delivered",
       icon: CheckCircle2,
-      color: 'text-green-400',
-      bgColor: 'bg-green-500/20',
-      borderColor: 'border-green-400',
-      description: 'Donation has been delivered'
+      color: "text-green-400",
+      bgColor: "bg-green-500/20",
+      borderColor: "border-green-400",
+      description: "Donation has been delivered",
     },
     {
-      id: 'completed',
-      label: 'Completed',
+      id: "completed",
+      label: "Completed",
       icon: CheckCircle2,
-      color: 'text-emerald-400',
-      bgColor: 'bg-emerald-500/20',
-      borderColor: 'border-emerald-400',
-      description: 'Transaction completed and confirmed'
-    }
-  ]
+      color: "text-emerald-400",
+      bgColor: "bg-emerald-500/20",
+      borderColor: "border-emerald-400",
+      description: "Transaction completed and confirmed",
+    },
+  ];
 
   // Map status to step index
   const getStatusIndex = (status) => {
     const statusMap = {
-      'available': 0,
-      'matched': 1,
-      'claimed': 2,
-      'in_transit': 3,
-      'delivered': 4,
-      'completed': 5
-    }
-    return statusMap[status] ?? 0
-  }
+      available: 0,
+      matched: 1,
+      claimed: 2,
+      in_transit: 3,
+      delivered: 4,
+      completed: 5,
+    };
+    return statusMap[status] ?? 0;
+  };
 
-  const currentIndex = currentStep !== null ? currentStep : getStatusIndex(status)
-  const activeIndex = Math.min(currentIndex, workflowSteps.length - 1)
+  const currentIndex =
+    currentStep !== null ? currentStep : getStatusIndex(status);
+  const activeIndex = Math.min(currentIndex, workflowSteps.length - 1);
 
   const sizeClasses = {
     sm: {
-      icon: 'h-4 w-4',
-      text: 'text-[10px]',
-      container: 'gap-1',
-      stepGap: 'gap-0.5'
+      icon: "h-4 w-4",
+      text: "text-[10px]",
+      container: "gap-1",
+      stepGap: "gap-0.5",
     },
     md: {
-      icon: 'h-6 w-6',
-      text: 'text-sm',
-      container: 'gap-3',
-      stepGap: 'gap-2'
+      icon: "h-6 w-6",
+      text: "text-sm",
+      container: "gap-3",
+      stepGap: "gap-2",
     },
     lg: {
-      icon: 'h-7 w-7',
-      text: 'text-base',
-      container: 'gap-4',
-      stepGap: 'gap-3'
-    }
-  }
+      icon: "h-7 w-7",
+      text: "text-base",
+      container: "gap-4",
+      stepGap: "gap-3",
+    },
+  };
 
-  const classes = sizeClasses[size]
+  const classes = sizeClasses[size];
+  const isDarkHeaderTheme = theme === "on-dark";
 
-  if (orientation === 'vertical') {
+  if (orientation === "vertical") {
     return (
       <div className={`flex flex-col ${classes.container}`}>
         {workflowSteps.map((step, index) => {
-          const StepIcon = step.icon
-          const isActive = index <= activeIndex
-          const isCurrent = index === activeIndex
-          const isCompleted = index < activeIndex
+          const StepIcon = step.icon;
+          const isActive = index <= activeIndex;
+          const isCurrent = index === activeIndex;
+          const isCompleted = index < activeIndex;
 
           return (
             <div key={step.id} className="flex items-start gap-3">
@@ -134,43 +137,53 @@ const WorkflowProgressBar = ({
                     scale: isCurrent ? 1.1 : 1,
                   }}
                   className={`w-10 h-10 rounded-full border-2 flex items-center justify-center transition-all ${
-                    isCompleted 
-                      ? 'bg-emerald-500/25 dark:bg-emerald-500/20 border-emerald-600 dark:border-emerald-400 shadow-sm shadow-emerald-500/20' 
-                      : isCurrent 
-                      ? 'bg-amber-500/25 dark:bg-amber-500/20 border-amber-600 dark:border-amber-400 shadow-md shadow-amber-500/30' 
-                      : 'bg-gray-100 dark:bg-gray-700 border-gray-300 dark:border-gray-600'
+                    isCompleted
+                      ? "bg-emerald-500/25 dark:bg-emerald-500/20 border-emerald-600 dark:border-emerald-400 shadow-sm shadow-emerald-500/20"
+                      : isCurrent
+                        ? "bg-amber-500/25 dark:bg-amber-500/20 border-amber-600 dark:border-amber-400 shadow-md shadow-amber-500/30"
+                        : "bg-gray-100 dark:bg-gray-700 border-gray-300 dark:border-gray-600"
                   }`}
                 >
-                  <StepIcon className={`${classes.icon} ${
-                    isCompleted ? 'text-emerald-700 dark:text-emerald-400' 
-                    : isCurrent ? 'text-amber-700 dark:text-amber-400'
-                    : 'text-gray-700 dark:text-gray-400'
-                  }`} />
-                </motion.div>
-                
-                {index < workflowSteps.length - 1 && (
-                  <div 
-                    className={`w-1 flex-1 mt-2 transition-all ${
-                      index < activeIndex ? 'bg-emerald-500 dark:bg-emerald-400' : 'bg-gray-300 dark:bg-gray-600'
+                  <StepIcon
+                    className={`${classes.icon} ${
+                      isCompleted
+                        ? "text-emerald-700 dark:text-emerald-400"
+                        : isCurrent
+                          ? "text-amber-700 dark:text-amber-400"
+                          : "text-gray-700 dark:text-gray-400"
                     }`}
-                    style={{ minHeight: '40px' }}
+                  />
+                </motion.div>
+
+                {index < workflowSteps.length - 1 && (
+                  <div
+                    className={`w-1 flex-1 mt-2 transition-all ${
+                      index < activeIndex
+                        ? "bg-emerald-500 dark:bg-emerald-400"
+                        : "bg-gray-300 dark:bg-gray-600"
+                    }`}
+                    style={{ minHeight: "40px" }}
                   />
                 )}
               </div>
 
               {/* Step Info */}
               <div className="flex-1 pt-1">
-                <div className={`font-semibold ${classes.text} ${
-                  isActive ? 'text-gray-900 dark:text-gray-100' : 'text-gray-700 dark:text-gray-400'
-                }`}>
+                <div
+                  className={`font-semibold ${classes.text} ${
+                    isActive
+                      ? "text-gray-900 dark:text-gray-100"
+                      : "text-gray-700 dark:text-gray-400"
+                  }`}
+                >
                   {step.label}
                 </div>
               </div>
             </div>
-          )
+          );
         })}
       </div>
-    )
+    );
   }
 
   // Horizontal layout (default)
@@ -178,10 +191,10 @@ const WorkflowProgressBar = ({
     <div className="w-full">
       <div className={`flex items-center ${classes.container} relative`}>
         {workflowSteps.map((step, index) => {
-          const StepIcon = step.icon
-          const isActive = index <= activeIndex
-          const isCurrent = index === activeIndex
-          const isCompleted = index < activeIndex
+          const StepIcon = step.icon;
+          const isActive = index <= activeIndex;
+          const isCurrent = index === activeIndex;
+          const isCompleted = index < activeIndex;
 
           return (
             <React.Fragment key={step.id}>
@@ -193,18 +206,26 @@ const WorkflowProgressBar = ({
                     scale: isCurrent ? 1.15 : 1,
                   }}
                   className={`relative w-10 h-10 sm:w-11 sm:h-11 rounded-full border-2 flex items-center justify-center transition-all ${
-                    isCompleted 
-                      ? 'bg-emerald-500/25 dark:bg-emerald-500/20 border-emerald-600 dark:border-emerald-400 shadow-md shadow-emerald-500/25 dark:shadow-emerald-400/30' 
-                      : isCurrent 
-                      ? `bg-amber-500/25 dark:bg-amber-500/20 border-amber-600 dark:border-amber-400 shadow-lg shadow-amber-500/40 dark:shadow-amber-400/60` 
-                      : 'bg-gray-100 dark:bg-gray-700 border-gray-300 dark:border-gray-600'
+                    isCompleted
+                      ? "bg-emerald-500/25 dark:bg-emerald-500/20 border-emerald-600 dark:border-emerald-400 shadow-md shadow-emerald-500/25 dark:shadow-emerald-400/30"
+                      : isCurrent
+                        ? `bg-amber-500/25 dark:bg-amber-500/20 border-amber-600 dark:border-amber-400 shadow-lg shadow-amber-500/40 dark:shadow-amber-400/60`
+                        : isDarkHeaderTheme
+                          ? "bg-primary-900/40 border-primary-300/50"
+                          : "bg-gray-100 dark:bg-gray-700 border-gray-300 dark:border-gray-600"
                   }`}
                 >
-                  <StepIcon className={`${classes.icon} ${
-                    isCompleted ? 'text-emerald-700 dark:text-emerald-400' 
-                    : isCurrent ? 'text-amber-700 dark:text-amber-400'
-                    : 'text-gray-700 dark:text-gray-400'
-                  }`} />
+                  <StepIcon
+                    className={`${classes.icon} ${
+                      isCompleted
+                        ? "text-emerald-700 dark:text-emerald-400"
+                        : isCurrent
+                          ? "text-amber-700 dark:text-amber-400"
+                          : isDarkHeaderTheme
+                            ? "text-primary-100"
+                            : "text-gray-700 dark:text-gray-400"
+                    }`}
+                  />
                   {isCurrent && (
                     <>
                       <motion.div
@@ -214,7 +235,11 @@ const WorkflowProgressBar = ({
                       />
                       <motion.div
                         animate={{ scale: [1, 1.5, 1] }}
-                        transition={{ repeat: Infinity, duration: 2, delay: 0.1 }}
+                        transition={{
+                          repeat: Infinity,
+                          duration: 2,
+                          delay: 0.1,
+                        }}
                         className="absolute inset-0 rounded-full border-2 border-amber-600 dark:border-amber-300 opacity-60"
                       />
                     </>
@@ -223,10 +248,18 @@ const WorkflowProgressBar = ({
 
                 {/* Label (no per-step description – description appears in Current Status only) */}
                 {showLabels && (
-                <div className="mt-2 text-center">
-                    <div className={`font-medium ${classes.text} ${
-                      isActive ? 'text-gray-900 dark:text-gray-100' : 'text-gray-700 dark:text-gray-400'
-                    }`}>
+                  <div className="mt-2 text-center">
+                    <div
+                      className={`font-medium ${classes.text} ${
+                        isActive
+                          ? isDarkHeaderTheme
+                            ? "text-white"
+                            : "text-gray-900 dark:text-gray-100"
+                          : isDarkHeaderTheme
+                            ? "text-primary-100/80"
+                            : "text-gray-700 dark:text-gray-400"
+                      }`}
+                    >
                       {step.label}
                     </div>
                   </div>
@@ -235,15 +268,19 @@ const WorkflowProgressBar = ({
 
               {/* Connector Line */}
               {index < workflowSteps.length - 1 && (
-                <div 
+                <div
                   className={`flex-1 h-1 relative -mx-1 sm:-mx-1.5 ${
-                    index < activeIndex ? 'bg-emerald-500 dark:bg-emerald-400' : 'bg-gray-300 dark:bg-gray-600'
+                    index < activeIndex
+                      ? "bg-emerald-500 dark:bg-emerald-400"
+                      : isDarkHeaderTheme
+                        ? "bg-primary-100/35"
+                        : "bg-gray-300 dark:bg-gray-600"
                   }`}
                 >
                   {index < activeIndex && (
                     <motion.div
                       initial={{ width: 0 }}
-                      animate={{ width: '100%' }}
+                      animate={{ width: "100%" }}
                       transition={{ duration: 0.5 }}
                       className="h-full bg-emerald-600 dark:bg-emerald-400"
                     />
@@ -251,51 +288,61 @@ const WorkflowProgressBar = ({
                 </div>
               )}
             </React.Fragment>
-          )
+          );
         })}
       </div>
 
       {/* Current Status Info */}
-      {showStatusInfo && workflowSteps[activeIndex] && (() => {
-        const CurrentIcon = workflowSteps[activeIndex].icon
-        return (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className={`mt-6 p-4 sm:p-5 rounded-lg sm:rounded-xl border-l-4 border ${
-              isCompleted 
-                ? 'bg-emerald-50 dark:bg-emerald-950 border-l-emerald-600 dark:border-l-emerald-400 border-emerald-200 dark:border-emerald-700'
-                : isCurrent
-                ? 'bg-amber-50 dark:bg-amber-950 border-l-amber-600 dark:border-l-amber-400 border-amber-200 dark:border-amber-700'
-                : 'bg-gray-50 dark:bg-gray-900 border-l-gray-500 dark:border-l-gray-400 border-gray-200 dark:border-gray-700'
-            }`}
-          >
-            <div className="flex items-start gap-3">
-              <CurrentIcon className={`${classes.icon} flex-shrink-0 ${
-                isCompleted ? 'text-emerald-600 dark:text-emerald-400' 
-                : isCurrent ? 'text-amber-600 dark:text-amber-400'
-                : 'text-gray-600 dark:text-gray-400'
-              }`} />
-              <div className="flex-1">
-                <div className={`font-semibold ${classes.text} ${
-                  isCompleted ? 'text-emerald-900 dark:text-emerald-100'
-                  : isCurrent ? 'text-amber-900 dark:text-amber-100'
-                  : 'text-gray-900 dark:text-gray-100'
-                }`}>
-                  Current Status: {workflowSteps[activeIndex].label}
-                </div>
-                <div className="text-xs text-gray-700 dark:text-gray-300 mt-1">
-                  {workflowSteps[activeIndex].description}
+      {showStatusInfo &&
+        workflowSteps[activeIndex] &&
+        (() => {
+          const isPanelCompleted = activeIndex >= workflowSteps.length - 1;
+          const isPanelCurrent = !isPanelCompleted;
+          const CurrentIcon = workflowSteps[activeIndex].icon;
+          return (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className={`mt-6 p-4 sm:p-5 rounded-lg sm:rounded-xl border-l-4 border ${
+                isPanelCompleted
+                  ? "bg-emerald-50 dark:bg-emerald-950 border-l-emerald-600 dark:border-l-emerald-400 border-emerald-200 dark:border-emerald-700"
+                  : isPanelCurrent
+                    ? "bg-amber-50 dark:bg-amber-950 border-l-amber-600 dark:border-l-amber-400 border-amber-200 dark:border-amber-700"
+                    : "bg-gray-50 dark:bg-gray-900 border-l-gray-500 dark:border-l-gray-400 border-gray-200 dark:border-gray-700"
+              }`}
+            >
+              <div className="flex items-start gap-3">
+                <CurrentIcon
+                  className={`${classes.icon} flex-shrink-0 ${
+                    isPanelCompleted
+                      ? "text-emerald-600 dark:text-emerald-400"
+                      : isPanelCurrent
+                        ? "text-amber-600 dark:text-amber-400"
+                        : "text-gray-600 dark:text-gray-400"
+                  }`}
+                />
+                <div className="flex-1">
+                  <div
+                    className={`font-semibold ${classes.text} ${
+                      isPanelCompleted
+                        ? "text-emerald-900 dark:text-emerald-100"
+                        : isPanelCurrent
+                          ? "text-amber-900 dark:text-amber-100"
+                          : "text-gray-900 dark:text-gray-100"
+                    }`}
+                  >
+                    Current Status: {workflowSteps[activeIndex].label}
+                  </div>
+                  <div className="text-xs text-gray-700 dark:text-gray-300 mt-1">
+                    {workflowSteps[activeIndex].description}
+                  </div>
                 </div>
               </div>
-            </div>
-          </motion.div>
-        )
-      })()}
+            </motion.div>
+          );
+        })()}
     </div>
-  )
-}
+  );
+};
 
-export default WorkflowProgressBar
-
-
+export default WorkflowProgressBar;

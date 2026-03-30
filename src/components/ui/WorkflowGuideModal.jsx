@@ -292,13 +292,13 @@ const WorkflowGuideModal = ({ isOpen, onClose, userRole = 'donor' }) => {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 overflow-hidden">
+      <div className="fixed inset-0 z-[120] overflow-hidden">
         {/* Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="absolute inset-0 bg-black/60 backdrop-blur-md"
+          className="absolute inset-0 bg-slate-950/70 backdrop-blur-md"
           onClick={onClose}
         />
 

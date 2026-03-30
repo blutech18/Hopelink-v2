@@ -69,7 +69,7 @@ const CaptchaModal = ({ open, siteKey, onVerified, onClose, title = 'Verificatio
   if (!open) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+    <div className="fixed inset-0 z-[120] flex items-center justify-center bg-slate-950/70 backdrop-blur-sm">
       <div className="w-full max-w-md rounded-xl p-6" style={{backgroundColor: '#001a5c'}}>
         <div className="flex items-start justify-between mb-4">
           <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
