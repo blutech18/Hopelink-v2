@@ -377,8 +377,8 @@ function AppContent() {
   // Compute the margin class for the main content
   const getSidebarMargin = () => {
     if (!shouldShowSidebar) return "";
-    if (sidebarMode === "pinned") return "ml-64"; // 16rem = w-64
-    return "ml-12 sm:ml-16"; // collapsed sidebar width
+    if (sidebarMode === "pinned") return "sm:ml-64"; // 16rem = w-64
+    return "sm:ml-16"; // collapsed sidebar width (desktop/tablet only)
   };
 
   return (
@@ -386,7 +386,7 @@ function AppContent() {
       <Navbar />
 
       <main
-        className={`flex-1 transition-all duration-300 ease-in-out ${getSidebarMargin()}`}
+        className={`flex-1 pt-14 sm:pt-16 transition-all duration-300 ease-in-out ${getSidebarMargin()} ${profile ? "pb-24 sm:pb-0" : ""}`}
       >
         <ErrorBoundaryWithNavigate>
           <React.Suspense

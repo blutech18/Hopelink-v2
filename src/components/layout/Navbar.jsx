@@ -226,6 +226,32 @@ const Navbar = () => {
     };
   }, []);
 
+  // Lock page scroll while mobile menu overlay is open.
+  useEffect(() => {
+    if (!(isMobile && isMenuOpen)) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isMobile, isMenuOpen]);
+
+  // Support Escape key to close mobile menu overlay.
+  useEffect(() => {
+    if (!(isMobile && isMenuOpen)) return;
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isMobile, isMenuOpen]);
+
   // Clear sidebar hover when clicking/moving outside sidebar
   useEffect(() => {
     if (sidebarMode !== "hover" || isMobile) return;
@@ -583,10 +609,15 @@ const Navbar = () => {
       ? getNavLinksForRole(profile.role)
       : publicNavLinks;
 
+  const mobilePrimaryLinks =
+    shouldShowProfile && profile?.role && roleBasedLinks[profile.role]
+      ? roleBasedLinks[profile.role].slice(0, 5)
+      : [];
+
   return (
     <>
       {/* Fixed Sidebar for authenticated users - must be before nav for proper z-index */}
-      {shouldShowProfile && (
+      {shouldShowProfile && !isMobile && (
         <motion.aside
           initial={false}
           animate={{
@@ -791,7 +822,7 @@ const Navbar = () => {
         </motion.aside>
       )}
 
-      <nav className="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40 w-full">
+      <nav className="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-700 fixed inset-x-0 top-0 z-40 w-full">
         <div className="w-full px-3 sm:px-4 md:px-6 lg:px-8">
           <div className="flex justify-between h-14 sm:h-16">
             {/* Logo Container */}
@@ -1304,6 +1335,23 @@ const Navbar = () => {
 
             {/* Mobile menu button */}
             <div className="md:hidden flex items-center space-x-2">
+              {/* Mobile Notifications Button */}
+              {shouldShowProfile && (
+                <button
+                  onClick={() => setShowNotificationsModal(true)}
+                  className="relative p-2 rounded-md text-gray-500 hover:text-logoBlue hover:bg-gray-100 transition-colors active:scale-95"
+                  title="Notifications"
+                  aria-label="Open Notifications"
+                >
+                  <Bell className="h-5 w-5" />
+                  {unreadCount > 0 && (
+                    <span className="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[10px] font-bold rounded-full h-4.5 min-w-[18px] px-1 flex items-center justify-center border-2 border-white dark:border-slate-900">
+                      {unreadCount > 9 ? "9+" : unreadCount}
+                    </span>
+                  )}
+                </button>
+              )}
+
               {/* Mobile Feedback Button */}
               {shouldShowProfile && profile?.role !== "admin" && (
                 <button
@@ -1318,68 +1366,83 @@ const Navbar = () => {
 
               {/* Mobile Profile Dropdown - for authenticated users */}
               {shouldShowProfile ? (
-                <div className="relative" ref={mobileProfileMenuRef}>
-                  <button
-                    onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
-                    className="flex items-center space-x-1 p-2 rounded-md text-gray-500 hover:text-logoBlue hover:bg-gray-100"
-                  >
-                    <div className="h-6 w-6 bg-logoBlue rounded-full overflow-hidden flex items-center justify-center">
-                      {profile?.profile_image_url ? (
-                        <img
-                          src={profile.profile_image_url}
-                          alt="Profile"
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <span className="text-white text-xs font-medium">
-                          {profile?.name?.charAt(0)?.toUpperCase() || "U"}
-                        </span>
-                      )}
-                    </div>
-                    <ChevronDown
-                      className={`h-4 w-4 transition-transform ${isProfileMenuOpen ? "rotate-180" : ""}`}
-                    />
-                  </button>
-
-                  {/* Mobile Profile Dropdown Menu */}
-                  <AnimatePresence>
-                    {isProfileMenuOpen && (
-                      <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50"
-                      >
-                        <Link
-                          to="/profile"
-                          className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                          onClick={() => setIsProfileMenuOpen(false)}
-                        >
-                          <Settings className="h-4 w-4" />
-                          <span>Profile Settings</span>
-                        </Link>
-                        <hr className="my-1 border-gray-200" />
-                        <button
-                          onClick={() => {
-                            setIsProfileMenuOpen(false);
-                            handleSignOut();
-                          }}
-                          disabled={isSigningOut}
-                          className={`flex items-center space-x-2 w-full px-4 py-2 text-sm transition-colors ${
-                            isSigningOut
-                              ? "text-gray-400 cursor-not-allowed"
-                              : "text-red-600 hover:bg-red-50"
-                          }`}
-                        >
-                          <LogOut className="h-4 w-4" />
-                          <span>
-                            {isSigningOut ? "Signing Out..." : "Sign Out"}
+                <>
+                  <div className="relative" ref={mobileProfileMenuRef}>
+                    <button
+                      onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
+                      className="flex items-center space-x-1 p-2 rounded-md text-gray-500 hover:text-logoBlue hover:bg-gray-100"
+                    >
+                      <div className="h-6 w-6 bg-logoBlue rounded-full overflow-hidden flex items-center justify-center">
+                        {profile?.profile_image_url ? (
+                          <img
+                            src={profile.profile_image_url}
+                            alt="Profile"
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <span className="text-white text-xs font-medium">
+                            {profile?.name?.charAt(0)?.toUpperCase() || "U"}
                           </span>
-                        </button>
-                      </motion.div>
+                        )}
+                      </div>
+                      <ChevronDown
+                        className={`h-4 w-4 transition-transform ${isProfileMenuOpen ? "rotate-180" : ""}`}
+                      />
+                    </button>
+
+                    {/* Mobile Profile Dropdown Menu */}
+                    <AnimatePresence>
+                      {isProfileMenuOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                          className="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-900 rounded-lg shadow-lg border border-gray-200 dark:border-slate-700 py-1 z-50"
+                        >
+                          <Link
+                            to="/profile"
+                            className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 dark:text-slate-200 hover:bg-gray-50 dark:hover:bg-slate-800"
+                            onClick={() => setIsProfileMenuOpen(false)}
+                          >
+                            <Settings className="h-4 w-4" />
+                            <span>Profile Settings</span>
+                          </Link>
+                          <hr className="my-1 border-gray-200 dark:border-slate-700" />
+                          <button
+                            onClick={() => {
+                              setIsProfileMenuOpen(false);
+                              handleSignOut();
+                            }}
+                            disabled={isSigningOut}
+                            className={`flex items-center space-x-2 w-full px-4 py-2 text-sm transition-colors ${
+                              isSigningOut
+                                ? "text-gray-400 cursor-not-allowed"
+                                : "text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
+                            }`}
+                          >
+                            <LogOut className="h-4 w-4" />
+                            <span>
+                              {isSigningOut ? "Signing Out..." : "Sign Out"}
+                            </span>
+                          </button>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+
+                  {/* Mobile Menu Toggle - authenticated */}
+                  <button
+                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                    className="p-2 rounded-md text-gray-500 hover:text-logoBlue hover:bg-gray-100"
+                    aria-label="Toggle mobile menu"
+                  >
+                    {isMenuOpen ? (
+                      <X className="h-6 w-6" />
+                    ) : (
+                      <Menu className="h-6 w-6" />
                     )}
-                  </AnimatePresence>
-                </div>
+                  </button>
+                </>
               ) : (
                 /* Mobile Menu Toggle - for non-authenticated users */
                 <button
@@ -1397,78 +1460,100 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Mobile Navigation Menu - Show for all users */}
+        {/* Mobile Navigation Menu Overlay - Show for all users */}
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              className="md:hidden border-t border-gray-200 shadow-lg bg-white"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-x-0 bottom-0 top-14 md:hidden z-[38]"
             >
-              <div className="px-6 py-6 space-y-3 max-w-md mx-auto">
-                {/* Public Navigation for Mobile */}
-                {publicNavLinks.map((link) =>
-                  link.scrollTo ? (
-                    <button
-                      key={`mobile-${link.path}-${link.scrollTo}`}
-                      onClick={() => {
-                        handleScrollNavigation(link.scrollTo);
-                        setIsMenuOpen(false);
-                      }}
-                      className={`block w-full px-6 py-3 text-center text-base font-semibold rounded-lg transition-all duration-200 ${
-                        isLinkActive(link)
-                          ? "text-logoBlue bg-blue-50 border border-blue-100"
-                          : "text-gray-600 hover:text-logoBlue hover:bg-gray-50 border border-transparent"
-                      }`}
-                    >
-                      {link.label}
-                    </button>
-                  ) : (
-                    <Link
-                      key={`mobile-${link.path}-${link.label}`}
-                      to={link.path}
-                      className={`block px-6 py-3 text-center text-base font-semibold rounded-lg transition-all duration-200 ${
-                        isLinkActive(link)
-                          ? "text-logoBlue bg-blue-50 border border-blue-100"
-                          : "text-gray-600 hover:text-logoBlue hover:bg-gray-50 border border-transparent"
-                      }`}
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      {link.label}
-                    </Link>
-                  ),
-                )}
+              <button
+                type="button"
+                className="absolute inset-0 bg-slate-950/45 backdrop-blur-sm"
+                aria-label="Close mobile menu"
+                onClick={() => setIsMenuOpen(false)}
+              />
 
-                {/* Mobile Auth Section - Only for non-authenticated users */}
-                {!isAuthenticated && (
-                  <div className="pt-4 space-y-3 border-t border-gray-200">
-                    <Link
-                      to="/login"
-                      className={`block px-6 py-3 text-center text-base font-semibold rounded-lg transition-all duration-200 border ${
-                        location.pathname === "/login"
-                          ? "text-logoBlue bg-blue-50 border border-blue-100"
-                          : "text-gray-600 hover:text-logoBlue hover:bg-gray-50 border border-transparent"
-                      }`}
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      Sign In
-                    </Link>
-                    <Link
-                      to="/signup"
-                      className={`block px-6 py-3 text-center text-base font-bold rounded-lg transition-all duration-200 shadow-md ${
-                        location.pathname === "/signup" ||
-                        location.pathname.startsWith("/signup/")
-                          ? "bg-[#001a5c] text-white border-2 border-transparent"
-                          : "bg-logoBlue text-white hover:bg-navy-900"
-                      }`}
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      Sign Up
-                    </Link>
-                  </div>
-                )}
-              </div>
+              <motion.div
+                initial={{ opacity: 0, y: -12, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -12, scale: 0.98 }}
+                transition={{ duration: 0.18, ease: "easeOut" }}
+                className="absolute left-3 right-3 top-3 max-h-[calc(100%-1.5rem)] overflow-y-auto rounded-2xl border border-slate-200 dark:border-slate-700 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl shadow-2xl"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="px-5 py-5 space-y-3">
+                  {shouldShowProfile && (
+                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">
+                      Community
+                    </p>
+                  )}
+
+                  {/* Public Navigation for Mobile */}
+                  {publicNavLinks.map((link) =>
+                    link.scrollTo ? (
+                      <button
+                        key={`mobile-${link.path}-${link.scrollTo}`}
+                        onClick={() => {
+                          handleScrollNavigation(link.scrollTo);
+                          setIsMenuOpen(false);
+                        }}
+                        className={`block w-full px-6 py-3 text-center text-base font-semibold rounded-lg transition-all duration-200 ${
+                          isLinkActive(link)
+                            ? "text-logoBlue bg-blue-50 border border-blue-100"
+                            : "text-gray-600 dark:text-slate-300 hover:text-logoBlue hover:bg-gray-50 dark:hover:bg-slate-800 border border-transparent"
+                        }`}
+                      >
+                        {link.label}
+                      </button>
+                    ) : (
+                      <Link
+                        key={`mobile-${link.path}-${link.label}`}
+                        to={link.path}
+                        className={`block px-6 py-3 text-center text-base font-semibold rounded-lg transition-all duration-200 ${
+                          isLinkActive(link)
+                            ? "text-logoBlue bg-blue-50 border border-blue-100"
+                            : "text-gray-600 dark:text-slate-300 hover:text-logoBlue hover:bg-gray-50 dark:hover:bg-slate-800 border border-transparent"
+                        }`}
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        {link.label}
+                      </Link>
+                    ),
+                  )}
+
+                  {/* Mobile Auth Section - Only for non-authenticated users */}
+                  {!isAuthenticated && (
+                    <div className="pt-4 space-y-3 border-t border-gray-200 dark:border-slate-700">
+                      <Link
+                        to="/login"
+                        className={`block px-6 py-3 text-center text-base font-semibold rounded-lg transition-all duration-200 border ${
+                          location.pathname === "/login"
+                            ? "text-logoBlue bg-blue-50 border border-blue-100"
+                            : "text-gray-600 dark:text-slate-300 hover:text-logoBlue hover:bg-gray-50 dark:hover:bg-slate-800 border border-transparent"
+                        }`}
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Sign In
+                      </Link>
+                      <Link
+                        to="/signup"
+                        className={`block px-6 py-3 text-center text-base font-bold rounded-lg transition-all duration-200 shadow-md ${
+                          location.pathname === "/signup" ||
+                          location.pathname.startsWith("/signup/")
+                            ? "bg-[#001a5c] text-white border-2 border-transparent"
+                            : "bg-logoBlue text-white hover:bg-navy-900"
+                        }`}
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Sign Up
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -1732,6 +1817,33 @@ const Navbar = () => {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Mobile Bottom Navigation (authenticated users) */}
+        {shouldShowProfile && mobilePrimaryLinks.length > 0 && (
+          <div className="fixed bottom-0 inset-x-0 md:hidden z-[55] border-t border-slate-200 dark:border-slate-700 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md pb-[max(env(safe-area-inset-bottom),0.35rem)]">
+            <div className="grid grid-cols-5 gap-1 px-1.5 pt-1.5">
+              {mobilePrimaryLinks.map((link) => {
+                const isActive = location.pathname === link.path;
+                return (
+                  <Link
+                    key={`mobile-bottom-${link.path}`}
+                    to={link.path}
+                    className={`flex flex-col items-center justify-center rounded-xl py-2 px-0.5 transition-colors ${
+                      isActive
+                        ? "bg-blue-50 dark:bg-blue-900/30 text-logoBlue"
+                        : "text-gray-600 dark:text-gray-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+                    }`}
+                  >
+                    <link.icon className="h-4.5 w-4.5" />
+                    <span className="mt-1 text-[9px] leading-none font-semibold text-center truncate w-full px-0.5">
+                      {link.label}
+                    </span>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </nav>
     </>
   );
