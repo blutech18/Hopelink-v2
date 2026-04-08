@@ -1121,7 +1121,6 @@ const AdminDashboard = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15 }}
             className="card p-5 sm:p-6 border border-gray-200"
-            transition={{ delay: 0.15 }}
           >
             <div className="flex items-center gap-3 mb-4 pb-3 border-b border-gray-200">
               <div className="p-2 rounded-lg bg-blue-50">

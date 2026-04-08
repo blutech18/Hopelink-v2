@@ -676,10 +676,10 @@ const AvailableTasksPage = () => {
         >
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
             <div className="flex-1">
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white">
                 Available Tasks
               </h1>
-              <p className="text-gray-600 mt-2 text-sm sm:text-base">
+              <p className="text-gray-700 dark:text-gray-400 mt-2 text-sm sm:text-base">
                 Help connect donors and recipients by volunteering for delivery
                 tasks
               </p>
@@ -689,7 +689,7 @@ const AvailableTasksPage = () => {
             {filteredTasks.length > 0 && (
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-yellow-600/20 to-yellow-500/20 border border-gray-200 rounded-full flex-shrink-0">
                 <Truck className="h-4 w-4 text-blue-500" />
-                <span className="text-gray-600 font-semibold text-sm">
+                <span className="text-gray-900 dark:text-gray-300 font-semibold text-sm">
                   {filteredTasks.length}{" "}
                   {filteredTasks.length === 1 ? "Task" : "Tasks"} Available
                 </span>
@@ -717,7 +717,7 @@ const AvailableTasksPage = () => {
                   onChange={(e) =>
                     setFilters((prev) => ({ ...prev, search: e.target.value }))
                   }
-                  className="w-full pl-10 pr-4 py-3 sm:py-2 bg-gray-50 border border-gray-300 rounded-lg text-white text-sm sm:text-base placeholder-gray-400 focus:border-blue-500 focus:outline-none transition-colors"
+                  className="w-full pl-10 pr-4 py-3 sm:py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white text-sm sm:text-base placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-500 focus:outline-none transition-colors"
                 />
               </div>
               <button
@@ -744,7 +744,7 @@ const AvailableTasksPage = () => {
                   className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-4 border-t border-gray-300 overflow-hidden"
                 >
                   <div>
-                    <label className="block text-sm font-medium text-gray-600 mb-2">
+                    <label className="block text-sm font-medium text-gray-900 dark:text-gray-300 mb-2">
                       Category
                     </label>
                     <select
@@ -755,7 +755,7 @@ const AvailableTasksPage = () => {
                           category: e.target.value,
                         }))
                       }
-                      className="w-full px-3 py-3 sm:py-2 bg-gray-50 border border-gray-300 rounded-lg text-white text-sm sm:text-base focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-colors"
+                      className="w-full px-3 py-3 sm:py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white text-sm sm:text-base focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-colors"
                     >
                       <option value="">All Categories</option>
                       <option value="food">🍽️ Food</option>
@@ -768,7 +768,7 @@ const AvailableTasksPage = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-600 mb-2">
+                    <label className="block text-sm font-medium text-gray-900 dark:text-gray-300 mb-2">
                       Urgency
                     </label>
                     <select
@@ -779,7 +779,7 @@ const AvailableTasksPage = () => {
                           urgency: e.target.value,
                         }))
                       }
-                      className="w-full px-3 py-3 sm:py-2 bg-gray-50 border border-gray-300 rounded-lg text-white text-sm sm:text-base focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-colors"
+                      className="w-full px-3 py-3 sm:py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white text-sm sm:text-base focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-colors"
                     >
                       <option value="">All Urgency Levels</option>
                       <option value="critical">🔴 Critical</option>
@@ -790,7 +790,7 @@ const AvailableTasksPage = () => {
                   </div>
 
                   <div className="sm:col-span-2 lg:col-span-1">
-                    <label className="block text-sm font-medium text-gray-600 mb-2">
+                    <label className="block text-sm font-medium text-gray-900 dark:text-gray-300 mb-2">
                       Type
                     </label>
                     <select
@@ -801,7 +801,7 @@ const AvailableTasksPage = () => {
                           type: e.target.value,
                         }))
                       }
-                      className="w-full px-3 py-3 sm:py-2 bg-gray-50 border border-gray-300 rounded-lg text-white text-sm sm:text-base focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-colors"
+                      className="w-full px-3 py-3 sm:py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white text-sm sm:text-base focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-colors"
                     >
                       <option value="">All Types</option>
                       <option value="approved_donation">
@@ -825,10 +825,10 @@ const AvailableTasksPage = () => {
           {filteredTasks.length === 0 ? (
             <div className="card p-12 text-center">
               <Package className="h-16 w-16 text-blue-500 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-white mb-2">
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                 No Available Tasks
               </h3>
-              <p className="text-gray-600">
+              <p className="text-gray-700 dark:text-gray-400">
                 {rawTasks.length === 0
                   ? "There are currently no delivery tasks available. Check back later!"
                   : "No tasks match your current filters. Try adjusting your search criteria."}

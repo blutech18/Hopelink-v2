@@ -1788,7 +1788,9 @@ const Navbar = () => {
         {/* Mobile Bottom Navigation (authenticated users) */}
         {shouldShowProfile && mobilePrimaryLinks.length > 0 && (
           <div className="fixed bottom-0 inset-x-0 md:hidden z-[55] border-t border-slate-200 dark:border-slate-700 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md pb-[max(env(safe-area-inset-bottom),0.35rem)]">
-            <div className="grid grid-cols-5 gap-1 px-1.5 pt-1.5">
+            <div
+              className={`grid gap-1 px-1.5 pt-1.5 ${mobilePrimaryLinks.length === 4 ? "grid-cols-4" : "grid-cols-5"}`}
+            >
               {mobilePrimaryLinks.map((link) => {
                 const isActive = location.pathname === link.path;
                 return (

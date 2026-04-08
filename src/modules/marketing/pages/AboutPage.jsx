@@ -26,7 +26,7 @@ const AboutPage = () => {
       </section>
 
       {/* Our Mission Section */}
-      <section className="py-16 text-white" className="bg-gray-50">
+      <section className="py-16 bg-gray-50">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -98,7 +98,7 @@ const AboutPage = () => {
       </section>
 
       {/* Community Impact Section */}
-      <section className="py-16 text-white" className="bg-gray-50">
+      <section className="py-16 bg-gray-50">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

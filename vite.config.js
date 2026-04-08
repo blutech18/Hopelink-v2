@@ -42,51 +42,60 @@ export default defineConfig({
             return null
           }
 
-          // WHITELIST APPROACH: Put everything into vendor-react EXCEPT explicitly non-React packages
-          // This ensures React is always available and prevents "Cannot read properties of undefined" errors
-
-          // Explicitly non-React packages that can be split out
-          const nonReactPackages = [
-            'jspdf',
-            'html2canvas',
-            '@supabase/supabase-js',
-            // Server-side packages (shouldn't be in client bundle, but just in case)
-            'express',
-            'bcryptjs',
-            'compression',
-            'cors',
-            'dotenv',
-            'helmet',
-            'jsonwebtoken',
-            'multer',
-            'pg'
-          ]
-
-          // Check if this is an explicitly non-React package
-          const isNonReact = nonReactPackages.some(pkg => id.includes(`node_modules/${pkg}`))
-
-          if (isNonReact) {
-            // Split non-React packages into appropriate chunks
-            if (id.includes('node_modules/jspdf')) {
-              return 'vendor-pdf'
-            }
-            if (id.includes('node_modules/html2canvas')) {
-              return 'vendor-canvas'
-            }
-            if (id.includes('node_modules/@supabase')) {
-              return 'vendor-supabase'
-            }
-            // Other non-React packages go to vendor-misc
-            return 'vendor-misc'
+          // --- Standalone heavy libraries (no React dependency issues) ---
+          if (id.includes('node_modules/jspdf') || id.includes('node_modules/jspdf-autotable')) {
+            return 'vendor-pdf'
+          }
+          if (id.includes('node_modules/html2canvas')) {
+            return 'vendor-canvas'
+          }
+          if (id.includes('node_modules/@supabase')) {
+            return 'vendor-supabase'
           }
 
-          // EVERYTHING ELSE goes to vendor-react to ensure React is always available
-          // This includes all React libraries, their dependencies, and any unknown packages
+          // --- Charting (recharts + d3 dependencies) ---
+          if (id.includes('node_modules/recharts') || id.includes('node_modules/d3-')) {
+            return 'vendor-recharts'
+          }
+
+          // --- Animation (framer-motion) ---
+          if (id.includes('node_modules/framer-motion') || id.includes('node_modules/@motionone')) {
+            return 'vendor-framer'
+          }
+
+          // --- Google Maps ---
+          if (id.includes('node_modules/@react-google-maps') || id.includes('node_modules/@vis.gl/react-google-maps') || id.includes('node_modules/@googlemaps')) {
+            return 'vendor-maps'
+          }
+
+          // --- Radix UI components ---
+          if (id.includes('node_modules/@radix-ui')) {
+            return 'vendor-radix'
+          }
+
+          // --- Icons ---
+          if (id.includes('node_modules/lucide-react') || id.includes('node_modules/lucide')) {
+            return 'vendor-icons'
+          }
+
+          // --- Utility libraries ---
+          if (
+            id.includes('node_modules/date-fns') ||
+            id.includes('node_modules/clsx') ||
+            id.includes('node_modules/tailwind-merge') ||
+            id.includes('node_modules/zustand') ||
+            id.includes('node_modules/react-hook-form') ||
+            id.includes('node_modules/@tanstack')
+          ) {
+            return 'vendor-utils'
+          }
+
+          // --- Core React (react, react-dom, react-router, scheduler, etc.) ---
           return 'vendor-react'
         },
       },
     },
-    chunkSizeWarningLimit: 1000, // Increased limit - vendor-react at ~900kB is reasonable for React apps
+    chunkSizeWarningLimit: 600, // Tighter limit now that chunks are properly split
     commonjsOptions: {
       include: [/node_modules/],
       transformMixedEsModules: true,

@@ -333,8 +333,8 @@ const MyDeliveriesPage = () => {
         >
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-4">
             <div className="flex-1">
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">My Deliveries</h1>
-              <p className="text-gray-600 mt-2 text-sm sm:text-base">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white">My Deliveries</h1>
+              <p className="text-gray-700 dark:text-gray-400 mt-2 text-sm sm:text-base">
                 Track and manage your volunteer delivery assignments with photo documentation
               </p>
               
@@ -344,7 +344,7 @@ const MyDeliveriesPage = () => {
               <div className="lg:ml-auto">
                 <div className="mt-2 lg:mt-0 inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-yellow-600/20 to-yellow-500/20 border border-gray-200 rounded-full">
                   <Truck className="h-4 w-4 text-blue-500" />
-                  <span className="text-gray-600 font-semibold text-sm">
+                  <span className="text-gray-900 dark:text-gray-300 font-semibold text-sm">
                     {deliveries.length} {deliveries.length === 1 ? 'Delivery' : 'Deliveries'}
                   </span>
                 </div>
@@ -398,8 +398,8 @@ const MyDeliveriesPage = () => {
                   <stat.icon className={`h-8 w-8 ${stat.color}`} />
                 </div>
                 <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-600">{stat.label}</p>
-                  <p className="text-2xl font-bold text-white">{stat.value}</p>
+                  <p className="text-sm font-medium text-gray-700 dark:text-gray-300">{stat.label}</p>
+                  <p className="text-2xl font-bold text-gray-900 dark:text-white">{stat.value}</p>
                 </div>
               </div>
             </motion.div>
@@ -414,27 +414,27 @@ const MyDeliveriesPage = () => {
           className="mb-6 sm:mb-8"
         >
           <div className="card p-4 sm:p-5 w-full">
-            <h3 className="text-xs sm:text-sm font-semibold text-gray-600 uppercase tracking-wide mb-3 sm:mb-4">Status Legend</h3>
+            <h3 className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-gray-300 uppercase tracking-wide mb-3 sm:mb-4">Status Legend</h3>
             <div className="flex flex-wrap gap-3 sm:gap-4 justify-center sm:justify-start">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-                <span className="text-xs sm:text-sm text-gray-300">Assigned</span>
+                <span className="text-xs sm:text-sm text-gray-900 dark:text-gray-300">Assigned</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-purple-500"></div>
-                <span className="text-xs sm:text-sm text-gray-300">Accepted</span>
+                <span className="text-xs sm:text-sm text-gray-900 dark:text-gray-300">Accepted</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-blue-600"></div>
-                <span className="text-xs sm:text-sm text-gray-300">Picked Up</span>
+                <span className="text-xs sm:text-sm text-gray-900 dark:text-gray-300">Picked Up</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-orange-500"></div>
-                <span className="text-xs sm:text-sm text-gray-300">In Transit</span>
+                <span className="text-xs sm:text-sm text-gray-900 dark:text-gray-300">In Transit</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                <span className="text-xs sm:text-sm text-gray-300">Delivered</span>
+                <span className="text-xs sm:text-sm text-gray-900 dark:text-gray-300">Delivered</span>
               </div>
             </div>
           </div>
@@ -449,8 +449,8 @@ const MyDeliveriesPage = () => {
           {deliveries.length === 0 ? (
             <div className="bg-gray-50/50 backdrop-blur-sm border border-gray-200 rounded-xl p-8 sm:p-12 text-center">
               <Truck className="h-16 w-16 text-blue-500 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-white mb-2">No Deliveries Yet</h3>
-              <p className="text-gray-600 mb-6">
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">No Deliveries Yet</h3>
+              <p className="text-gray-700 dark:text-gray-400 mb-6">
                 You haven't been assigned any deliveries yet. Check the Available Tasks page to find delivery opportunities.
               </p>
               <button
